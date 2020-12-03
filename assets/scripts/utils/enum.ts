@@ -21,3 +21,8 @@ export enum BattleStatusType {
     pause,
     end
 }
+export enum TouchStatusType {
+    unTouch,
+    touching,//稍稍长按拽起人物
+    clicked,//短暂点击选中人物
+}
