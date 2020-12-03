@@ -47,7 +47,8 @@ todo高亮
 ## 脚本规范
 ### 1. 重要组件介绍
 - 游戏主入口`MainManager`进入
-- 游戏所有数据存取`DynamicDataManager`
+- 推荐公共游戏数据存取管理器`DynamicDataManager`
+- 资源加载文件 `ResourcesManager`
 - 游戏配置文件 `JsonManager`
 - 本地数据管理 `LocalDataManager`
 - 事件观察组件组件 `Emitter`
