@@ -1,5 +1,6 @@
 import ResourceManager from "./resources_manager";
 import UIManager from "./ui_manager";
+import BattleUIManager from "../ui/battle_ui_manager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,11 +22,12 @@ export default class MainManager extends cc.Component {
     }
     resLoaded() {
         console.log('资源加载完毕')
-        UIManager.instance.LoadMessageBox('d', 'kkkk')
-        setInterval(() => {
-            UIManager.instance.LoadTipsByStr('timer' + this.timer)
-            this.timer++
-        }, 1000)
+        BattleUIManager.instance.initBattle()
+        // UIManager.instance.LoadMessageBox('d', 'kkkk')
+        // setInterval(() => {
+        //     UIManager.instance.LoadTipsByStr('timer' + this.timer)
+        //     this.timer++
+        // }, 1000)
         //展示开始按钮
     }
     setDesignResolution() {

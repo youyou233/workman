@@ -1,7 +1,7 @@
 import { Emitter } from "../utils/emmiter"
 import config from "../utils/config"
 import { MessageType } from "../utils/message"
-import { ResType } from "../utils/enum"
+import { ResType, RoleActionType } from "../utils/enum"
 import JsonManager from "./json_manager"
 import PoolManager from "./pool_manager"
 import MainManager from "./main_manager"
@@ -22,7 +22,6 @@ export default class ResourceManager extends cc.Component {
     _Json: cc.JsonAsset[] = []
     _Prefab: cc.Prefab[] = []
     _Animation: { [key: string]: cc.AnimationClip } = {}
-    _WalkAnima: { [key: string]: cc.AnimationClip } = {}
     loading: number = 0
     init() {
         console.log("ResourceManager loading ...");
@@ -130,11 +129,34 @@ export default class ResourceManager extends cc.Component {
     }
 
     /**
-     * 获取人物走动动画
-     * @param staff 是否是雇员
-     * @param arr 方向
+     * 获取人物动画
      * @param id 编号
+     * @param action 动作
      */
+    getRoleAnimation(roleId: number, actionType: RoleActionType) {
+        return new Promise((resolve, reject) => {
+            let aniName = `role_${roleId}_${actionType}`
+            if (this._Animation[aniName]) {
+                resolve(this._Animation[aniName])
+            } else {
+                let actionGroup = [[0, 1, 2], [3, 4, 5], [48, 12, 49, 13], [15, 16, 17], [18, 19, 20], [21, 22, 23], [24], [51]][actionType]
+                let frames: cc.SpriteFrame[] = []
+                for (let i = 0; i < actionGroup.length; i++) {
+                    //let spName = `${roleId}-${actionGroup[i]}`
+                    let spName = `4-${actionGroup[i]}`
+                    frames.push(this.getSprite(ResType.battle, spName))
+                }
+                let clip: cc.AnimationClip = cc.AnimationClip.createWithSpriteFrames(frames, frames.length)
+                clip.name = aniName
+                clip.sample = actionGroup.length
+                clip.speed = 2
+                clip.wrapMode = cc.WrapMode.Loop
+                this._Animation[aniName] = clip
+                resolve(clip)
+            }
+
+        })
+    }
     // getWalkAniamtion(staff: boolean, arr: WalkArrType, id: number) {
     //     return new Promise((resolve, reject) => {
     //         let name = (staff ? 'staff_walk_' : 'costomer_walk_') + id + '-'
