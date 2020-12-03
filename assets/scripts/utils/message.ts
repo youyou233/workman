@@ -1,5 +1,9 @@
 export enum MessageType {
     atlasLoaded,
     poolLoaded,
-    jsonLoaded
+    jsonLoaded,
+
+    gameStart,
+    gameFail,
+    gameSuccess
 }

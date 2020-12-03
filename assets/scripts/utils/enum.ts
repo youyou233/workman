@@ -1,6 +1,7 @@
 export enum ResType {
     main,
-    battle
+    battle,
+    monster
 }
 
 export enum RoleActionType {
@@ -12,4 +13,11 @@ export enum RoleActionType {
     shot,//21 22 23
     fail,//21
     death//51
+}
+
+export enum BattleStatusType {
+    before,
+    play,
+    pause,
+    end
 }
