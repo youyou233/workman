@@ -188,6 +188,19 @@
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">../assets/main_res/char/icon/role_1.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_10.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_11.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_12.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_13.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_14.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_2.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_3.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_4.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_5.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_6.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_7.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_8.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_9.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
