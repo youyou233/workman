@@ -10,4 +10,27 @@
   "width": 64,
   "height": 64,
   "platformSettings": {},
-  "subMetas"
+  "subMetas": {
+    "8-21": {
+      "ver": "1.0.4",
+      "uuid": "bc8478b4-09d7-4f84-8810-79e4c430fed2",
+      "rawTextureUuid": "3b095468-1e9e-4b63-af36-2f2bfce26564",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 2,
+      "offsetY": -1.5,
+      "trimX": 11,
+      "trimY": 3,
+      "width": 46,
+      "height": 61,
+      "rawWidth": 64,
+      "rawHeight": 64,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
