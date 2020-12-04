@@ -5,6 +5,8 @@ import { Emitter } from "../utils/emmiter"
 import { MessageType } from "../utils/message"
 import BattleUIManager from "../ui/battle_ui_manager"
 import MonsterItem from "./monster_item"
+import JsonManager from "../manager/json_manager"
+import BossItem from "./boss_item"
 
 const { ccclass, property } = cc._decorator
 
@@ -23,7 +25,8 @@ export default class LandItem extends cc.Component {
     curJ: number = 0
 
     atkTimer: number = 0
-    atkSpd: number = 3
+    atkCD: number = 0
+    atkDamage: number = 0
     watchMonster: boolean = false
     set stack(val: number) {
         this._stack = val
@@ -46,8 +49,9 @@ export default class LandItem extends cc.Component {
         this.curJ = j
         this.setNull()
         this.mergeStatus.active = false
-        this.atkTimer = 0
+        this.atkTimer = 999
         this.watchMonster = false
+
     }
     setNull() {
         this.stack = 0
@@ -59,6 +63,10 @@ export default class LandItem extends cc.Component {
     showRole(id) {
         this.id = id
         this.stackContainer.active = true
+        let roleData = JsonManager.instance.getDataByName('role')[id]
+        this.atkCD = roleData.atkCD
+        this.atkTimer = roleData.atkCD
+        this.atkDamage = roleData.atk
         this.addAnimationClip()
     }
 
@@ -109,7 +117,7 @@ export default class LandItem extends cc.Component {
 
     }
     aniCB(type: RoleActionType) {
-        switch (type) {
+        switch (+type) {
             case RoleActionType.atk:
                 let name = 'role_' + this.id + '_' + RoleActionType.idle
                 this.roleAnima.play(name)
@@ -119,19 +127,23 @@ export default class LandItem extends cc.Component {
     onAtk() {
         let monster = BattleUIManager.instance.findAheadMonster()
         let name = 'role_' + this.id + '_' + RoleActionType.atk
-        this.roleAnima.play(name).speed = this.atkSpd
+        this.roleAnima.play(name).speed = 1 / this.atkCD
         if (!monster) {
             this.watchMonster = false
         } else {
             this.watchMonster = true
-            BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 1 / this.atkSpd, 2, monster.getComponent(MonsterItem).oid)
+            if (monster.name == 'monsterItem') {
+                BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.3, 2, monster.getComponent(MonsterItem).oid)
+            } else if (monster.name == 'bossItem') {
+                BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.3, 2, monster.getComponent(BossItem).oid)
+            }
         }
     }
     onUpdate(dt) {
         if (this.id) {
             this.atkTimer -= dt
             if (this.atkTimer < 0) {
-                this.atkTimer = 1 /// this.atkSpd
+                this.atkTimer = this.atkCD /// this.atkSpd
                 this.onAtk()
             }
         }

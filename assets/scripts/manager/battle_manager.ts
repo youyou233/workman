@@ -66,6 +66,18 @@ export default class BattleManager extends cc.Component {
     status: BattleStatusType = BattleStatusType.before
     team: RoleTeamData[] = []
     mapData: LandItem[][] = []
+    _rank: number = 1
+    set rank(val: number) {
+        this._rank = val
+        if (val == 4) {
+            this.gameSuccess()
+        } else {
+            BattleUIManager.instance.rankLabel.string = '当前波数:' + val + '/3'
+        }
+    }
+    get rank() {
+        return this._rank
+    }
     _btnAddTimes: number = 0
     set btnAddTimes(val: number) {
         this._btnAddTimes = val
@@ -74,12 +86,18 @@ export default class BattleManager extends cc.Component {
     get btnAddTimes() {
         return this._btnAddTimes
     }
+    bindEvent() {
+        Emitter.register('message_' + MessageType.killBoss, (name) => {
+            BattleManager.instance.killBoss()
+        }, this)
+    }
     initBattle() {
-        this.bossTimer = 100
+        this.bossTimer = 10
         this.btnAddTimes = 0
         this.monsterTimer = 1
         this.sun = 1000
         this.hp = 3
+        this.rank = 1
         this.team = [{ id: 1, lv: 1 }, { id: 2, lv: 1 }, { id: 3, lv: 1 }, { id: 4, lv: 1 }, { id: 5, lv: 1 }]
         //3*5
         this.mapData = []
@@ -95,6 +113,9 @@ export default class BattleManager extends cc.Component {
     }
     gameSuccess() {
         this.status = BattleStatusType.end
+        UIManager.instance.LoadMessageBox('游戏结束', '守卫成功,你保卫了城市', () => {
+            this.initBattle()
+        }, null, false)
     }
     gameFail() {
         this.status = BattleStatusType.end
@@ -120,10 +141,13 @@ export default class BattleManager extends cc.Component {
     //倒计时结束 出现boss
     onBoss() {
         this.isBoss = true
+        BattleUIManager.instance.addBoss(5)
     }
     killBoss() {
         this.isBoss = false
+        this.rank++
 
+        this.bossTimer = 5
     }
     addRole() {
         let arr = this.findFree()

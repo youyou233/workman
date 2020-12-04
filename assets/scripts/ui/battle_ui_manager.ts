@@ -5,6 +5,8 @@ import { BattleStatusType, TouchStatusType, ResType } from "../utils/enum";
 import ResourceManager from "../manager/resources_manager";
 import MonsterItem from "../item/monster_item";
 import ThrowItem from "../item/throw_item";
+import CardItem from "../item/card_item";
+import BossItem from "../item/boss_item";
 
 const { ccclass, property } = cc._decorator
 
@@ -21,6 +23,8 @@ export default class BattleUIManager extends cc.Component {
     monsterContainer: cc.Node = null
     @property(cc.Node)
     throwContainer: cc.Node = null
+    @property(cc.Node)
+    bossContainer: cc.Node = null
     //数据显示
     @property(cc.Label)
     sunLabel: cc.Label = null
@@ -43,6 +47,7 @@ export default class BattleUIManager extends cc.Component {
         BattleUIManager.instance = this
         this.bindEvent()
         this.touchNode.opacity = 0
+        BattleManager.instance.bindEvent()
     }
     bindEvent() {
         this.addBtn.node.on('click', () => {
@@ -63,20 +68,36 @@ export default class BattleUIManager extends cc.Component {
                 BattleManager.instance.mapData[i][j] = landItem
                 landItem.init(i, j)
             }
-
+        }
+        for (let i = 0; i < 5; i++) {
+            let card = PoolManager.instance.createObjectByName('cardItem', this.cardContainer)
+            card.getComponent(CardItem).init(i)
         }
     }
     addMosnter(id) {
         let monster = PoolManager.instance.createObjectByName('monsterItem', this.monsterContainer)
         monster.getComponent(MonsterItem).init(id)
     }
+    clearAllMonsters() {
+        let addHp = 0
+        for (let i = this.monsterContainer.children.length - 1; i >= 0; i--) {
+            let monster = this.monsterContainer.children[i].getComponent(MonsterItem)
+            addHp += monster.hp
+            PoolManager.instance.removeObjectByName('monsterItem', monster.node)
+        }
+        return addHp
+    }
+    addBoss(id) {
+        let boss = PoolManager.instance.createObjectByName('bossItem', this.bossContainer)
+        boss.getComponent(BossItem).init(id, this.clearAllMonsters())
+    }
     addThrow(id, start, end, time: number = 1, damage, oid) {
         let node = PoolManager.instance.createObjectByName('throwItem', this.throwContainer)
         node.getComponent(ThrowItem).init(id, start, end, time, damage, oid)
     }
     clearContainer() {
-        let containers = [this.landContainer, this.cardContainer, this.monsterContainer, this.throwContainer]
-        let itemName = ['landItem', 'cardItem', 'monsterItem', 'throwItem']
+        let containers = [this.landContainer, this.cardContainer, this.monsterContainer, this.throwContainer, this.bossContainer]
+        let itemName = ['landItem', 'cardItem', 'monsterItem', 'throwItem', 'bossItem']
         for (let i = 0; i < containers.length; i++) {
             for (let j = containers[i].children.length - 1; j >= 0; j--) {
                 PoolManager.instance.removeObjectByName(itemName[i], containers[i].children[j])
@@ -95,6 +116,9 @@ export default class BattleUIManager extends cc.Component {
             this.landContainer.children.forEach((item) => {
                 item.getComponent(LandItem).onUpdate(dt)
             })
+            this.bossContainer.children.forEach((item) => {
+                item.getComponent(BossItem).onUpdate(dt)
+            })
         }
     }
     findAheadMonster(): cc.Node {
@@ -102,12 +126,25 @@ export default class BattleUIManager extends cc.Component {
         let monster = this.monsterContainer.children.sort((item1, item2) => {
             return item2.getComponent(MonsterItem).path - item1.getComponent(MonsterItem).path
         })[0]
+        let boss = this.bossContainer.children.sort((item1, item2) => {
+            return item2.getComponent(MonsterItem).path - item1.getComponent(MonsterItem).path
+        })[0]
+
+        if (boss) {
+            return boss
+        }
         //  console.log(monster, monster && monster.getComponent(MonsterItem).path)
         return monster
     }
     findMonsterByOid(oid): MonsterItem {
         for (let i = 0; i < this.monsterContainer.children.length; i++) {
             let monster = this.monsterContainer.children[i].getComponent(MonsterItem)
+            if (oid == monster.oid) {
+                return monster
+            }
+        }
+        for (let i = 0; i < this.bossContainer.children.length; i++) {
+            let monster = this.bossContainer.children[i].getComponent(BossItem)
             if (oid == monster.oid) {
                 return monster
             }
@@ -123,10 +160,16 @@ export default class BattleUIManager extends cc.Component {
             this.curTouch = this.getTouchedLand(event)
         } else if (this.curTouch && this.touchStatus == TouchStatusType.clicked) {
             //判断是否能合成 直接将当前选中的与目标合成
-            this.checkMerge(this.getTouchedLand(event))
-            this.curTouch = null
-            this.touchStatus = TouchStatusType.unTouch
-            this.closeMergeStatus()
+            if (this.curTouch == this.getTouchedLand(event)) {
+                this.touchTimer = 0
+                this.touchStatus = TouchStatusType.touching
+                this.closeMergeStatus()
+            } else {
+                this.checkMerge(this.getTouchedLand(event))
+                this.curTouch = null
+                this.touchStatus = TouchStatusType.unTouch
+                this.closeMergeStatus()
+            }
         }
     }
     moveTouch(event) {

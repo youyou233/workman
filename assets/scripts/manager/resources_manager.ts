@@ -151,7 +151,7 @@ export default class ResourceManager extends cc.Component {
                 clip.speed = 1
                 clip.wrapMode = cc.WrapMode.Loop
                 //增加动画的回调
-                clip.events.push({ frame: 0.3, func: 'aniCB', params: [actionType + ''] })
+                clip.events.push({ frame: 2, func: 'aniCB', params: [actionType + ''] })
                 this._Animation[aniName] = clip
                 resolve(clip)
             }
