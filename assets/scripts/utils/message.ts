@@ -5,5 +5,7 @@ export enum MessageType {
 
     gameStart,
     gameFail,
-    gameSuccess
+    gameSuccess,
+
+    addMonster
 }

@@ -142,15 +142,16 @@ export default class ResourceManager extends cc.Component {
                 let actionGroup = [[0, 1, 2], [3, 4, 5], [48, 12, 49, 13], [15, 16, 17], [18, 19, 20], [21, 22, 23], [24], [51]][actionType]
                 let frames: cc.SpriteFrame[] = []
                 for (let i = 0; i < actionGroup.length; i++) {
-                    //let spName = `${roleId}-${actionGroup[i]}`
-                    let spName = `4-${actionGroup[i]}`
+                    let spName = `${roleId}-${actionGroup[i]}`
                     frames.push(this.getSprite(ResType.battle, spName))
                 }
                 let clip: cc.AnimationClip = cc.AnimationClip.createWithSpriteFrames(frames, frames.length)
                 clip.name = aniName
-                clip.sample = actionGroup.length
-                clip.speed = 2
+                clip.sample = 10
+                clip.speed = 1
                 clip.wrapMode = cc.WrapMode.Loop
+                //增加动画的回调
+                clip.events.push({ frame: 0.3, func: 'aniCB', params: [actionType + ''] })
                 this._Animation[aniName] = clip
                 resolve(clip)
             }

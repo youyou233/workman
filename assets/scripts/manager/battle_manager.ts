@@ -38,7 +38,7 @@ export default class BattleManager extends cc.Component {
         } else {
             this._hp = val
         }
-        BattleUIManager.instance.hpLabel.string = val.toFixed(0)
+        BattleUIManager.instance.hpLabel.string = val.toFixed(0) + '/3'
         if (this.hp == 0) {
             Emitter.fire(`message_${MessageType.gameFail}`)
             this.gameFail()
@@ -59,6 +59,10 @@ export default class BattleManager extends cc.Component {
     get bossTimer() {
         return this._bossTimer
     }
+
+    monsterTimer: number = 0
+
+
     status: BattleStatusType = BattleStatusType.before
     team: RoleTeamData[] = []
     mapData: LandItem[][] = []
@@ -73,8 +77,10 @@ export default class BattleManager extends cc.Component {
     initBattle() {
         this.bossTimer = 100
         this.btnAddTimes = 0
-        this.sun = 100
-        this.team = [{ id: 4, lv: 1 }, { id: 4, lv: 1 }, { id: 4, lv: 1 }, { id: 4, lv: 1 }, { id: 4, lv: 1 }]
+        this.monsterTimer = 1
+        this.sun = 1000
+        this.hp = 3
+        this.team = [{ id: 1, lv: 1 }, { id: 2, lv: 1 }, { id: 3, lv: 1 }, { id: 4, lv: 1 }, { id: 5, lv: 1 }]
         //3*5
         this.mapData = []
         for (let i = 0; i < 3; i++) {
@@ -92,11 +98,24 @@ export default class BattleManager extends cc.Component {
     }
     gameFail() {
         this.status = BattleStatusType.end
+        UIManager.instance.LoadMessageBox('游戏结束', '史莱姆霸占了你的城市', () => {
+            this.initBattle()
+        }, null, false)
     }
     onUpdate(dt) {
-        if (!this.isBoss) {
-            this.bossTimer -= dt
+        if (this.status == BattleStatusType.play) {
+            if (!this.isBoss) {
+                this.bossTimer -= dt
+                this.monsterTimer -= dt
+                if (this.monsterTimer <= 0) {
+                    this.monsterTimer = 1
+                    this.addMonster()
+                }
+            }
         }
+    }
+    addMonster() {
+        BattleUIManager.instance.addMosnter(Utils.getRandomNumber(2) + 1)
     }
     //倒计时结束 出现boss
     onBoss() {
@@ -114,7 +133,7 @@ export default class BattleManager extends cc.Component {
         }
         if (this.sun >= this.btnAddTimes * 10 + 10) {
             let pos = arr[Utils.getRandomNumber(arr.length - 1)]
-            this.mapData[pos[0]][pos[1]].showRole(4)
+            this.mapData[pos[0]][pos[1]].showRole(this.team[Utils.getRandomNumber(4)].id)
             this.sun -= (this.btnAddTimes * 10 + 10)
             this.btnAddTimes++
         } else {
