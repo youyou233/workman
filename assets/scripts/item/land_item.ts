@@ -149,9 +149,9 @@ export default class LandItem extends cc.Component {
     }
     onAtk() {
         let name = ''
+        let monster = BattleUIManager.instance.findAheadMonster()
         switch (this.role.getAtkType()) {
             case AtkType.normol:
-                let monster = BattleUIManager.instance.findAheadMonster()
                 name = 'role_' + this.id + '_' + RoleActionType.atk
                 this.roleAnima.play(name).speed = 1 / this.role.getAtkCD(this)
                 if (!monster) {
@@ -159,18 +159,26 @@ export default class LandItem extends cc.Component {
                 } else {
                     this.watchMonster = true
                     if (monster.name == 'monsterItem') {
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2, monster.getComponent(MonsterItem).oid)
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2, monster.getComponent(MonsterItem).oid, this.role.getAtkType())
                     } else if (monster.name == 'bossItem') {
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2, monster.getComponent(BossItem).oid)
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2, monster.getComponent(BossItem).oid, this.role.getAtkType())
                     }
                 }
                 break
             case AtkType.range:
-                //TODO: 范围攻击
-                // this.watchMonster = true
-                // name = 'role_' + this.id + '_' + RoleActionType.sing
-                // this.roleAnima.play(name).speed = 1
-                // BattleManager.instance.sun += this.atkDamage
+                name = 'role_' + this.id + '_' + RoleActionType.sing
+                this.roleAnima.play(name).speed = 1 / this.role.getAtkCD(this)
+                if (!monster) {
+                    this.watchMonster = false
+                } else {
+                    this.watchMonster = true
+                    if (monster.name == 'monsterItem') {
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2, monster.getComponent(MonsterItem).oid, this.role.getAtkType())
+                    } else if (monster.name == 'bossItem') {
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2, monster.getComponent(BossItem).oid, this.role.getAtkType())
+                    }
+                }
+
                 break
         }
 

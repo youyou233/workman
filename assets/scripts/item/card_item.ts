@@ -89,6 +89,5 @@ export default class CardItem extends cc.Component {
                 }
             }
         }
-
     }
 }

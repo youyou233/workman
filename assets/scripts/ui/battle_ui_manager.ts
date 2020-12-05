@@ -88,9 +88,9 @@ export default class BattleUIManager extends cc.Component {
         let boss = PoolManager.instance.createObjectByName('bossItem', this.bossContainer)
         boss.getComponent(BossItem).init(id, this.clearAllMonsters())
     }
-    addThrow(id, start, end, time: number = 1, damage, oid) {
+    addThrow(id, start, end, time: number = 1, damage, oid, type, param?) {
         let node = PoolManager.instance.createObjectByName('throwItem', this.throwContainer)
-        node.getComponent(ThrowItem).init(id, start, end, time, damage, oid)
+        node.getComponent(ThrowItem).init(id, start, end, time, damage, oid, type, param)
     }
     clearContainer() {
         let containers = [this.landContainer, this.monsterContainer, this.throwContainer, this.bossContainer]
@@ -147,6 +147,22 @@ export default class BattleUIManager extends cc.Component {
                 return monster
             }
         }
+    }
+    /**
+     *  获取一个范围内的敌人
+     * @param pos 目标点
+     * @param range 范围
+     */
+
+    getRangeMonsters(pos, range): cc.Node[] {
+        let monsters = []
+        for (let i = 0; i < this.monsterContainer.children.length; i++) {
+            let node = this.monsterContainer.children[i]
+            if (pos.sub(node.position).mag() < range) {
+                monsters.push(node)
+            }
+        }
+        return monsters
     }
     //-------------------------- 触摸相关 ------------------------------
     touchTimer: number = 0
