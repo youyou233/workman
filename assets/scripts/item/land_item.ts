@@ -8,6 +8,10 @@ import MonsterItem from "./monster_item"
 import JsonManager from "../manager/json_manager"
 import BossItem from "./boss_item"
 import BattleManager from "../manager/battle_manager"
+import { Role } from "../class/role"
+import { BuffData } from "../interface/buff_data"
+import PoolManager from "../manager/pool_manager"
+import CommonItem from "./common_item"
 
 const { ccclass, property } = cc._decorator
 
@@ -19,23 +23,20 @@ export default class LandItem extends cc.Component {
     mergeStatus: cc.Node = null
     @property(cc.Node)
     stackContainer: cc.Node = null
+    @property(cc.Node)
+    buffContainer: cc.Node = null
     id: number
-    _stack: number
+
     //对应位置
     curI: number = 0
     curJ: number = 0
 
-    atkType: AtkType = AtkType.normol
     atkTimer: number = 0
-    atkCD: number = 0
-    _atkDamage: number = 0
-    set atkDamage(val: number) {
-        this._atkDamage = val
-    }
-    get atkDamage() {
-        return this._atkDamage * this.stack
-    }
+    role: Role = null
     watchMonster: boolean = false
+    buffMap: { [key: number]: BuffData } = {}
+
+    _stack: number
     set stack(val: number) {
         this._stack = val
         this.stackContainer.children.forEach((item, index) => {
@@ -50,6 +51,10 @@ export default class LandItem extends cc.Component {
         //       this.roleAnima = this.node.getChildByName('role').getComponent(cc.Animation)
         Emitter.register('MessageType_' + MessageType.addMonster, (name) => {
             if (!this.watchMonster) this.onAtk()
+        }, this)
+
+        Emitter.register('MessageType_' + MessageType.addBuff, (name, buffId, buffData) => {
+            this.addBuff(buffId, Utils.deepCopy(buffData) as any)
         }, this)
     }
     init(i, j) {
@@ -69,15 +74,14 @@ export default class LandItem extends cc.Component {
         this.stackContainer.active = false
         this.id = null
     }
-    showRole(id) {
-        this.id = id
+    showRole() {
+        this.id = BattleManager.instance.team[Utils.getRandomNumber(4)].id
         this.stackContainer.active = true
-        let roleData = JsonManager.instance.getDataByName('role')[id]
-        this.atkCD = roleData.atkCD
+        let roleData = JsonManager.instance.getDataByName('role')[this.id]
         this.atkTimer = roleData.atkCD
-        this.atkDamage = roleData.atk
-        this.atkType = roleData.atkType
+        this.role = new Role(this.id)
         this.addAnimationClip()
+        this.updateBuffContainer()
     }
 
     addAnimationClip() {
@@ -113,6 +117,10 @@ export default class LandItem extends cc.Component {
             return false
         }
     }
+    onMerge() {
+        this.showRole()
+        this.stack++
+    }
     updateMergeStatus(close: boolean, landItem?: LandItem) {
         if (close) {
             this.mergeStatus.active = false
@@ -141,11 +149,11 @@ export default class LandItem extends cc.Component {
     }
     onAtk() {
         let name = ''
-        switch (this.atkType) {
+        switch (this.role.getAtkType()) {
             case AtkType.normol:
                 let monster = BattleUIManager.instance.findAheadMonster()
                 name = 'role_' + this.id + '_' + RoleActionType.atk
-                this.roleAnima.play(name).speed = 1 / this.atkCD
+                this.roleAnima.play(name).speed = 1 / this.role.getAtkCD(this)
                 if (!monster) {
                     this.watchMonster = false
                 } else {
@@ -171,9 +179,38 @@ export default class LandItem extends cc.Component {
         if (this.id) {
             this.atkTimer -= dt
             if (this.atkTimer < 0) {
-                this.atkTimer = this.atkCD /// this.atkSpd
+                //   console.log(this.role.getAtkCD(this))
+                this.atkTimer = this.role.getAtkCD(this) /// this.atkSpd
                 this.onAtk()
             }
+            for (let buffId in this.buffMap) {
+                this.buffMap[buffId].time -= dt
+                if (this.buffMap[buffId].time <= 0) {
+                    this.removeBuff(buffId)
+                }
+            }
+        }
+    }
+    addBuff(buffId, buffData: BuffData) {
+        if (this.id && this.id > 0) {
+            this.buffMap[buffId] = buffData
+            this.updateBuffContainer()
+        }
+    }
+    removeBuff(buffId) {
+        delete this.buffMap[buffId]
+        this.updateBuffContainer()
+    }
+    updateBuffContainer() {
+        this.clearBuffContainer()
+        for (let buffId in this.buffMap) {
+            let buff = PoolManager.instance.createObjectByName('commonItem', this.buffContainer)
+            buff.getComponent(CommonItem).init(`skill (${buffId})`, null)
+        }
+    }
+    clearBuffContainer() {
+        for (let j = this.buffContainer.children.length - 1; j >= 0; j--) {
+            PoolManager.instance.removeObjectByName('commonItem', this.buffContainer.children[j])
         }
     }
 }

@@ -35,6 +35,8 @@ export default class BossItem extends cc.Component {
     oid: number = 0
     //TODO:给boss增加放技能
     skillTimer: number = 10
+    buffMap: object = {}
+
     onLoad() {
     }
     init(id: number, addHp: number = 0) {
@@ -77,5 +79,12 @@ export default class BossItem extends cc.Component {
         this.node.y += this.spd.y * dt
         this.path += (Math.abs(this.spd.x) * dt + Math.abs(this.spd.y * dt))
         this.checkNearPos()
+        for (let buffId in this.buffMap) {
+            this.buffMap[buffId] -= dt
+            if (this.buffMap[buffId] <= 0) {
+                delete this.buffMap[buffId]
+                //TODO: 发射信息
+            }
+        }
     }
 }

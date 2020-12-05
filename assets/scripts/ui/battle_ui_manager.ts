@@ -229,7 +229,7 @@ export default class BattleUIManager extends cc.Component {
         let targetLand = target.getComponent(LandItem)
         if (targetLand.checkMerge(curLand)) {
             curLand.setNull()
-            targetLand.stack++
+            targetLand.onMerge()
         }
     }
 

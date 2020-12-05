@@ -34,6 +34,8 @@ export default class MonsterItem extends cc.Component {
     randomPos: cc.Vec3[] = []
     path: number = 0
     oid: number = 0
+    buffMap: object = {}
+
     onLoad() {
     }
     init(id: number) {
@@ -79,5 +81,12 @@ export default class MonsterItem extends cc.Component {
         this.node.y += this.spd.y * dt
         this.path += (Math.abs(this.spd.x) * dt + Math.abs(this.spd.y * dt))
         this.checkNearPos()
+        for (let buffId in this.buffMap) {
+            this.buffMap[buffId] -= dt
+            if (this.buffMap[buffId] <= 0) {
+                delete this.buffMap[buffId]
+                //TODO: 发射信息
+            }
+        }
     }
 }

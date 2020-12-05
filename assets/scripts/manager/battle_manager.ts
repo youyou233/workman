@@ -95,7 +95,7 @@ export default class BattleManager extends cc.Component {
         this.bossTimer = 10
         this.btnAddTimes = 0
         this.monsterTimer = 1
-        this.sun = 1000
+        this.sun = 500
         this.hp = 3
         this.rank = 1
         this.team = [{ id: 1, lv: 1 }, { id: 2, lv: 1 }, { id: 3, lv: 1 }, { id: 4, lv: 1 }, { id: 5, lv: 1 }]
@@ -148,7 +148,7 @@ export default class BattleManager extends cc.Component {
         this.isBoss = false
         this.sun += 100 * this.rank
         this.rank++
-        this.bossTimer = 5
+        this.bossTimer = 15
     }
     addRole() {
         let arr = this.findFree()
@@ -158,7 +158,7 @@ export default class BattleManager extends cc.Component {
         }
         if (this.sun >= this.btnAddTimes * 10 + 10) {
             let pos = arr[Utils.getRandomNumber(arr.length - 1)]
-            this.mapData[pos[0]][pos[1]].showRole(this.team[Utils.getRandomNumber(4)].id)
+            this.mapData[pos[0]][pos[1]].showRole()
             this.sun -= (this.btnAddTimes * 10 + 10)
             this.btnAddTimes++
         } else {

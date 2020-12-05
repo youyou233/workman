@@ -37,3 +37,19 @@ export enum AtkType {
     normol = 1,
     range = 2
 }
+export enum SkillType {
+    selfStack = 1,//自身星星叠加
+    addBuff = 2,//增加buff
+    enemyBuff = 3,//给敌人加debuff
+    intervalGenerate = 4,//间隔生产
+}
+
+export enum SelfStackType {
+    atkSpd = 1,
+    atk = 2
+}
+
+export enum SkillTargetType {
+    singleEnemy = 1,//单个敌人
+    group = 2,//自己全体
+}

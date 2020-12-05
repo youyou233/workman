@@ -1,7 +1,11 @@
 import BattleManager from "../manager/battle_manager"
 import ResourceManager from "../manager/resources_manager"
-import { ResType } from "../utils/enum"
+import { ResType, SkillType, SkillTargetType } from "../utils/enum"
 import JsonManager from "../manager/json_manager"
+import DD from "../manager/dynamic_data_manager"
+import { BuffData } from "../interface/buff_data"
+import { Emitter } from "../utils/emmiter"
+import { MessageType } from "../utils/message"
 
 const { ccclass, property } = cc._decorator
 
@@ -52,6 +56,21 @@ export default class CardItem extends cc.Component {
         this.coolProgress.node.active = true
         this.passiveNode.active = true
         this.passiveLabel.string = '冷却中'
+        switch (this.data.skillType) {
+            case SkillType.addBuff:
+                switch (this.data.param.targetType) {
+                    case SkillTargetType.group:
+                        let buffData: BuffData = {
+                            time: this.data.param.time,
+                            lv: DD.instance.roleMap[this.data.id]
+                        }
+                        Emitter.fire('MessageType_' + MessageType.addBuff,
+                            this.data.param.buff, buffData
+                        )
+                        break
+                }
+                break
+        }
     }
     coolDown() {
         this.node.y = 105

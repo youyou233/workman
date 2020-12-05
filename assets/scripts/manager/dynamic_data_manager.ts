@@ -12,5 +12,11 @@ export default class DD extends cc.Component {
         }
         return this._instance
     }
-
+    roleMap: object = {
+        1: 1,
+        2: 1,
+        3: 1,
+        4: 1,
+        5: 1
+    }
 }

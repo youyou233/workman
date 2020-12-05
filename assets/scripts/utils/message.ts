@@ -8,5 +8,7 @@ export enum MessageType {
     gameSuccess,
 
     addMonster,
-    killBoss
+    killBoss,
+    addBuff,
+    addDebuff,
 }
