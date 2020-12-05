@@ -26,3 +26,14 @@ export enum TouchStatusType {
     touching,//稍稍长按拽起人物
     clicked,//短暂点击选中人物
 }
+
+export enum BossStatusType {
+    move,
+    skill
+}
+
+export enum AtkType {
+    none = 0,
+    normol = 1,
+    range = 2
+}

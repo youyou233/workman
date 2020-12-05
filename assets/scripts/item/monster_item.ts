@@ -23,7 +23,8 @@ export default class MonsterItem extends cc.Component {
         this.hpProgress.node.active = this.maxHp > val
         this.hpProgress.progress = val / this.maxHp
         if (this.hp <= 0) {
-            this.removeSelf()
+            this.onDied()
+
         }
     }
     get hp() {
@@ -43,7 +44,7 @@ export default class MonsterItem extends cc.Component {
         this.node.setPosition(startPos)
         this.randomPos[0] = cc.v3(-250, 400)
         this.randomPos[1] = cc.v3(250, 400)
-        this.maxHp = this.hp = 10
+        this.maxHp = this.hp = 10 * BattleManager.instance.rank
         this.path = 0
         Emitter.fire('message_' + MessageType.addMonster)
     }
@@ -64,6 +65,10 @@ export default class MonsterItem extends cc.Component {
     }
     getInCity() {
         BattleManager.instance.hp--
+        this.removeSelf()
+    }
+    onDied() {
+        BattleManager.instance.sun += 10
         this.removeSelf()
     }
     removeSelf() {

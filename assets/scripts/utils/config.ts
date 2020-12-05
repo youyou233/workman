@@ -1,6 +1,6 @@
 let resConfig = {
     altasArr: ['main', 'battle', 'monster'],
-    jsonArr: ['role'],
+    jsonArr: ['role', 'skill', 'buff'],
     prefabArr: ['cardItem', 'landItem', 'monsterItem', 'bossItem', 'throwItem']
 }
 

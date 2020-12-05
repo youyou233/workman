@@ -141,12 +141,13 @@ export default class BattleManager extends cc.Component {
     //倒计时结束 出现boss
     onBoss() {
         this.isBoss = true
+        BattleUIManager.instance.bossLabel.string = 'boss进场中'
         BattleUIManager.instance.addBoss(5)
     }
     killBoss() {
         this.isBoss = false
+        this.sun += 100 * this.rank
         this.rank++
-
         this.bossTimer = 5
     }
     addRole() {

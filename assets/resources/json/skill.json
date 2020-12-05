@@ -1,0 +1,62 @@
+{
+    "1": {
+        "id": "1",
+        "name": "速度加快",
+        "dec": "被动技能，星星越多，攻击的越快",
+        "cool": 0,
+        "isActive": false,
+        "skillType": 1,
+        "param": {
+            "type": 1,
+            "num": 0.1
+        }
+    },
+    "2": {
+        "id": "2",
+        "name": "攻击变高",
+        "dec": "被动技能，星星越多，初始攻击力越高",
+        "cool": 0,
+        "isActive": false,
+        "skillType": 1,
+        "param": {
+            "type": 2,
+            "num": 1
+        }
+    },
+    "3": {
+        "id": "3",
+        "name": "振奋",
+        "dec": "主动技能，十秒内给所有人增加攻击力！",
+        "cool": 2,
+        "isActive": true,
+        "skillType": 2,
+        "param": {
+            "targetType": 2,
+            "buff": 1
+        }
+    },
+    "4": {
+        "id": "4",
+        "name": "迟缓",
+        "dec": "被动技能，可以对敌人造成减速",
+        "cool": 0,
+        "isActive": false,
+        "skillType": 3,
+        "param": {
+            "targetType": 1,
+            "buff": 2
+        }
+    },
+    "5": {
+        "id": "5",
+        "name": "生产",
+        "dec": "被动技能，间隔一段时间产出阳光,升星星可以增加产出",
+        "cool": 0,
+        "isActive": false,
+        "skillType": 4,
+        "param": {
+            "cold": 4,
+            "num": 3
+        }
+    }
+}

@@ -7,6 +7,7 @@ import MonsterItem from "../item/monster_item";
 import ThrowItem from "../item/throw_item";
 import CardItem from "../item/card_item";
 import BossItem from "../item/boss_item";
+import BattleSkillUIManager from "./battle_skill_ui_manager";
 
 const { ccclass, property } = cc._decorator
 
@@ -17,8 +18,7 @@ export default class BattleUIManager extends cc.Component {
     content: cc.Node = null
     @property(cc.Node)
     landContainer: cc.Node = null
-    @property(cc.Node)
-    cardContainer: cc.Node = null
+
     @property(cc.Node)
     monsterContainer: cc.Node = null
     @property(cc.Node)
@@ -69,10 +69,7 @@ export default class BattleUIManager extends cc.Component {
                 landItem.init(i, j)
             }
         }
-        for (let i = 0; i < 5; i++) {
-            let card = PoolManager.instance.createObjectByName('cardItem', this.cardContainer)
-            card.getComponent(CardItem).init(i)
-        }
+        BattleSkillUIManager.instance.initBattle()
     }
     addMosnter(id) {
         let monster = PoolManager.instance.createObjectByName('monsterItem', this.monsterContainer)
@@ -96,8 +93,8 @@ export default class BattleUIManager extends cc.Component {
         node.getComponent(ThrowItem).init(id, start, end, time, damage, oid)
     }
     clearContainer() {
-        let containers = [this.landContainer, this.cardContainer, this.monsterContainer, this.throwContainer, this.bossContainer]
-        let itemName = ['landItem', 'cardItem', 'monsterItem', 'throwItem', 'bossItem']
+        let containers = [this.landContainer, this.monsterContainer, this.throwContainer, this.bossContainer]
+        let itemName = ['landItem', 'monsterItem', 'throwItem', 'bossItem']
         for (let i = 0; i < containers.length; i++) {
             for (let j = containers[i].children.length - 1; j >= 0; j--) {
                 PoolManager.instance.removeObjectByName(itemName[i], containers[i].children[j])
@@ -119,6 +116,7 @@ export default class BattleUIManager extends cc.Component {
             this.bossContainer.children.forEach((item) => {
                 item.getComponent(BossItem).onUpdate(dt)
             })
+            BattleSkillUIManager.instance.onUpdate(dt)
         }
     }
     findAheadMonster(): cc.Node {
@@ -136,7 +134,7 @@ export default class BattleUIManager extends cc.Component {
         //  console.log(monster, monster && monster.getComponent(MonsterItem).path)
         return monster
     }
-    findMonsterByOid(oid): MonsterItem {
+    findMonsterByOid(oid) {
         for (let i = 0; i < this.monsterContainer.children.length; i++) {
             let monster = this.monsterContainer.children[i].getComponent(MonsterItem)
             if (oid == monster.oid) {

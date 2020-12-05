@@ -1,5 +1,5 @@
 import ResourceManager from "../manager/resources_manager"
-import { RoleActionType } from "../utils/enum"
+import { RoleActionType, AtkType } from "../utils/enum"
 import { Utils } from "../utils/utils"
 import { Emitter } from "../utils/emmiter"
 import { MessageType } from "../utils/message"
@@ -7,6 +7,7 @@ import BattleUIManager from "../ui/battle_ui_manager"
 import MonsterItem from "./monster_item"
 import JsonManager from "../manager/json_manager"
 import BossItem from "./boss_item"
+import BattleManager from "../manager/battle_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -24,19 +25,27 @@ export default class LandItem extends cc.Component {
     curI: number = 0
     curJ: number = 0
 
+    atkType: AtkType = AtkType.normol
     atkTimer: number = 0
     atkCD: number = 0
-    atkDamage: number = 0
+    _atkDamage: number = 0
+    set atkDamage(val: number) {
+        this._atkDamage = val
+    }
+    get atkDamage() {
+        return this._atkDamage * this.stack
+    }
     watchMonster: boolean = false
     set stack(val: number) {
         this._stack = val
         this.stackContainer.children.forEach((item, index) => {
-            item.active = index <= val
+            item.active = index < val
         })
     }
     get stack() {
         return this._stack
     }
+
     onLoad() {
         //       this.roleAnima = this.node.getChildByName('role').getComponent(cc.Animation)
         Emitter.register('MessageType_' + MessageType.addMonster, (name) => {
@@ -54,7 +63,7 @@ export default class LandItem extends cc.Component {
 
     }
     setNull() {
-        this.stack = 0
+        this.stack = 1
         this.roleAnima.stop()
         this.roleAnima.node.getComponent(cc.Sprite).spriteFrame = null
         this.stackContainer.active = false
@@ -67,6 +76,7 @@ export default class LandItem extends cc.Component {
         this.atkCD = roleData.atkCD
         this.atkTimer = roleData.atkCD
         this.atkDamage = roleData.atk
+        this.atkType = roleData.atkType
         this.addAnimationClip()
     }
 
@@ -84,6 +94,9 @@ export default class LandItem extends cc.Component {
                 this.roleAnima.play(res.name)
             })
             ResourceManager.instance.getRoleAnimation(this.id, RoleActionType.atk).then((res: cc.AnimationClip) => {
+                this.roleAnima.addClip(res)
+            })
+            ResourceManager.instance.getRoleAnimation(this.id, RoleActionType.sing).then((res: cc.AnimationClip) => {
                 this.roleAnima.addClip(res)
             })
         }
@@ -119,25 +132,40 @@ export default class LandItem extends cc.Component {
     aniCB(type: RoleActionType) {
         switch (+type) {
             case RoleActionType.atk:
+            case RoleActionType.sing:
                 let name = 'role_' + this.id + '_' + RoleActionType.idle
                 this.roleAnima.play(name)
                 break
+
         }
     }
     onAtk() {
-        let monster = BattleUIManager.instance.findAheadMonster()
-        let name = 'role_' + this.id + '_' + RoleActionType.atk
-        this.roleAnima.play(name).speed = 1 / this.atkCD
-        if (!monster) {
-            this.watchMonster = false
-        } else {
-            this.watchMonster = true
-            if (monster.name == 'monsterItem') {
-                BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.3, 2, monster.getComponent(MonsterItem).oid)
-            } else if (monster.name == 'bossItem') {
-                BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.3, 2, monster.getComponent(BossItem).oid)
-            }
+        let name = ''
+        switch (this.atkType) {
+            case AtkType.normol:
+                let monster = BattleUIManager.instance.findAheadMonster()
+                name = 'role_' + this.id + '_' + RoleActionType.atk
+                this.roleAnima.play(name).speed = 1 / this.atkCD
+                if (!monster) {
+                    this.watchMonster = false
+                } else {
+                    this.watchMonster = true
+                    if (monster.name == 'monsterItem') {
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2, monster.getComponent(MonsterItem).oid)
+                    } else if (monster.name == 'bossItem') {
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2, monster.getComponent(BossItem).oid)
+                    }
+                }
+                break
+            case AtkType.range:
+                //TODO: 范围攻击
+                // this.watchMonster = true
+                // name = 'role_' + this.id + '_' + RoleActionType.sing
+                // this.roleAnima.play(name).speed = 1
+                // BattleManager.instance.sun += this.atkDamage
+                break
         }
+
     }
     onUpdate(dt) {
         if (this.id) {

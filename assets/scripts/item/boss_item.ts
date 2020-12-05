@@ -1,5 +1,5 @@
 import ResourceManager from "../manager/resources_manager"
-import { ResType } from "../utils/enum"
+import { ResType, BossStatusType } from "../utils/enum"
 import PoolManager from "../manager/pool_manager"
 import BattleManager from "../manager/battle_manager"
 import { Emitter } from "../utils/emmiter"
@@ -29,10 +29,12 @@ export default class BossItem extends cc.Component {
     get hp() {
         return this._hp
     }
-
+    bossStatus: BossStatusType = BossStatusType.move
     randomPos: cc.Vec3[] = []
     path: number = 0
     oid: number = 0
+    //TODO:给boss增加放技能
+    skillTimer: number = 10
     onLoad() {
     }
     init(id: number, addHp: number = 0) {
@@ -43,7 +45,7 @@ export default class BossItem extends cc.Component {
         this.node.setPosition(startPos)
         this.randomPos[0] = cc.v3(-250, 400)
         this.randomPos[1] = cc.v3(250, 400)
-        this.maxHp = this.hp = 50 + addHp
+        this.maxHp = this.hp = 50 * BattleManager.instance.rank + addHp
         this.path = 0
         Emitter.fire('message_' + MessageType.addMonster)
     }
