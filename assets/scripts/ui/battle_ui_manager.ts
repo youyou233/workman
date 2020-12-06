@@ -166,6 +166,12 @@ export default class BattleUIManager extends cc.Component {
                 monsters.push(node)
             }
         }
+        for (let i = 0; i < this.bossContainer.children.length; i++) {
+            let node = this.bossContainer.children[i]
+            if (pos.sub(node.position).mag() < range) {
+                monsters.push(node)
+            }
+        }
         return monsters
     }
     //-------------------------- 触摸相关 ------------------------------

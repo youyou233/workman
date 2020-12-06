@@ -36,7 +36,7 @@ export default class BattleSkillUIManager extends cc.Component {
         })
     }
     curCard: cc.Node = null
-    //TODO: 类似出卡的效果 //TODO: 长按显示详情
+    //TODO: 长按显示详情
     startTouch(event) {
         this.curCard = this.getTouchedCard(event)
     }

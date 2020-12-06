@@ -19,7 +19,8 @@ export class Role {
         let rate = 1
         rate += this.getAllBuffStr(land.buffMap, 'atk')
         rate += this.getSkillStr(land, SelfStackType.atk)
-        return this.atk * land.stack * rate
+        //  console.log(this.atk * land.stack * rate)
+        return (this.atk * land.stack * rate).toFixed(0)
     }
 
     getAtkCD(land: LandItem) {
@@ -61,7 +62,7 @@ export class Role {
 
     isIntervalGenerate() {
         let skillData = JsonManager.instance.getDataByName('skill')[this.id]
-        switch (skillData.type) {
+        switch (skillData.skillType) {
             case SkillType.intervalGenerate:
                 return true
         }

@@ -7,6 +7,7 @@ import { MessageType } from "../utils/message"
 import MainManager from "../manager/main_manager"
 import { BuffData } from "../interface/buff_data"
 import JsonManager from "../manager/json_manager"
+import EffectManager from "../manager/effect_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -47,7 +48,6 @@ export default class BossItem extends cc.Component {
     randomPos: cc.Vec3[] = []
     path: number = 0
     oid: number = 0
-    //TODO:给boss增加放技能
     skillTimer: number = 10
     buffMap: { [key: number]: BuffData } = {}
 
@@ -62,6 +62,7 @@ export default class BossItem extends cc.Component {
         this.randomPos[0] = cc.v3(-250, 400)
         this.sp.node.color = cc.Color.WHITE
         this.buffMap = {}
+        this.skillTimer = 10
         this.randomPos[1] = cc.v3(250, 400)
         this.maxHp = this.hp = 50 * BattleManager.instance.rank + addHp
         this.path = 0
@@ -105,6 +106,16 @@ export default class BossItem extends cc.Component {
                 this.removeBuff(buffId)
             }
         }
+        this.skillTimer -= dt
+        if (this.skillTimer <= 0) {
+            this.skillTimer = 10
+            this.onSkill()
+        }
+    }
+    onSkill() {
+        let cure = this.maxHp / 5
+        this.hp += cure
+        EffectManager.instance.createDamageLabel(cure + '', this.node.position, false, { color: cc.Color.WHITE, outLineColor: cc.Color.GREEN, fontSize: 20 })
     }
     addBuff(buffId, buffData: BuffData) {
         this.buffMap[buffId] = buffData

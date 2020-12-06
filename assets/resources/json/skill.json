@@ -32,7 +32,8 @@
     "skillType": 2,
     "param": {
       "targetType": 2,
-      "buff": 1
+      "buff": 1,
+      "time": 10
     }
   },
   "4": {

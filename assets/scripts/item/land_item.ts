@@ -75,6 +75,9 @@ export default class LandItem extends cc.Component {
         this.roleAnima.node.getComponent(cc.Sprite).spriteFrame = null
         this.stackContainer.active = false
         this.id = null
+        this.role = null
+        this.buffMap = {}
+        this.updateBuffContainer()
     }
     showRole() {
         this.id = BattleManager.instance.team[Utils.getRandomNumber(4)].id
@@ -169,10 +172,10 @@ export default class LandItem extends cc.Component {
                         stack: this.stack
                     }
                     if (monster.name == 'monsterItem') {
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2,
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, this.role.getAtkDamege(this),
                             monster.getComponent(MonsterItem).oid, this.role.getAtkType(), param)
                     } else if (monster.name == 'bossItem') {
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2,
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, this.role.getAtkDamege(this),
                             monster.getComponent(BossItem).oid, this.role.getAtkType(), param)
                     }
                 }
@@ -185,9 +188,9 @@ export default class LandItem extends cc.Component {
                 } else {
                     this.watchMonster = true
                     if (monster.name == 'monsterItem') {
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2, monster.getComponent(MonsterItem).oid, this.role.getAtkType())
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, this.role.getAtkDamege(this), monster.getComponent(MonsterItem).oid, this.role.getAtkType())
                     } else if (monster.name == 'bossItem') {
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2, monster.getComponent(BossItem).oid, this.role.getAtkType())
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, this.role.getAtkDamege(this), monster.getComponent(BossItem).oid, this.role.getAtkType())
                     }
                 }
                 break
@@ -200,7 +203,7 @@ export default class LandItem extends cc.Component {
         this.roleAnima.play(name).speed = 1
         let num = this.stack * JsonManager.instance.getDataByName('skill')[5].param.num
         BattleManager.instance.sun += num
-        EffectManager.instance.createDamageLabel(num + '', this.node.position, false, { color: cc.Color.WHITE, outLineColor: cc.Color.GREEN, fontSize: 18 })
+        EffectManager.instance.createDamageLabel(num + '', this.node.position, false, { color: cc.Color.WHITE, outLineColor: cc.color(121, 0, 147), fontSize: 18 })
     }
     onUpdate(dt) {
         if (this.id) {

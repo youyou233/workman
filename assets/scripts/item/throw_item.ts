@@ -52,7 +52,13 @@ export default class ThrowItem extends cc.Component {
             case AtkType.range:
                 let list = BattleUIManager.instance.getRangeMonsters(this.node.position, 100)//TODO: 待定100
                 for (let i = 0; i < list.length; i++) {
-                    list[i].getComponent(MonsterItem).beAtk(this.damage, this.param)
+                    let monster = null
+                    if (list[i] && list[i].name == 'monsterItem') {
+                        monster = list[i].getComponent(MonsterItem)
+                    } else if (list[i] && list[i].name == 'bossItem') {
+                        monster = list[i].getComponent(BossItem)
+                    }
+                    monster.beAtk(this.damage, this.param)
                     EffectManager.instance.createDamageLabel(this.damage + '', list[i].position)
                 }
                 EffectManager.instance.creatEffect(24, this.node.position)
