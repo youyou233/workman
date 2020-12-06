@@ -25,6 +25,10 @@ export default class BattleUIManager extends cc.Component {
     throwContainer: cc.Node = null
     @property(cc.Node)
     bossContainer: cc.Node = null
+    @property(cc.Node)
+    effectContainer: cc.Node = null
+    @property(cc.Node)
+    damageLabelContainer: cc.Node = null
     //数据显示
     @property(cc.Label)
     sunLabel: cc.Label = null
@@ -93,8 +97,8 @@ export default class BattleUIManager extends cc.Component {
         node.getComponent(ThrowItem).init(id, start, end, time, damage, oid, type, param)
     }
     clearContainer() {
-        let containers = [this.landContainer, this.monsterContainer, this.throwContainer, this.bossContainer]
-        let itemName = ['landItem', 'monsterItem', 'throwItem', 'bossItem']
+        let containers = [this.landContainer, this.monsterContainer, this.throwContainer, this.bossContainer, this.effectContainer, this.damageLabelContainer]
+        let itemName = ['landItem', 'monsterItem', 'throwItem', 'bossItem', 'effectItem', 'damageLabel']
         for (let i = 0; i < containers.length; i++) {
             for (let j = containers[i].children.length - 1; j >= 0; j--) {
                 PoolManager.instance.removeObjectByName(itemName[i], containers[i].children[j])

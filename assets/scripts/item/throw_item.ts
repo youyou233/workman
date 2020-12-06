@@ -4,6 +4,8 @@ import PoolManager from "../manager/pool_manager"
 import BattleUIManager from "../ui/battle_ui_manager"
 import MonsterItem from "./monster_item"
 import BossItem from "./boss_item"
+import EffectManager from "../manager/effect_manager"
+import { Utils } from "../utils/utils"
 
 const { ccclass, property } = cc._decorator
 
@@ -34,20 +36,29 @@ export default class ThrowItem extends cc.Component {
                 let monster = BattleUIManager.instance.findMonsterByOid(this.oid)
                 if (monster) {
                     monster.beAtk(this.damage)
+                    let node = monster.node
+                    EffectManager.instance.createDamageLabel(this.damage + '', node.position)
                 } else {
                     let node = BattleUIManager.instance.findAheadMonster()
                     if (node && node.name == 'monsterItem') {
                         node.getComponent(MonsterItem).beAtk(this.damage)
+                        EffectManager.instance.createDamageLabel(this.damage + '', node.position)
                     } else if (node && node.name == 'bossItem') {
                         node.getComponent(BossItem).beAtk(this.damage)
+                        EffectManager.instance.createDamageLabel(this.damage + '', node.position)
+
                     }
                 }
+                EffectManager.instance.creatEffect(Utils.getRandomNumber(6) + 3, this.node.position)
+
                 break
             case AtkType.range:
                 let list = BattleUIManager.instance.getRangeMonsters(this.node.position, 100)//TODO: 待定100
                 for (let i = 0; i < list.length; i++) {
                     list[i].getComponent(MonsterItem).beAtk(this.damage)
                 }
+                EffectManager.instance.creatEffect(24, this.node.position)
+
                 break
         }
         PoolManager.instance.removeObjectByName('throwItem', this.node)

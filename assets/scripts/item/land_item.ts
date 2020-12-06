@@ -12,6 +12,7 @@ import { Role } from "../class/role"
 import { BuffData } from "../interface/buff_data"
 import PoolManager from "../manager/pool_manager"
 import CommonItem from "./common_item"
+import EffectManager from "../manager/effect_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -82,6 +83,7 @@ export default class LandItem extends cc.Component {
         this.role = new Role(this.id)
         this.addAnimationClip()
         this.updateBuffContainer()
+        EffectManager.instance.creatEffect(1, cc.v3(this.node.position.x, this.node.position.y + 65))
     }
 
     addAnimationClip() {
