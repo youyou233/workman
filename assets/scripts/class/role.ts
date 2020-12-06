@@ -58,4 +58,13 @@ export class Role {
         }
         return 0
     }
+
+    isIntervalGenerate() {
+        let skillData = JsonManager.instance.getDataByName('skill')[this.id]
+        switch (skillData.type) {
+            case SkillType.intervalGenerate:
+                return true
+        }
+        return false
+    }
 }

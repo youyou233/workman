@@ -33,21 +33,18 @@ export default class ThrowItem extends cc.Component {
     endAni() {
         switch (this.type) {
             case AtkType.normol:
-                let monster = BattleUIManager.instance.findMonsterByOid(this.oid)
-                if (monster) {
-                    monster.beAtk(this.damage)
-                    let node = monster.node
-                    EffectManager.instance.createDamageLabel(this.damage + '', node.position)
-                } else {
+                let monster: MonsterItem | BossItem = BattleUIManager.instance.findMonsterByOid(this.oid)
+                if (!monster) {
                     let node = BattleUIManager.instance.findAheadMonster()
                     if (node && node.name == 'monsterItem') {
-                        node.getComponent(MonsterItem).beAtk(this.damage)
-                        EffectManager.instance.createDamageLabel(this.damage + '', node.position)
+                        monster = node.getComponent(MonsterItem)
                     } else if (node && node.name == 'bossItem') {
-                        node.getComponent(BossItem).beAtk(this.damage)
-                        EffectManager.instance.createDamageLabel(this.damage + '', node.position)
-
+                        monster = node.getComponent(BossItem)
                     }
+                }
+                if (monster) {
+                    monster.beAtk(this.damage, this.param)
+                    EffectManager.instance.createDamageLabel(this.damage + '', monster.node.position)
                 }
                 EffectManager.instance.creatEffect(Utils.getRandomNumber(6) + 3, this.node.position)
 
@@ -55,10 +52,10 @@ export default class ThrowItem extends cc.Component {
             case AtkType.range:
                 let list = BattleUIManager.instance.getRangeMonsters(this.node.position, 100)//TODO: 待定100
                 for (let i = 0; i < list.length; i++) {
-                    list[i].getComponent(MonsterItem).beAtk(this.damage)
+                    list[i].getComponent(MonsterItem).beAtk(this.damage, this.param)
+                    EffectManager.instance.createDamageLabel(this.damage + '', list[i].position)
                 }
                 EffectManager.instance.creatEffect(24, this.node.position)
-
                 break
         }
         PoolManager.instance.removeObjectByName('throwItem', this.node)

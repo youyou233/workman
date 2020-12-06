@@ -16,25 +16,25 @@ let aniConfig = {
         sample: 6, speed: 2, wrapMode: cc.WrapMode.Normal
     },
     'effect_3': {
-        sample: 3, speed: 2, wrapMode: cc.WrapMode.Normal
+        sample: 3, speed: 3, wrapMode: cc.WrapMode.Normal
     },
     'effect_4': {
-        sample: 3, speed: 2, wrapMode: cc.WrapMode.Normal
+        sample: 3, speed: 3, wrapMode: cc.WrapMode.Normal
     },
     'effect_5': {
-        sample: 5, speed: 2, wrapMode: cc.WrapMode.Normal
+        sample: 5, speed: 3, wrapMode: cc.WrapMode.Normal
     },
     'effect_6': {
-        sample: 6, speed: 2, wrapMode: cc.WrapMode.Normal
+        sample: 6, speed: 3, wrapMode: cc.WrapMode.Normal
     },
     'effect_7': {
-        sample: 6, speed: 2, wrapMode: cc.WrapMode.Normal
+        sample: 6, speed: 3, wrapMode: cc.WrapMode.Normal
     },
     'effect_8': {
-        sample: 6, speed: 2, wrapMode: cc.WrapMode.Normal
+        sample: 6, speed: 3, wrapMode: cc.WrapMode.Normal
     },
     'effect_9': {
-        sample: 6, speed: 2, wrapMode: cc.WrapMode.Normal
+        sample: 6, speed: 3, wrapMode: cc.WrapMode.Normal
     },
     'effect_10': {
         sample: 4, speed: 2, wrapMode: cc.WrapMode.Normal

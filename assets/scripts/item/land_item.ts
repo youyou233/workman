@@ -1,5 +1,5 @@
 import ResourceManager from "../manager/resources_manager"
-import { RoleActionType, AtkType } from "../utils/enum"
+import { RoleActionType, AtkType, SkillType } from "../utils/enum"
 import { Utils } from "../utils/utils"
 import { Emitter } from "../utils/emmiter"
 import { MessageType } from "../utils/message"
@@ -38,6 +38,7 @@ export default class LandItem extends cc.Component {
     buffMap: { [key: number]: BuffData } = {}
 
     _stack: number
+    generateTimer: number = null
     set stack(val: number) {
         this._stack = val
         this.stackContainer.children.forEach((item, index) => {
@@ -81,6 +82,10 @@ export default class LandItem extends cc.Component {
         let roleData = JsonManager.instance.getDataByName('role')[this.id]
         this.atkTimer = roleData.atkCD
         this.role = new Role(this.id)
+        if (this.role.isIntervalGenerate()) {
+            let skillData = JsonManager.instance.getDataByName('skill')[this.id]
+            this.generateTimer = skillData.param.cold
+        }
         this.addAnimationClip()
         this.updateBuffContainer()
         EffectManager.instance.creatEffect(1, cc.v3(this.node.position.x, this.node.position.y + 65))
@@ -137,7 +142,6 @@ export default class LandItem extends cc.Component {
                 }
             }
         }
-
     }
     aniCB(type: RoleActionType) {
         switch (+type) {
@@ -160,10 +164,16 @@ export default class LandItem extends cc.Component {
                     this.watchMonster = false
                 } else {
                     this.watchMonster = true
+                    let param = {
+                        id: this.id,
+                        stack: this.stack
+                    }
                     if (monster.name == 'monsterItem') {
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2, monster.getComponent(MonsterItem).oid, this.role.getAtkType())
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2,
+                            monster.getComponent(MonsterItem).oid, this.role.getAtkType(), param)
                     } else if (monster.name == 'bossItem') {
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2, monster.getComponent(BossItem).oid, this.role.getAtkType())
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2,
+                            monster.getComponent(BossItem).oid, this.role.getAtkType(), param)
                     }
                 }
                 break
@@ -180,10 +190,17 @@ export default class LandItem extends cc.Component {
                         BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, 2, monster.getComponent(BossItem).oid, this.role.getAtkType())
                     }
                 }
-
                 break
         }
 
+    }
+    onGenerate() {
+        this.watchMonster = true
+        let name = 'role_' + this.id + '_' + RoleActionType.sing
+        this.roleAnima.play(name).speed = 1
+        let num = this.stack * JsonManager.instance.getDataByName('skill')[5].param.num
+        BattleManager.instance.sun += num
+        EffectManager.instance.createDamageLabel(num + '', this.node.position, false, { color: cc.Color.WHITE, outLineColor: cc.Color.GREEN, fontSize: 18 })
     }
     onUpdate(dt) {
         if (this.id) {
@@ -192,6 +209,13 @@ export default class LandItem extends cc.Component {
                 //   console.log(this.role.getAtkCD(this))
                 this.atkTimer = this.role.getAtkCD(this) /// this.atkSpd
                 this.onAtk()
+            }
+            if (this.role.isIntervalGenerate()) {
+                this.generateTimer -= dt
+                if (this.generateTimer < 0) {
+                    this.generateTimer = JsonManager.instance.getDataByName('skill')[5].param.cold
+                    this.onGenerate()
+                }
             }
             for (let buffId in this.buffMap) {
                 this.buffMap[buffId].time -= dt

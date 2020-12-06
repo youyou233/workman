@@ -51,9 +51,9 @@ export default class EffectManager extends cc.Component {
     //     }
     // }
 
-    createDamageLabel(str: string, pos: cc.Vec3, cri: boolean = false) {
+    createDamageLabel(str: string, pos: cc.Vec3, cri: boolean = false, param?: any) {
         // if (!DD.instance.config[SysType.damageLabel]) return
         let label = PoolManager.instance.createObjectByName('damageLabel', BattleUIManager.instance.damageLabelContainer)
-        label.getComponent(DamageLabel).init(str, pos, cri)
+        label.getComponent(DamageLabel).init(str, pos, cri, param)
     }
 }

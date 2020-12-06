@@ -12,19 +12,26 @@ export default class DamageLabel extends cc.Component {
         this.label = this.node.getComponent(cc.Label)
         this.outLine = this.node.getComponent(cc.LabelOutline)
     }
-    init(str: string, pos: cc.Vec3, cri: boolean = false) {
+    init(str: string, pos: cc.Vec3, cri: boolean = false, param?: any) {
         this.node.setPosition(pos)
         this.label.string = str
         this.node.opacity = 0
-        if (cri) {
-            this.node.color = cc.Color.RED
-            this.outLine.color = cc.Color.YELLOW
-            this.label.fontSize = 26
+        if (param) {
+            this.node.color = param.color
+            this.outLine.color = param.outLineColor
+            this.label.fontSize = param.fontSize
         } else {
-            this.node.color = cc.Color.WHITE
-            this.outLine.color = cc.Color.RED
-            this.label.fontSize = 18
+            if (cri) {
+                this.node.color = cc.Color.RED
+                this.outLine.color = cc.Color.YELLOW
+                this.label.fontSize = 26
+            } else {
+                this.node.color = cc.Color.WHITE
+                this.outLine.color = cc.Color.RED
+                this.label.fontSize = 18
+            }
         }
+
         this.showAni()
     }
     showAni() {

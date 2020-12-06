@@ -5,6 +5,9 @@ import BattleManager from "../manager/battle_manager"
 import { Emitter } from "../utils/emmiter"
 import { MessageType } from "../utils/message"
 import MainManager from "../manager/main_manager"
+import { BuffData } from "../interface/buff_data"
+import CommonItem from "./common_item"
+import JsonManager from "../manager/json_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -15,7 +18,20 @@ export default class MonsterItem extends cc.Component {
 
     @property(cc.ProgressBar)
     hpProgress: cc.ProgressBar = null
-    spd: cc.Vec2 = cc.v2(0, 0)
+
+    _spd: cc.Vec2 = cc.v2(0, 0)
+    set spd(val: cc.Vec2) {
+        this._spd = val
+    }
+    get spd() {
+        if (this.buffMap[2]) {
+            let buffData = JsonManager.instance.getDataByName('buff')[2]
+            let rate = 100 + buffData.param.num + buffData.param.add * this.buffMap[2].lv
+            return this._spd.mul(rate / 100)
+        } else {
+            return this._spd
+        }
+    }
     maxHp: number = 0
     _hp: number = 0
     set hp(val: number) {
@@ -34,7 +50,7 @@ export default class MonsterItem extends cc.Component {
     randomPos: cc.Vec3[] = []
     path: number = 0
     oid: number = 0
-    buffMap: object = {}
+    buffMap: { [key: number]: BuffData } = {}
 
     onLoad() {
     }
@@ -45,6 +61,8 @@ export default class MonsterItem extends cc.Component {
         this.spd = cc.v2(0, 100)
         this.node.setPosition(startPos)
         this.randomPos[0] = cc.v3(-250, 400)
+        this.buffMap = {}
+        this.sp.node.color = cc.Color.WHITE
         this.randomPos[1] = cc.v3(250, 400)
         this.maxHp = this.hp = 10 * BattleManager.instance.rank
         this.path = 0
@@ -62,8 +80,12 @@ export default class MonsterItem extends cc.Component {
             }
         }
     }
-    beAtk(damage) {
+    beAtk(damage, param) {
         this.hp -= damage
+        let buffData = BattleManager.instance.canDebuff(param)
+        if (buffData) {
+            this.addBuff(...buffData)
+        }
     }
     getInCity() {
         BattleManager.instance.hp--
@@ -82,10 +104,26 @@ export default class MonsterItem extends cc.Component {
         this.path += (Math.abs(this.spd.x) * dt + Math.abs(this.spd.y * dt))
         this.checkNearPos()
         for (let buffId in this.buffMap) {
-            this.buffMap[buffId] -= dt
-            if (this.buffMap[buffId] <= 0) {
-                delete this.buffMap[buffId]
-                //TODO: 发射信息
+            this.buffMap[buffId].time -= dt
+            if (this.buffMap[buffId].time <= 0) {
+                this.removeBuff(buffId)
+            }
+        }
+    }
+    addBuff(buffId, buffData: BuffData) {
+        this.buffMap[buffId] = buffData
+        this.showBuffEffect()
+    }
+    removeBuff(buffId) {
+        delete this.buffMap[buffId]
+        this.showBuffEffect()
+    }
+    showBuffEffect() {
+        this.sp.node.color = cc.Color.WHITE
+        for (let buffId in this.buffMap) {
+            if (buffId && this.buffMap[buffId]) {
+                this.sp.node.color = cc.Color.BLUE
+                return
             }
         }
     }

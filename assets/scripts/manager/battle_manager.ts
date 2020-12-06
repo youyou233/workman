@@ -1,4 +1,4 @@
-import { BattleStatusType } from "../utils/enum"
+import { BattleStatusType, SkillType } from "../utils/enum"
 import BattleUIManager from "../ui/battle_ui_manager"
 import { Emitter } from "../utils/emmiter"
 import { MessageType } from "../utils/message"
@@ -6,6 +6,8 @@ import { RoleTeamData } from "../interface/role_team_data"
 import UIManager from "./ui_manager"
 import { Utils } from "../utils/utils"
 import LandItem from "../item/land_item"
+import JsonManager from "./json_manager"
+import { BuffData } from "../interface/buff_data"
 
 const { ccclass, property } = cc._decorator
 /**
@@ -175,5 +177,15 @@ export default class BattleManager extends cc.Component {
             }
         }
         return arr
+    }
+    canDebuff(param): [number, BuffData] {
+        if (param) {
+            let skillData = JsonManager.instance.getDataByName('skill')[param.id]
+            switch (skillData.skillType) {
+                case SkillType.enemyBuff:
+                    return [skillData.param.buff, { time: skillData.param.time, lv: param.stack }]
+            }
+        }
+        return null
     }
 }
