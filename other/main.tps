@@ -193,7 +193,14 @@
             <key type="filename">../assets/main_res/char/icon/role_12.png</key>
             <key type="filename">../assets/main_res/char/icon/role_13.png</key>
             <key type="filename">../assets/main_res/char/icon/role_14.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_15.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_16.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_17.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_18.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_19.png</key>
             <key type="filename">../assets/main_res/char/icon/role_2.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_20.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_21.png</key>
             <key type="filename">../assets/main_res/char/icon/role_3.png</key>
             <key type="filename">../assets/main_res/char/icon/role_4.png</key>
             <key type="filename">../assets/main_res/char/icon/role_5.png</key>
