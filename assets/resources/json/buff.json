@@ -4,8 +4,8 @@
     "name": "振奋",
     "param": {
       "str": "atk",
-      "num": 10,
-      "add": 3
+      "num": 100,
+      "add": 10
     }
   },
   "2": {
@@ -15,6 +15,41 @@
       "str": "spd",
       "num": -50,
       "add": -5
+    }
+  },
+  "3": {
+    "id": "3",
+    "name": "弱化",
+    "param": {
+      "str": "damage",
+      "num": 50,
+      "add": 10
+    }
+  },
+  "4": {
+    "id": "4",
+    "name": "相邻加速",
+    "param": {
+      "str": "atkspd",
+      "num": 30,
+      "add": 6
+    }
+  },
+  "5": {
+    "id": "5",
+    "name": "燃烧",
+    "param": {
+      "str": "hp",
+      "num": 100
+    }
+  },
+  "6": {
+    "id": "6",
+    "name": "加速",
+    "param": {
+      "str": "atkspd",
+      "num": 200,
+      "add": 10
     }
   }
 }

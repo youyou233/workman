@@ -11,4 +11,6 @@ export enum MessageType {
     killBoss,
     addBuff,
     addDebuff,
+    addRole,
+    removeRole,
 }

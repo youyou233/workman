@@ -100,7 +100,7 @@ export default class BattleManager extends cc.Component {
         this.sun = 500
         this.hp = 3
         this.rank = 1
-        this.team = [{ id: 1, lv: 1 }, { id: 2, lv: 1 }, { id: 3, lv: 1 }, { id: 4, lv: 1 }, { id: 5, lv: 1 }]
+        this.team = [{ id: 15, lv: 1 }, { id: 16, lv: 1 }, { id: 17, lv: 1 }, { id: 18, lv: 1 }, { id: 19, lv: 1 }]
         //3*5
         this.mapData = []
         for (let i = 0; i < 3; i++) {
@@ -179,7 +179,7 @@ export default class BattleManager extends cc.Component {
         return arr
     }
     canDebuff(param): [number, BuffData] {
-        if (param) {
+        if (param && param.id) {
             let skillData = JsonManager.instance.getDataByName('skill')[param.id]
             switch (skillData.skillType) {
                 case SkillType.enemyBuff:
@@ -188,4 +188,50 @@ export default class BattleManager extends cc.Component {
         }
         return null
     }
+    canMultDamage(buffMap, param) {
+        let ori = buffMap[3] ? (1.5 + buffMap[3].lv * 0.1) : 1
+        if (param && param.id) {
+            let skillData = JsonManager.instance.getDataByName('skill')[param.id]
+            switch (skillData.skillType) {
+                case SkillType.debuffKillExplosion:
+                    if (Object.keys(buffMap).some((item) => { return item == skillData.param.buff })) {
+                        return [skillData.param.mult, true]
+                    }
+                    break
+                case SkillType.debuffMultDamage:
+                    if (Object.keys(buffMap).some((item) => { return item == skillData.param.buff })) {
+                        return [skillData.param.mult + skillData.param.add * param.stack, false]
+                    }
+                    break
+            }
+        }
+
+        return [1, false]
+    }
+    onSkillGenerate(land: LandItem) {
+        let skillData = JsonManager.instance.getDataByName('skill')[land.id]
+        let length = 0
+        switch (skillData.skillType) {
+            case SkillType.mergeGenerate:
+                length = 1
+                if (Utils.getRandomNumber(100) < (skillData.param.num + land.stack * skillData.param.add)) {
+                    length = 2
+                }
+                break
+            case SkillType.skillGenerate:
+                length = 2
+                if (Utils.getRandomNumber(100) < (skillData.param.num + land.stack * skillData.param.add)) {
+                    length = 2
+                }
+                break
+        }
+        setTimeout(() => {
+            for (let i = 0; i < length; i++) {
+                this.addRole()
+            }
+        }, 100);
+    }
+    // canSpike(land: LandItem) {
+
+    // }
 }

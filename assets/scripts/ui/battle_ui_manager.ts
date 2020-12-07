@@ -8,6 +8,7 @@ import ThrowItem from "../item/throw_item";
 import CardItem from "../item/card_item";
 import BossItem from "../item/boss_item";
 import BattleSkillUIManager from "./battle_skill_ui_manager";
+import { Utils } from "../utils/utils";
 
 const { ccclass, property } = cc._decorator
 
@@ -138,6 +139,12 @@ export default class BattleUIManager extends cc.Component {
         //  console.log(monster, monster && monster.getComponent(MonsterItem).path)
         return monster
     }
+    findRandomMonster(): cc.Node {
+        let monster = this.monsterContainer.children[Utils.getRandomNumber(this.monsterContainer.children.length - 1)]
+        let boss = this.bossContainer.children[Utils.getRandomNumber(this.bossContainer.children.length - 1)]
+        if (boss) return boss
+        return monster
+    }
     findMonsterByOid(oid) {
         for (let i = 0; i < this.monsterContainer.children.length; i++) {
             let monster = this.monsterContainer.children[i].getComponent(MonsterItem)
@@ -151,6 +158,7 @@ export default class BattleUIManager extends cc.Component {
                 return monster
             }
         }
+        return null
     }
     /**
      *  获取一个范围内的敌人
@@ -254,8 +262,7 @@ export default class BattleUIManager extends cc.Component {
         let curLand = this.curTouch.getComponent(LandItem)
         let targetLand = target.getComponent(LandItem)
         if (targetLand.checkMerge(curLand)) {
-            curLand.setNull()
-            targetLand.onMerge()
+            targetLand.onMerge(curLand)
         }
     }
 
@@ -267,5 +274,26 @@ export default class BattleUIManager extends cc.Component {
             }
         }
         return null
+    }
+    getRoundLand(i: number, j: number): LandItem[] {
+        let list = []
+        let [left, right, up, down] = [null, null, null, null]
+        if (i >= 1) {
+            left = BattleManager.instance.mapData[i - 1][j]
+            if (left.id) list.push(left)
+        }
+        if (i <= 1) {
+            right = BattleManager.instance.mapData[i + 1][j]
+            if (right.id) list.push(right)
+        }
+        if (j >= 1) {
+            down = BattleManager.instance.mapData[i][j - 1]
+            if (down.id) list.push(down)
+        }
+        if (j < 3) {
+            up = BattleManager.instance.mapData[i][j + 1]
+            if (up.id) list.push(up)
+        }
+        return list
     }
 }

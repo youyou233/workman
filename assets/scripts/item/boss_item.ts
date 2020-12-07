@@ -64,7 +64,7 @@ export default class BossItem extends cc.Component {
         this.buffMap = {}
         this.skillTimer = 10
         this.randomPos[1] = cc.v3(250, 400)
-        this.maxHp = this.hp = 50 * BattleManager.instance.rank + addHp
+        this.maxHp = this.hp = 5000 * BattleManager.instance.rank + addHp
         this.path = 0
         Emitter.fire('message_' + MessageType.addMonster)
     }
@@ -81,11 +81,14 @@ export default class BossItem extends cc.Component {
         }
     }
     beAtk(damage, param) {
-        this.hp -= damage
         let buffData = BattleManager.instance.canDebuff(param)
         if (buffData) {
             this.addBuff(...buffData)
         }
+        let multDamage = BattleManager.instance.canMultDamage(this.buffMap, param)
+        let count = damage * multDamage[0]
+        this.hp -= count
+        EffectManager.instance.createDamageLabel(count + '', this.node.position)
     }
     getInCity() {
         BattleManager.instance.hp -= 2
@@ -113,8 +116,8 @@ export default class BossItem extends cc.Component {
         }
     }
     onSkill() {
-        let cure = this.maxHp / 5
-        this.hp += cure
+        let cure = (this.maxHp / 5).toFixed(0)
+        this.hp += +cure
         EffectManager.instance.createDamageLabel(cure + '', this.node.position, false, { color: cc.Color.WHITE, outLineColor: cc.Color.GREEN, fontSize: 20 })
     }
     addBuff(buffId, buffData: BuffData) {

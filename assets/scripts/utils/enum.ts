@@ -35,13 +35,28 @@ export enum BossStatusType {
 export enum AtkType {
     none = 0,
     normol = 1,
-    range = 2
+    range = 2,
+    randomRange = 3,
+    chain = 4,
+    random = 5
 }
 export enum SkillType {
+    none = 0,
     selfStack = 1,//自身星星叠加
     addBuff = 2,//增加buff
     enemyBuff = 3,//给敌人加debuff
     intervalGenerate = 4,//间隔生产
+    roundBuff = 5,//给周围加buff
+    merge = 6,//合成技能
+    debuffMultDamage = 7,//异常状态增伤
+    debuffKillExplosion = 8,//异常状态死亡爆炸
+    mergeGenerate = 9,
+    skillGenerate = 10,
+    reputation = 11,
+    kill = 12,
+    sameRoleStar = 13,
+    sameStar = 14,
+    bingo = 15
 }
 
 export enum SelfStackType {
@@ -52,4 +67,5 @@ export enum SelfStackType {
 export enum SkillTargetType {
     singleEnemy = 1,//单个敌人
     group = 2,//自己全体
+    around = 3
 }

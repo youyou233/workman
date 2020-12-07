@@ -8,6 +8,11 @@ import MainManager from "../manager/main_manager"
 import { BuffData } from "../interface/buff_data"
 import CommonItem from "./common_item"
 import JsonManager from "../manager/json_manager"
+import EffectItem from "./effect_item"
+import EffectManager from "../manager/effect_manager"
+import BattleUIManager from "../ui/battle_ui_manager"
+import DD from "../manager/dynamic_data_manager"
+import { Utils } from "../utils/utils"
 
 const { ccclass, property } = cc._decorator
 
@@ -40,13 +45,15 @@ export default class MonsterItem extends cc.Component {
         this.hpProgress.progress = val / this.maxHp
         if (this.hp <= 0) {
             this.onDied()
-
+        }
+        if (this.hp > this.maxHp) {
+            this.hp = this.maxHp
         }
     }
     get hp() {
         return this._hp
     }
-
+    explosion: number = 0//TODO: 待验证
     randomPos: cc.Vec3[] = []
     path: number = 0
     oid: number = 0
@@ -64,8 +71,10 @@ export default class MonsterItem extends cc.Component {
         this.buffMap = {}
         this.sp.node.color = cc.Color.WHITE
         this.randomPos[1] = cc.v3(250, 400)
-        this.maxHp = this.hp = 10 * BattleManager.instance.rank
+        this.maxHp = 1000 * BattleManager.instance.rank
+        this.hp = this.maxHp
         this.path = 0
+        this.explosion = 0
         Emitter.fire('message_' + MessageType.addMonster)
     }
     checkNearPos() {
@@ -81,11 +90,28 @@ export default class MonsterItem extends cc.Component {
         }
     }
     beAtk(damage, param) {
-        this.hp -= damage
+        let str = damage + ''
         let buffData = BattleManager.instance.canDebuff(param)
         if (buffData) {
             this.addBuff(...buffData)
         }
+        let multDamage = BattleManager.instance.canMultDamage(this.buffMap, param)
+        let count = damage * multDamage[0]
+        this.explosion = 0
+        if (multDamage[1]) {
+            this.explosion = count
+        }
+        this.hp -= count
+        let spike = false
+        if (param && param.id == 13) {
+            spike = Utils.getRandomNumber(1000) < 250 + 3 * param.stack
+        }
+        if (spike) {
+            this.hp = 0
+            str = '秒杀'
+        }
+        EffectManager.instance.createDamageLabel(str, this.node.position)
+
     }
     getInCity() {
         BattleManager.instance.hp--
@@ -93,6 +119,14 @@ export default class MonsterItem extends cc.Component {
     }
     onDied() {
         BattleManager.instance.sun += 10
+        if (this.explosion) {
+            //发射爆炸
+            EffectManager.instance.creatEffect(21, this.node.position)
+            let monsters = BattleUIManager.instance.getRangeMonsters(this.node.position, 200)
+            monsters.forEach((item) => {
+                DD.instance.getMonsterByNode(item).beAtk(this.explosion, null)
+            })
+        }
         this.removeSelf()
     }
     removeSelf() {
@@ -105,6 +139,9 @@ export default class MonsterItem extends cc.Component {
         this.checkNearPos()
         for (let buffId in this.buffMap) {
             this.buffMap[buffId].time -= dt
+            if (this.buffMap[5]) {
+                this.hp -= dt * this.buffMap[5].lv * 100
+            }
             if (this.buffMap[buffId].time <= 0) {
                 this.removeBuff(buffId)
             }

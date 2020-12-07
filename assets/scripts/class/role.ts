@@ -1,6 +1,7 @@
 import { AtkType, SkillType, SelfStackType } from "../utils/enum"
 import JsonManager from "../manager/json_manager"
 import LandItem from "../item/land_item"
+import BattleManager from "../manager/battle_manager"
 
 export class Role {
     atkType: AtkType = AtkType.normol
@@ -17,14 +18,19 @@ export class Role {
 
     getAtkDamege(land: LandItem) {
         let rate = 1
+        let add = 0
         rate += this.getAllBuffStr(land.buffMap, 'atk')
         rate += this.getSkillStr(land, SelfStackType.atk)
+        if (this.id == 12) {
+            add = BattleManager.instance.sun * (2.5 + land.stack * 0.3) / 100
+        }
         //  console.log(this.atk * land.stack * rate)
-        return (this.atk * land.stack * rate).toFixed(0)
+        return ((this.atk + add) * land.stack * rate).toFixed(0)
     }
 
     getAtkCD(land: LandItem) {
-        return this.atkCD - this.getSkillStr(land, SelfStackType.atkSpd)
+        // return 0.1
+        return (this.atkCD - this.getSkillStr(land, SelfStackType.atkSpd)) / (1 + this.getAllBuffStr(land.buffMap, 'atkspd'))
     }
 
     getAtkType() {
@@ -59,7 +65,16 @@ export class Role {
         }
         return 0
     }
-
+    getAtkRange(land: LandItem) {
+        let roleData = JsonManager.instance.getDataByName('role')[this.id]
+        switch (roleData.atkType) {
+            case AtkType.range:
+                return roleData.param.range
+            case AtkType.randomRange:
+                let skillData = JsonManager.instance.getDataByName('skill')[this.id]
+                return skillData.param.num + (land.stack - 1) * skillData.param.add
+        }
+    }
     isIntervalGenerate() {
         let skillData = JsonManager.instance.getDataByName('skill')[this.id]
         switch (skillData.skillType) {
@@ -67,5 +82,22 @@ export class Role {
                 return true
         }
         return false
+    }
+    isAroundBuff(lv?: number) {
+        let skillData = JsonManager.instance.getDataByName('skill')[this.id]
+        switch (skillData.skillType) {
+            case SkillType.roundBuff:
+                return [skillData.param.buff, { time: 2, lv }]
+        }
+        return false
+    }
+    getMergeData() {
+        let skillData = JsonManager.instance.getDataByName('skill')[this.id]
+        switch (skillData.skillType) {
+            case SkillType.merge:
+                return [skillData.param.stack, skillData.param.id]
+                break
+        }
+        return [true, true]
     }
 }

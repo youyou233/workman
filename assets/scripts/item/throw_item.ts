@@ -31,9 +31,10 @@ export default class ThrowItem extends cc.Component {
             .to(time, { x: end.x, y: end.y, angle: 900 }).call(this.endAni.bind(this)).start()
     }
     endAni() {
+        let monster: MonsterItem | BossItem = null
         switch (this.type) {
             case AtkType.normol:
-                let monster: MonsterItem | BossItem = BattleUIManager.instance.findMonsterByOid(this.oid)
+                monster = BattleUIManager.instance.findMonsterByOid(this.oid)
                 if (!monster) {
                     let node = BattleUIManager.instance.findAheadMonster()
                     if (node && node.name == 'monsterItem') {
@@ -43,14 +44,14 @@ export default class ThrowItem extends cc.Component {
                     }
                 }
                 if (monster) {
-                    monster.beAtk(this.damage, this.param)
-                    EffectManager.instance.createDamageLabel(this.damage + '', monster.node.position)
+                    monster.beAtk(this.damage, this.param)//param是buff内容
                 }
                 EffectManager.instance.creatEffect(Utils.getRandomNumber(6) + 3, this.node.position)
 
                 break
             case AtkType.range:
-                let list = BattleUIManager.instance.getRangeMonsters(this.node.position, 100)//TODO: 待定100
+            case AtkType.randomRange:
+                let list = BattleUIManager.instance.getRangeMonsters(this.node.position, this.param.range)//TODO: 待定100
                 for (let i = 0; i < list.length; i++) {
                     let monster = null
                     if (list[i] && list[i].name == 'monsterItem') {
@@ -59,9 +60,25 @@ export default class ThrowItem extends cc.Component {
                         monster = list[i].getComponent(BossItem)
                     }
                     monster.beAtk(this.damage, this.param)
-                    EffectManager.instance.createDamageLabel(this.damage + '', list[i].position)
                 }
                 EffectManager.instance.creatEffect(24, this.node.position)
+                break
+            case AtkType.chain:
+                break
+            case AtkType.random:
+                monster = BattleUIManager.instance.findMonsterByOid(this.oid)
+                if (!monster) {
+                    let node = BattleUIManager.instance.getRangeMonsters(this.node.position, 50)[0]
+                    if (node && node.name == 'monsterItem') {
+                        monster = node.getComponent(MonsterItem)
+                    } else if (node && node.name == 'bossItem') {
+                        monster = node.getComponent(BossItem)
+                    }
+                }
+                if (monster) {
+                    monster.beAtk(this.damage, this.param)//param是buff内容
+                }
+                EffectManager.instance.creatEffect(Utils.getRandomNumber(6) + 3, this.node.position)
                 break
         }
         PoolManager.instance.removeObjectByName('throwItem', this.node)

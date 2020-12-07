@@ -52,6 +52,9 @@ export default class CardItem extends cc.Component {
     }
     onSkill() {
         this.node.y = 90
+
+        //TODO: 计算消耗
+
         this.coolTimer = this.data.cool
         this.coolProgress.node.active = true
         this.passiveNode.active = true
@@ -62,7 +65,7 @@ export default class CardItem extends cc.Component {
                     case SkillTargetType.group:
                         let buffData: BuffData = {
                             time: this.data.param.time,
-                            lv: DD.instance.roleMap[this.data.id]
+                            lv: 1 //DD.instance.roleMap[this.data.id]
                         }
                         Emitter.fire('MessageType_' + MessageType.addBuff,
                             this.data.param.buff, buffData

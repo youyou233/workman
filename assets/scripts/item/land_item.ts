@@ -13,6 +13,7 @@ import { BuffData } from "../interface/buff_data"
 import PoolManager from "../manager/pool_manager"
 import CommonItem from "./common_item"
 import EffectManager from "../manager/effect_manager"
+import DD from "../manager/dynamic_data_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -37,6 +38,7 @@ export default class LandItem extends cc.Component {
     watchMonster: boolean = false
     buffMap: { [key: number]: BuffData } = {}
 
+    aroundBuffTimer: number = 0
     _stack: number
     generateTimer: number = null
     set stack(val: number) {
@@ -61,8 +63,10 @@ export default class LandItem extends cc.Component {
     }
     init(i, j) {
         //  this.addAnimationClip()
+        this.id = null
         this.curI = i
         this.curJ = j
+        cc.log(i, j)
         this.setNull()
         this.mergeStatus.active = false
         this.atkTimer = 999
@@ -70,17 +74,24 @@ export default class LandItem extends cc.Component {
 
     }
     setNull() {
+        if (this.id) {
+            Emitter.fire('message_' + MessageType.removeRole, this.id)
+        }
         this.stack = 1
         this.roleAnima.stop()
         this.roleAnima.node.getComponent(cc.Sprite).spriteFrame = null
         this.stackContainer.active = false
         this.id = null
+        this.aroundBuffTimer = 0
         this.role = null
         this.buffMap = {}
         this.updateBuffContainer()
     }
     showRole() {
         this.id = BattleManager.instance.team[Utils.getRandomNumber(4)].id
+        if (this.role && this.role.isAroundBuff()) {
+            this.aroundBuffTimer = 1
+        }
         this.stackContainer.active = true
         let roleData = JsonManager.instance.getDataByName('role')[this.id]
         this.atkTimer = roleData.atkCD
@@ -113,6 +124,9 @@ export default class LandItem extends cc.Component {
             ResourceManager.instance.getRoleAnimation(this.id, RoleActionType.sing).then((res: cc.AnimationClip) => {
                 this.roleAnima.addClip(res)
             })
+            ResourceManager.instance.getRoleAnimation(this.id, RoleActionType.throw).then((res: cc.AnimationClip) => {
+                this.roleAnima.addClip(res)
+            })
         }
     }
     checkMerge(landItem: LandItem) {
@@ -121,15 +135,26 @@ export default class LandItem extends cc.Component {
         // } else  {
         //     return true
         // }
-        if (this != landItem && this.id == landItem.id && this.stack == landItem.stack) {
+        let mergeData = landItem.role.getMergeData()
+        if (this != landItem &&
+            ((!mergeData[1] && this.id) || this.id == landItem.id) &&
+            (!mergeData[0] || this.stack == landItem.stack)) {
             return true
         } else {
             return false
         }
     }
-    onMerge() {
+    onMerge(land: LandItem) {
+        if (land.id == 17) {
+            this.stack = Math.ceil(land.stack + this.stack)
+        } else {
+            this.stack++
+        }
+        if (land.id == 8) {
+            BattleManager.instance.onSkillGenerate(this)
+        }
+        land.setNull()
         this.showRole()
-        this.stack++
     }
     updateMergeStatus(close: boolean, landItem?: LandItem) {
         if (close) {
@@ -147,63 +172,79 @@ export default class LandItem extends cc.Component {
         }
     }
     aniCB(type: RoleActionType) {
+        let name = 'role_' + this.id + '_' + RoleActionType.idle
         switch (+type) {
             case RoleActionType.atk:
+                this.actionCb[RoleActionType.atk]()
+                this.roleAnima.play(name)
+                break
             case RoleActionType.sing:
-                let name = 'role_' + this.id + '_' + RoleActionType.idle
+                this.actionCb[RoleActionType.sing]()
                 this.roleAnima.play(name)
                 break
 
         }
     }
+    actionCb: { [key: number]: Function } = {}
     onAtk() {
         let name = ''
         let monster = BattleUIManager.instance.findAheadMonster()
-        switch (this.role.getAtkType()) {
-            case AtkType.normol:
-                name = 'role_' + this.id + '_' + RoleActionType.atk
-                this.roleAnima.play(name).speed = 1 / this.role.getAtkCD(this)
-                if (!monster) {
-                    this.watchMonster = false
-                } else {
+        if (!monster) {
+            this.watchMonster = false
+        } else {
+            switch (this.role.getAtkType()) {
+                case AtkType.normol:
+                case AtkType.random:
+                    if (this.role.getAtkType() == AtkType.random) {
+                        monster = BattleUIManager.instance.findRandomMonster()
+                    }
                     this.watchMonster = true
-                    let param = {
-                        id: this.id,
-                        stack: this.stack
-                    }
-                    if (monster.name == 'monsterItem') {
+                    name = 'role_' + this.id + '_' + RoleActionType.atk
+                    this.roleAnima.play(name).speed = 1.1 / this.role.getAtkCD(this)
+                    this.actionCb[RoleActionType.atk] = () => {
+                        let param = {
+                            id: this.id,
+                            stack: this.stack
+                        }
                         BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, this.role.getAtkDamege(this),
-                            monster.getComponent(MonsterItem).oid, this.role.getAtkType(), param)
-                    } else if (monster.name == 'bossItem') {
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, this.role.getAtkDamege(this),
-                            monster.getComponent(BossItem).oid, this.role.getAtkType(), param)
+                            DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), param)
                     }
-                }
-                break
-            case AtkType.range:
-                name = 'role_' + this.id + '_' + RoleActionType.sing
-                this.roleAnima.play(name).speed = 1 / this.role.getAtkCD(this)
-                if (!monster) {
-                    this.watchMonster = false
-                } else {
+                    break
+                case AtkType.range:
+                    name = 'role_' + this.id + '_' + RoleActionType.sing
+                    this.roleAnima.play(name).speed = 1.1 / this.role.getAtkCD(this)
                     this.watchMonster = true
-                    if (monster.name == 'monsterItem') {
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, this.role.getAtkDamege(this), monster.getComponent(MonsterItem).oid, this.role.getAtkType())
-                    } else if (monster.name == 'bossItem') {
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, this.role.getAtkDamege(this), monster.getComponent(BossItem).oid, this.role.getAtkType())
+                    this.actionCb[RoleActionType.sing] = () => {
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, this.role.getAtkDamege(this),
+                            DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { range: this.role.getAtkRange(this) }
+                        )
                     }
-                }
-                break
-        }
+                    break
+                case AtkType.randomRange:
+                    monster = BattleUIManager.instance.findRandomMonster()
+                    name = 'role_' + this.id + '_' + RoleActionType.throw
+                    this.roleAnima.play(name).speed = 1.1 / this.role.getAtkCD(this)
+                    this.watchMonster = true
+                    this.actionCb[RoleActionType.throw] = () => {
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, this.role.getAtkDamege(this),
+                            DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { range: this.role.getAtkRange(this) })
+                    }
+                    break
 
+
+            }
+        }
     }
     onGenerate() {
         this.watchMonster = true
         let name = 'role_' + this.id + '_' + RoleActionType.sing
         this.roleAnima.play(name).speed = 1
-        let num = this.stack * JsonManager.instance.getDataByName('skill')[5].param.num
-        BattleManager.instance.sun += num
-        EffectManager.instance.createDamageLabel(num + '', this.node.position, false, { color: cc.Color.WHITE, outLineColor: cc.color(121, 0, 147), fontSize: 18 })
+        this.actionCb[RoleActionType.sing] = () => {
+            let num = this.stack * JsonManager.instance.getDataByName('skill')[this.id].param.num
+            BattleManager.instance.sun += num
+            EffectManager.instance.createDamageLabel(num + '', this.node.position, false, { color: cc.Color.WHITE, outLineColor: cc.color(121, 0, 147), fontSize: 18 })
+        }
+
     }
     onUpdate(dt) {
         if (this.id) {
@@ -216,7 +257,7 @@ export default class LandItem extends cc.Component {
             if (this.role.isIntervalGenerate()) {
                 this.generateTimer -= dt
                 if (this.generateTimer < 0) {
-                    this.generateTimer = JsonManager.instance.getDataByName('skill')[5].param.cold
+                    this.generateTimer = JsonManager.instance.getDataByName('skill')[this.id].param.cold
                     this.onGenerate()
                 }
             }
@@ -225,6 +266,18 @@ export default class LandItem extends cc.Component {
                 if (this.buffMap[buffId].time <= 0) {
                     this.removeBuff(buffId)
                 }
+            }
+            if (this.role && this.role.isAroundBuff()) {
+                this.aroundBuffTimer -= dt
+                if (this.aroundBuffTimer < 0) {
+                    this.aroundBuffTimer = 1
+                    let buffData = this.role.isAroundBuff(this.stack)
+                    BattleUIManager.instance.getRoundLand(this.curI, this.curJ).forEach((item) => {
+                        item.addBuff(buffData[0], Utils.deepCopy(buffData[1]) as any)
+                    })
+                }
+                //增加周围的Buff
+
             }
         }
     }

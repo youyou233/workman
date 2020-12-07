@@ -140,6 +140,8 @@ export default class ResourceManager extends cc.Component {
                 resolve(this._Animation[aniName])
             } else {
                 let actionGroup = [[0, 1, 2], [3, 4, 5], [48, 12, 49, 13], [15, 16, 17], [18, 19, 20], [21, 22, 23], [24], [51]][actionType]
+                let actionLoopType = [cc.WrapMode.Loop, cc.WrapMode.Default, cc.WrapMode.Default, cc.WrapMode.Loop,
+                cc.WrapMode.Default, cc.WrapMode.Default, cc.WrapMode.Loop, cc.WrapMode.Loop,][actionType]
                 let frames: cc.SpriteFrame[] = []
                 for (let i = 0; i < actionGroup.length; i++) {
                     let spName = `${roleId}-${actionGroup[i]}`
@@ -147,11 +149,11 @@ export default class ResourceManager extends cc.Component {
                 }
                 let clip: cc.AnimationClip = cc.AnimationClip.createWithSpriteFrames(frames, frames.length)
                 clip.name = aniName
-                clip.sample = 10
+                clip.sample = actionGroup.length
                 clip.speed = 1
-                clip.wrapMode = cc.WrapMode.Loop
+                clip.wrapMode = actionLoopType
                 //增加动画的回调
-                clip.events.push({ frame: 2, func: 'aniCB', params: [actionType + ''] })
+                clip.events.push({ frame: 0.5, func: 'aniCB', params: [actionType + ''] })
                 this._Animation[aniName] = clip
                 resolve(clip)
             }
