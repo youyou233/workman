@@ -181,7 +181,8 @@
     "isActive": false,
     "skillType": 13,
     "param": {
-      "add": 20
+      "type": 1,
+      "num": 0.2
     }
   },
   "16": {
@@ -235,7 +236,7 @@
     "id": "20",
     "name": "同伴召唤",
     "dec": "主动技能，再召唤两个角色，运气好再召唤一个",
-    "cool": 0,
+    "cool": 10,
     "isActive": true,
     "skillType": 10,
     "param": {
@@ -249,10 +250,10 @@
     "dec": "被动技能，填满一行增加攻击速度，填满一列增加攻击力",
     "cool": 0,
     "isActive": false,
-    "skillType": null,
+    "skillType": 14,
     "param": {
-      "row": 200,
-      "col": 400
+      "row": 2,
+      "col": 4
     }
   }
 }

@@ -24,6 +24,7 @@ export class Role {
         if (this.id == 12) {
             add = BattleManager.instance.sun * (2.5 + land.stack * 0.3) / 100
         }
+
         //  console.log(this.atk * land.stack * rate)
         return ((this.atk + add) * land.stack * rate).toFixed(0)
     }
@@ -60,6 +61,29 @@ export class Role {
                         return (land.stack - 1) * skillData.param.num / 100
                     case SelfStackType.atkSpd:
                         return (land.stack - 1) * skillData.param.num
+                }
+                break
+            case SkillType.sameRoleStar:
+                if (this.id == 15 && skillData.param.type == SelfStackType.atk) {
+                    let list = BattleManager.instance.getSameRole(this.id)
+                    let add = 0
+                    list.forEach((item: LandItem) => {
+                        add += skillData.param.num * item.stack
+                    })
+                    return add
+                }
+            case SkillType.bingo:
+                switch (skillData.param.type) {
+                    case SelfStackType.atk:
+                        if (BattleManager.instance.checkBingo(land)[0]) {
+                            return skillData.param.row
+                        }
+                        break
+                    case SelfStackType.atkSpd:
+                        if (BattleManager.instance.checkBingo(land)[1]) {
+                            return skillData.param.col
+                        }
+                        break
                 }
                 break
         }

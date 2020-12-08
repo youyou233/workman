@@ -96,15 +96,16 @@ export default class MonsterItem extends cc.Component {
             this.addBuff(...buffData)
         }
         let multDamage = BattleManager.instance.canMultDamage(this.buffMap, param)
-        let count = damage * multDamage[0]
+        let count = (+damage) * multDamage[0]
         this.explosion = 0
         if (multDamage[1]) {
             this.explosion = count
         }
         this.hp -= count
         let spike = false
+        str = count + ''
         if (param && param.id == 13) {
-            spike = Utils.getRandomNumber(1000) < 250 + 3 * param.stack
+            spike = Utils.getRandomNumber(1000) < 25 + 3 * param.stack
         }
         if (spike) {
             this.hp = 0

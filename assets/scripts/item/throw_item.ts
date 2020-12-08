@@ -6,6 +6,7 @@ import MonsterItem from "./monster_item"
 import BossItem from "./boss_item"
 import EffectManager from "../manager/effect_manager"
 import { Utils } from "../utils/utils"
+import DD from "../manager/dynamic_data_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -32,6 +33,7 @@ export default class ThrowItem extends cc.Component {
     }
     endAni() {
         let monster: MonsterItem | BossItem = null
+        let list = []
         switch (this.type) {
             case AtkType.normol:
                 monster = BattleUIManager.instance.findMonsterByOid(this.oid)
@@ -51,19 +53,21 @@ export default class ThrowItem extends cc.Component {
                 break
             case AtkType.range:
             case AtkType.randomRange:
-                let list = BattleUIManager.instance.getRangeMonsters(this.node.position, this.param.range)//TODO: 待定100
+                list = BattleUIManager.instance.getRangeMonsters(this.node.position, this.param.range)//TODO: 待定100
                 for (let i = 0; i < list.length; i++) {
-                    let monster = null
-                    if (list[i] && list[i].name == 'monsterItem') {
-                        monster = list[i].getComponent(MonsterItem)
-                    } else if (list[i] && list[i].name == 'bossItem') {
-                        monster = list[i].getComponent(BossItem)
-                    }
+                    let monster = DD.instance.getMonsterByNode(list[i])
                     monster.beAtk(this.damage, this.param)
                 }
                 EffectManager.instance.creatEffect(24, this.node.position)
                 break
             case AtkType.chain:
+                let num = this.param.stack
+                list = BattleUIManager.instance.findArrMonster(num)
+                for (let i = 0; i < list.length; i++) {
+                    let monster = DD.instance.getMonsterByNode(list[i])
+                    monster.beAtk(this.damage, this.param)
+                }
+                EffectManager.instance.creatEffect(18, this.node.position)
                 break
             case AtkType.random:
                 monster = BattleUIManager.instance.findMonsterByOid(this.oid)

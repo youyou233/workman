@@ -100,7 +100,7 @@ export default class BattleManager extends cc.Component {
         this.sun = 500
         this.hp = 3
         this.rank = 1
-        this.team = [{ id: 15, lv: 1 }, { id: 16, lv: 1 }, { id: 17, lv: 1 }, { id: 18, lv: 1 }, { id: 19, lv: 1 }]
+        this.team = [{ id: 15, lv: 1 }, { id: 20, lv: 1 }, { id: 17, lv: 1 }, { id: 21, lv: 1 }, { id: 19, lv: 1 }]
         //3*5
         this.mapData = []
         for (let i = 0; i < 3; i++) {
@@ -152,20 +152,26 @@ export default class BattleManager extends cc.Component {
         this.rank++
         this.bossTimer = 15
     }
-    addRole() {
+    addRole(free: boolean = false) {
         let arr = this.findFree()
         if (arr.length == 0) {
             UIManager.instance.LoadTipsByStr('战场已满')
             return
         }
-        if (this.sun >= this.btnAddTimes * 10 + 10) {
+        if (free) {
             let pos = arr[Utils.getRandomNumber(arr.length - 1)]
             this.mapData[pos[0]][pos[1]].showRole()
-            this.sun -= (this.btnAddTimes * 10 + 10)
-            this.btnAddTimes++
         } else {
-            UIManager.instance.LoadTipsByStr('阳光不足')
+            if (this.sun >= this.btnAddTimes * 10 + 10) {
+                let pos = arr[Utils.getRandomNumber(arr.length - 1)]
+                this.mapData[pos[0]][pos[1]].showRole()
+                this.sun -= (this.btnAddTimes * 10 + 10)
+                this.btnAddTimes++
+            } else {
+                UIManager.instance.LoadTipsByStr('阳光不足')
+            }
         }
+
     }
     findFree() {
         let arr = []
@@ -188,50 +194,73 @@ export default class BattleManager extends cc.Component {
         }
         return null
     }
-    canMultDamage(buffMap, param) {
-        let ori = buffMap[3] ? (1.5 + buffMap[3].lv * 0.1) : 1
+    canMultDamage(buffMap, param): [number, boolean] {
+        let ori: number = buffMap[3] ? (1.5 + buffMap[3].lv * 0.1) : 1
         if (param && param.id) {
             let skillData = JsonManager.instance.getDataByName('skill')[param.id]
             switch (skillData.skillType) {
                 case SkillType.debuffKillExplosion:
                     if (Object.keys(buffMap).some((item) => { return item == skillData.param.buff })) {
-                        return [skillData.param.mult, true]
+                        return [ori * skillData.param.mult, true]
                     }
                     break
                 case SkillType.debuffMultDamage:
                     if (Object.keys(buffMap).some((item) => { return item == skillData.param.buff })) {
-                        return [skillData.param.mult + skillData.param.add * param.stack, false]
+                        return [ori * skillData.param.mult + skillData.param.add * param.stack, false]
                     }
                     break
             }
         }
 
-        return [1, false]
+        return [ori, false]
     }
-    onSkillGenerate(land: LandItem) {
-        let skillData = JsonManager.instance.getDataByName('skill')[land.id]
+    onSkillGenerate(id, stack?) {
+        let skillData = JsonManager.instance.getDataByName('skill')[id]
         let length = 0
         switch (skillData.skillType) {
             case SkillType.mergeGenerate:
                 length = 1
-                if (Utils.getRandomNumber(100) < (skillData.param.num + land.stack * skillData.param.add)) {
+                if (Utils.getRandomNumber(100) < (skillData.param.num + stack * skillData.param.add)) {
                     length = 2
                 }
                 break
             case SkillType.skillGenerate:
                 length = 2
-                if (Utils.getRandomNumber(100) < (skillData.param.num + land.stack * skillData.param.add)) {
-                    length = 2
+                if (Utils.getRandomNumber(100) < (skillData.param.num + 1 * skillData.param.add)) {
+                    length = 3
                 }
                 break
         }
         setTimeout(() => {
             for (let i = 0; i < length; i++) {
-                this.addRole()
+                this.addRole(true)
             }
         }, 100);
     }
-    // canSpike(land: LandItem) {
-
-    // }
+    getSameRole(id) {
+        let arr = []
+        for (let i = 0; i < this.mapData.length; i++) {
+            for (let j = 0; j < this.mapData[i].length; j++) {
+                if (this.mapData[i][j].id == id) {
+                    arr.push([i, j])
+                }
+            }
+        }
+        return arr
+    }
+    checkBingo(land: LandItem) {
+        let row = true
+        let col = true
+        for (let i = 0; i < 3; i++) {
+            if (this.mapData[i][land.curJ].id != land.id) {
+                row = false
+            }
+        }
+        for (let j = 0; j < 5; j++) {
+            if (this.mapData[land.curI][j].id != land.id) {
+                col = false
+            }
+        }
+        return [row, col]
+    }
 }

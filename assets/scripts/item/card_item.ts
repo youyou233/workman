@@ -30,8 +30,10 @@ export default class CardItem extends cc.Component {
     costLabel: cc.Label = null
     data: any = null
     coolTimer: number = 0
+    id: number = 0
     init(index) {
         let roleId = BattleManager.instance.team[index].id
+        this.id = roleId
         this.roleIcon.spriteFrame = ResourceManager.instance.getSprite(
             ResType.main, 'role_' + roleId
         )
@@ -52,9 +54,7 @@ export default class CardItem extends cc.Component {
     }
     onSkill() {
         this.node.y = 90
-
         //TODO: 计算消耗
-
         this.coolTimer = this.data.cool
         this.coolProgress.node.active = true
         this.passiveNode.active = true
@@ -72,6 +72,9 @@ export default class CardItem extends cc.Component {
                         )
                         break
                 }
+                break
+            case SkillType.skillGenerate:
+                BattleManager.instance.onSkillGenerate(this.id)
                 break
         }
     }

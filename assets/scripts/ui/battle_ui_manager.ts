@@ -9,6 +9,7 @@ import CardItem from "../item/card_item";
 import BossItem from "../item/boss_item";
 import BattleSkillUIManager from "./battle_skill_ui_manager";
 import { Utils } from "../utils/utils";
+import DD from "../manager/dynamic_data_manager";
 
 const { ccclass, property } = cc._decorator
 
@@ -139,6 +140,20 @@ export default class BattleUIManager extends cc.Component {
         //  console.log(monster, monster && monster.getComponent(MonsterItem).path)
         return monster
     }
+    findArrMonster(num?): cc.Node[] {
+        let nodeLis = this.monsterContainer.children.concat(...this.bossContainer.children)
+        nodeLis.sort((item1, item2) => {
+            let monster1 = DD.instance.getMonsterByNode(item1)
+            let monster2 = DD.instance.getMonsterByNode(item2)
+            return monster2.path - monster1.path
+        })
+        if (num) {
+            return nodeLis.slice(0, num)
+        } else {
+            return nodeLis
+
+        }
+    }
     findRandomMonster(): cc.Node {
         let monster = this.monsterContainer.children[Utils.getRandomNumber(this.monsterContainer.children.length - 1)]
         let boss = this.bossContainer.children[Utils.getRandomNumber(this.bossContainer.children.length - 1)]
@@ -186,7 +201,7 @@ export default class BattleUIManager extends cc.Component {
     touchTimer: number = 0
     curTouch: cc.Node = null
     startTouch(event) {
-        if (this.touchStatus == TouchStatusType.unTouch) {
+        if (this.touchStatus == TouchStatusType.unTouch || this.touchStatus == TouchStatusType.touching) {
             this.touchTimer = 0
             this.touchStatus = TouchStatusType.touching
             this.curTouch = this.getTouchedLand(event)
@@ -205,7 +220,7 @@ export default class BattleUIManager extends cc.Component {
         }
     }
     moveTouch(event) {
-        if (this.curTouch) {
+        if (this.curTouch && this.touchStatus == TouchStatusType.touching) {
             if (this.touchNode.opacity == 0) {
                 this.touchNode.opacity = 150
                 let landItem = this.curTouch.getComponent(LandItem)
@@ -296,4 +311,5 @@ export default class BattleUIManager extends cc.Component {
         }
         return list
     }
+
 }

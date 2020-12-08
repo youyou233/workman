@@ -146,12 +146,12 @@ export default class LandItem extends cc.Component {
     }
     onMerge(land: LandItem) {
         if (land.id == 17) {
-            this.stack = Math.ceil(land.stack + this.stack)
+            this.stack = Math.ceil((land.stack + this.stack + 1) / 2)
         } else {
             this.stack++
         }
         if (land.id == 8) {
-            BattleManager.instance.onSkillGenerate(this)
+            BattleManager.instance.onSkillGenerate(this.id, this.stack)
         }
         land.setNull()
         this.showRole()
@@ -182,6 +182,10 @@ export default class LandItem extends cc.Component {
                 this.actionCb[RoleActionType.sing]()
                 this.roleAnima.play(name)
                 break
+            case RoleActionType.throw:
+                this.actionCb[RoleActionType.throw]()
+                this.roleAnima.play(name)
+                break
 
         }
     }
@@ -195,6 +199,7 @@ export default class LandItem extends cc.Component {
             switch (this.role.getAtkType()) {
                 case AtkType.normol:
                 case AtkType.random:
+                case AtkType.chain:
                     if (this.role.getAtkType() == AtkType.random) {
                         monster = BattleUIManager.instance.findRandomMonster()
                     }
@@ -230,6 +235,7 @@ export default class LandItem extends cc.Component {
                             DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { range: this.role.getAtkRange(this) })
                     }
                     break
+
 
 
             }
