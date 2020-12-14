@@ -23,7 +23,7 @@ export default class MainManager extends cc.Component {
     }
     resLoaded() {
         console.log('资源加载完毕')
-        BattleManager.instance.initBattle()
+        //BattleManager.instance.initBattle()
         // UIManager.instance.LoadMessageBox('d', 'kkkk')
         // setInterval(() => {
         //     UIManager.instance.LoadTipsByStr('timer' + this.timer)
