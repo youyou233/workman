@@ -2,6 +2,8 @@ import ResourceManager from "./resources_manager";
 import UIManager from "./ui_manager";
 import BattleUIManager from "../ui/battle_ui_manager";
 import BattleManager from "./battle_manager";
+import MainUIManager from "../ui/main_ui_manager";
+import DD from "./dynamic_data_manager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,6 +25,21 @@ export default class MainManager extends cc.Component {
     }
     resLoaded() {
         console.log('资源加载完毕')
+        DD.instance.group = [
+            { id: 1, lv: 1 }, { id: 2, lv: 1 }, { id: 3, lv: 1 }, { id: 4, lv: 1 }, { id: 5, lv: 1 }
+        ]
+        DD.instance.cards = [
+            { id: 1, lv: 1 }, { id: 2, lv: 1 }, { id: 3, lv: 1 }, { id: 4, lv: 1 }, { id: 5, lv: 1 }
+        ]
+        DD.instance.shopData = [
+            { cardData: { id: 1, lv: 1 }, num: 1, price: 10 },
+            { cardData: { id: 1, lv: 1 }, num: 1, price: 10 },
+            { cardData: { id: 1, lv: 1 }, num: 1, price: 10 },
+            { cardData: { id: 1, lv: 1 }, num: 1, price: 10 },
+            { cardData: { id: 1, lv: 1 }, num: 1, price: 10 },
+            { cardData: { id: 1, lv: 1 }, num: 1, price: 10 }
+        ]
+        MainUIManager.instance.switchUI(1)
         //BattleManager.instance.initBattle()
         // UIManager.instance.LoadMessageBox('d', 'kkkk')
         // setInterval(() => {

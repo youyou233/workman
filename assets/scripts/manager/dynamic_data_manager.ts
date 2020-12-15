@@ -1,4 +1,6 @@
 import { CardData } from "../interface/card_data"
+import { GiftData } from "../interface/gift_data"
+import { ShopData } from "../interface/shop_data"
 import BossItem from "../item/boss_item"
 import MonsterItem from "../item/monster_item"
 import BattleUIManager from "../ui/battle_ui_manager"
@@ -23,7 +25,8 @@ export default class DD extends cc.Component {
 
     cards: CardData[] = []
     group: CardData[] = []
-
+    giftData: GiftData[] = []
+    shopData: ShopData[] = []
     getMonsterByNode(monster): MonsterItem | BossItem {
         if (monster.name == 'monsterItem') {
             return monster.getComponent(MonsterItem)
