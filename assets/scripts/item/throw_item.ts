@@ -61,7 +61,7 @@ export default class ThrowItem extends cc.Component {
                 EffectManager.instance.creatEffect(24, this.node.position)
                 break
             case AtkType.chain:
-                let num = this.param.stack
+                let num = this.param.stack + 2
                 list = BattleUIManager.instance.findArrMonster(num)
                 for (let i = 0; i < list.length; i++) {
                     let monster = DD.instance.getMonsterByNode(list[i])

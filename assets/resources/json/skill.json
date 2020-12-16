@@ -8,7 +8,7 @@
     "skillType": 1,
     "param": {
       "type": 1,
-      "num": 0.1
+      "num": 0.2
     }
   },
   "2": {
@@ -20,7 +20,7 @@
     "skillType": 1,
     "param": {
       "type": 2,
-      "num": 1
+      "num": 0.1
     }
   },
   "3": {
@@ -70,7 +70,7 @@
     "skillType": 8,
     "param": {
       "buff": 5,
-      "mult": 3
+      "mult": 5
     }
   },
   "7": {
@@ -169,7 +169,7 @@
     "skillType": 7,
     "param": {
       "buff": 2,
-      "mult": 4,
+      "mult": 3,
       "add": 0.5
     }
   },

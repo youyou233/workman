@@ -34,4 +34,7 @@ export default class DD extends cc.Component {
             return monster.getComponent(BossItem)
         }
     }
+    checkCanUnlockGift() {
+        return this.giftData.every((item) => { return item.isStart == false })
+    }
 }

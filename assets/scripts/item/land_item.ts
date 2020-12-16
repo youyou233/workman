@@ -14,6 +14,7 @@ import PoolManager from "../manager/pool_manager"
 import CommonItem from "./common_item"
 import EffectManager from "../manager/effect_manager"
 import DD from "../manager/dynamic_data_manager"
+import { CardData } from "../interface/card_data"
 
 const { ccclass, property } = cc._decorator
 
@@ -27,8 +28,8 @@ export default class LandItem extends cc.Component {
     stackContainer: cc.Node = null
     @property(cc.Node)
     buffContainer: cc.Node = null
-    id: number
-
+    id: number = 0
+    cardData: CardData = null
     //对应位置
     curI: number = 0
     curJ: number = 0
@@ -66,7 +67,7 @@ export default class LandItem extends cc.Component {
         this.id = null
         this.curI = i
         this.curJ = j
-        cc.log(i, j)
+        //cc.log(i, j)
         this.setNull()
         this.mergeStatus.active = false
         this.atkTimer = 999
@@ -88,14 +89,15 @@ export default class LandItem extends cc.Component {
         this.updateBuffContainer()
     }
     showRole() {
-        this.id = BattleManager.instance.team[Utils.getRandomNumber(4)].id
+        this.cardData = BattleManager.instance.team[Utils.getRandomNumber(4)]
+        this.id = this.cardData.id
         if (this.role && this.role.isAroundBuff()) {
             this.aroundBuffTimer = 1
         }
         this.stackContainer.active = true
         let roleData = JsonManager.instance.getDataByName('role')[this.id]
         this.atkTimer = roleData.atkCD
-        this.role = new Role(this.id)
+        this.role = new Role(this.id, this.cardData.lv)
         if (this.role.isIntervalGenerate()) {
             let skillData = JsonManager.instance.getDataByName('skill')[this.id]
             this.generateTimer = skillData.param.cold

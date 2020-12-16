@@ -7,6 +7,10 @@ let resConfig = {
 
 let uiName = {
     messageBox: 'messagebox_ui',
+    rankUI: 'rank_ui',
+    roleInfoUI: 'role_info_ui',
+    mixUI: 'mix_ui',
+
 }
 
 let aniConfig = {

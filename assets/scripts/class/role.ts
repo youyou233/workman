@@ -8,9 +8,11 @@ export class Role {
     atkCD: number = 0
     atk: number = 0
     id: number = 0
-    constructor(id: number) {
+    lv: number = 0
+    constructor(id: number, lv: number) {
         let roleData = JsonManager.instance.getDataByName('role')[id]
         this.id = id
+        this.lv = lv
         this.atkType = roleData.atkType
         this.atkCD = roleData.atkCD
         this.atk = roleData.atk
@@ -58,7 +60,7 @@ export class Role {
             case SkillType.selfStack:
                 switch (skillData.param.type) {
                     case SelfStackType.atk:
-                        return (land.stack - 1) * skillData.param.num / 100
+                        return (land.stack - 1) * skillData.param.num
                     case SelfStackType.atkSpd:
                         return (land.stack - 1) * skillData.param.num
                 }

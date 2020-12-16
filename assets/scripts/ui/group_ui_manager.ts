@@ -2,6 +2,10 @@ import { CardData } from "../interface/card_data"
 import IconItem from "../item/icon_item"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
+import UIManager from "../manager/ui_manager"
+import config from "../utils/config"
+import { Utils } from "../utils/utils"
+import RoleInfoUIManager from "./role_info_ui_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -28,12 +32,16 @@ export default class GroupUIManager extends cc.Component {
         this.clearContainers()
         DD.instance.group.forEach((item) => {
             let icon = PoolManager.instance.createObjectByName('iconItem', this.curGroupNode)
+            icon.y = 0
             icon.getComponent(IconItem).init(item, this.onChoose.bind(this))
         })
         DD.instance.cards.forEach((item) => {
             let icon = PoolManager.instance.createObjectByName('iconItem', this.allGroupNode)
             icon.getComponent(IconItem).init(item, this.onChoose.bind(this))
         })
+        setTimeout(() => {
+            this.maskNode.height = this.allGroupNode.height + 50
+        }, 100);
     }
     hideUI() {
         this.content.active = false
@@ -46,16 +54,29 @@ export default class GroupUIManager extends cc.Component {
             PoolManager.instance.removeObjectByName('iconItem', this.allGroupNode.children[j])
         }
     }
-    onChange() {
+    change: CardData = null
+    onChange(changeData: CardData) {
         this.isChange = true
         this.maskNode.active = true
+        this.change = changeData
     }
     onChoose(data: CardData) {
         if (this.isChange) {
-            //
+            let groupIndex = DD.instance.group.indexOf(data)
+            let index = DD.instance.cards.indexOf(this.change)
+            let newCard = Utils.deepCopy(data) as CardData
+            newCard.group = false
+            let newGroup = Utils.deepCopy(this.change) as CardData
+            newGroup.group = true
+            DD.instance.cards.splice(index, 1)
+            DD.instance.cards.push(newCard)
+            DD.instance.group[groupIndex] = newGroup
             this.showUI()
+            setTimeout(() => {
+                console.log(DD.instance.cards, DD.instance.group)
+            }, 100);
         } else {
-
+            UIManager.instance.openUI(RoleInfoUIManager, { name: config.uiName.roleInfoUI, param: [data] })
         }
     }
     touchMask() {

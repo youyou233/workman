@@ -17,11 +17,14 @@ export default class ShopItem extends cc.Component {
     nameLabel: cc.Label = null
     data: any = null
     onLoad() {
-
+        this.node.on('click', this.onBuy.bind(this), this)
     }
     init(data: ShopData) {
         this.moneyLabel.string = data.price + ''
-        this.icon.init(data.cardData, null)
+        this.icon.init(data.cardData, this.onBuy.bind(this))
+    }
+    onBuy() {
+
     }
 
 }

@@ -1,7 +1,10 @@
 import GiftItem from "../item/gift_item"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
+import UIManager from "../manager/ui_manager"
+import config from "../utils/config"
 import GroupUIManager from "./group_ui_manager"
+import RankUIManager from "./rank_ui_manager"
 import ShopUIManager from "./shop_ui_manager"
 
 const { ccclass, property } = cc._decorator
@@ -46,6 +49,9 @@ export default class MainUIManager extends cc.Component {
         }, this)
         this.shopBtn.node.on('click', () => {
             this.switchUI(3)
+        }, this)
+        this.levelBtn.node.on('click', () => {
+            UIManager.instance.openUI(RankUIManager, { name: config.uiName.rankUI })
         }, this)
     }
     showUI() {

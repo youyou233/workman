@@ -26,10 +26,14 @@ export default class MainManager extends cc.Component {
     resLoaded() {
         console.log('资源加载完毕')
         DD.instance.group = [
-            { id: 1, lv: 1 }, { id: 2, lv: 1 }, { id: 3, lv: 1 }, { id: 4, lv: 1 }, { id: 5, lv: 1 }
+            { id: 1, lv: 1, group: true }, { id: 2, lv: 1, group: true }, { id: 3, lv: 1, group: true },
+            { id: 4, lv: 1, group: true }, { id: 5, lv: 1, group: true }
         ]
         DD.instance.cards = [
-            { id: 1, lv: 1 }, { id: 2, lv: 1 }, { id: 3, lv: 1 }, { id: 4, lv: 1 }, { id: 5, lv: 1 }
+            { id: 6, lv: 1 }, { id: 7, lv: 1 }, { id: 8, lv: 1 }, { id: 9, lv: 1 }, { id: 10, lv: 1 },
+            { id: 11, lv: 1 }, { id: 12, lv: 1 }, { id: 13, lv: 1 }, { id: 14, lv: 1 }, { id: 15, lv: 1 },
+            { id: 16, lv: 1 }, { id: 17, lv: 1 }, { id: 18, lv: 1 }, { id: 19, lv: 1 }, { id: 20, lv: 1 },
+            { id: 21, lv: 1 }, { id: 1, lv: 1 }, { id: 1, lv: 1 }, { id: 1, lv: 1 }, { id: 1, lv: 1 }
         ]
         DD.instance.shopData = [
             { cardData: { id: 1, lv: 1 }, num: 1, price: 10 },
@@ -38,6 +42,10 @@ export default class MainManager extends cc.Component {
             { cardData: { id: 1, lv: 1 }, num: 1, price: 10 },
             { cardData: { id: 1, lv: 1 }, num: 1, price: 10 },
             { cardData: { id: 1, lv: 1 }, num: 1, price: 10 }
+        ]
+        DD.instance.giftData = [
+            { isHave: false }, { isHave: false }, { isHave: false },
+            { isHave: true, isStart: true, startTime: 1608082541, needTime: 5000, quality: 1 }
         ]
         MainUIManager.instance.switchUI(1)
         //BattleManager.instance.initBattle()
