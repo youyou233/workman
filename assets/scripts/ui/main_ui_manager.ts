@@ -57,8 +57,11 @@ export default class MainUIManager extends cc.Component {
     showUI() {
         this.content.active = true
         // this.clearContainer()
+        this.frashGitfs()
+    }
+    frashGitfs() {
         this.giftContainer.children.forEach((item: cc.Node, index) => {
-            item.getComponent(GiftItem).init(DD.instance.giftData[index])
+            item.getComponent(GiftItem).init(DD.instance.giftData[index], index)
         })
     }
     hideUI() {

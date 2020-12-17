@@ -20,8 +20,8 @@ export default class DD extends cc.Component {
         return this._instance
     }
 
-    money: number = 0
-    ticket: number = 0//招待券
+    money: number = 100
+    ticket: number = 100//招待券
 
     cards: CardData[] = []
     group: CardData[] = []
@@ -35,6 +35,25 @@ export default class DD extends cc.Component {
         }
     }
     checkCanUnlockGift() {
-        return this.giftData.every((item) => { return item.isStart == false })
+        return !this.giftData.some((item) => { return item.isStart == true })
+    }
+    getReward(rewards) {
+        let keys = Object.keys(rewards)
+        for (let i = 0; i < keys.length; i++) {
+            switch (keys[i]) {
+                case 'money':
+                case 'ticket':
+                    this[keys[i]] += rewards[keys[i]]
+                    break
+                default:
+                    let card: CardData = {
+                        group: false,
+                        id: +keys[i],
+                        lv: rewards[keys[i]]
+                    }
+                    this.cards.push(card)
+                    break
+            }
+        }
     }
 }

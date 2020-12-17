@@ -44,7 +44,9 @@ export default class MainManager extends cc.Component {
             { cardData: { id: 1, lv: 1 }, num: 1, price: 10 }
         ]
         DD.instance.giftData = [
-            { isHave: false }, { isHave: false }, { isHave: false },
+            { isHave: true, isStart: false, startTime: 1608082541, needTime: 5000, quality: 2 },
+            { isHave: false },
+            { isHave: false },
             { isHave: true, isStart: true, startTime: 1608082541, needTime: 5000, quality: 1 }
         ]
         MainUIManager.instance.switchUI(1)
