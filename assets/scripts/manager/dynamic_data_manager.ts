@@ -56,4 +56,13 @@ export default class DD extends cc.Component {
             }
         }
     }
+    /**
+     * 刷新商店
+     */
+    frashShop() {
+
+    }
+    randomGetCurUnlockCard() {
+
+    }
 }

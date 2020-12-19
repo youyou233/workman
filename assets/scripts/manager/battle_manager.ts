@@ -8,6 +8,7 @@ import { Utils } from "../utils/utils"
 import LandItem from "../item/land_item"
 import JsonManager from "./json_manager"
 import { BuffData } from "../interface/buff_data"
+import DD from "./dynamic_data_manager"
 
 const { ccclass, property } = cc._decorator
 /**
@@ -94,13 +95,13 @@ export default class BattleManager extends cc.Component {
         }, this)
     }
     initBattle() {
-        this.bossTimer = 10
+        this.bossTimer = 30
         this.btnAddTimes = 0
         this.monsterTimer = 1
         this.sun = 500
         this.hp = 3
         this.rank = 1
-        this.team = [{ id: 15, lv: 1 }, { id: 20, lv: 1 }, { id: 17, lv: 1 }, { id: 21, lv: 1 }, { id: 19, lv: 1 }]
+        this.team = DD.instance.group
         //3*5
         this.mapData = []
         for (let i = 0; i < 3; i++) {
@@ -115,14 +116,16 @@ export default class BattleManager extends cc.Component {
     }
     gameSuccess() {
         this.status = BattleStatusType.end
+        BattleUIManager.instance.content.active = false
         UIManager.instance.LoadMessageBox('游戏结束', '守卫成功,你保卫了城市', () => {
-            this.initBattle()
+            // this.initBattle()
         }, null, false)
     }
     gameFail() {
         this.status = BattleStatusType.end
+        BattleUIManager.instance.content.active = false
         UIManager.instance.LoadMessageBox('游戏结束', '史莱姆霸占了你的城市', () => {
-            this.initBattle()
+            // this.initBattle()
         }, null, false)
     }
     onUpdate(dt) {
@@ -150,7 +153,7 @@ export default class BattleManager extends cc.Component {
         this.isBoss = false
         this.sun += 100 * this.rank
         this.rank++
-        this.bossTimer = 15
+        this.bossTimer = 20
     }
     addRole(free: boolean = false) {
         let arr = this.findFree()

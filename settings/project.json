@@ -17,8 +17,6 @@
     "Physics",
     "PageView",
     "PageViewIndicator",
-    "RichText",
-    "ScrollView",
     "Spine Skeleton",
     "TiledMap",
     "VideoPlayer",
@@ -45,7 +43,7 @@
     "height": 640,
     "width": 960
   },
-  "last-module-event-record-time": 1607237928888,
+  "last-module-event-record-time": 1608207083825,
   "assets-sort-type": "name",
   "facebook": {
     "appID": "",

@@ -3,6 +3,7 @@ import IconItem from "../item/icon_item"
 import ShopItem from "../item/shop_item"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
+import UIManager from "../manager/ui_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -18,6 +19,7 @@ export default class ShopUIManager extends cc.Component {
 
     onLoad() {
         ShopUIManager.instance = this
+        this.freashBtn.node.on('click', this.freash, this)
     }
     showUI() {
         this.content.active = true
@@ -26,6 +28,7 @@ export default class ShopUIManager extends cc.Component {
             let good = PoolManager.instance.createObjectByName('shopItem', this.container)
             good.getComponent(ShopItem).init(item)
         })
+        this.freashBtn.node.active = DD.instance.ticket >= 10
     }
     hideUI() {
         this.content.active = false
@@ -34,7 +37,17 @@ export default class ShopUIManager extends cc.Component {
         for (let j = this.container.children.length - 1; j >= 0; j--) {
             PoolManager.instance.removeObjectByName('shopItem', this.container.children[j])
         }
+    }
+    freash() {
+        if (DD.instance.ticket >= 10) {
+            UIManager.instance.LoadMessageBox('刷新', '是否花费10张招待券立即刷新', (isOK) => {
+                if (isOK) {
+                    DD.instance.ticket -= 10
+
+                }
+            })
+        }
+
 
     }
-
 }

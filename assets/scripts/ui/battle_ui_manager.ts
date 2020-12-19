@@ -53,6 +53,7 @@ export default class BattleUIManager extends cc.Component {
         BattleUIManager.instance = this
         this.bindEvent()
         this.touchNode.opacity = 0
+        this.content.active = false
         BattleManager.instance.bindEvent()
     }
     bindEvent() {
@@ -67,6 +68,7 @@ export default class BattleUIManager extends cc.Component {
     }
     initBattle() {
         this.clearContainer()
+        this.content.active = true
         for (let i = 0; i < BattleManager.instance.mapData.length; i++) {
             for (let j = 0; j < BattleManager.instance.mapData[i].length; j++) {
                 let land = PoolManager.instance.createObjectByName('landItem', this.landContainer)
@@ -75,7 +77,9 @@ export default class BattleUIManager extends cc.Component {
                 landItem.init(i, j)
             }
         }
-        BattleSkillUIManager.instance.initBattle()
+        setTimeout(() => {
+            BattleSkillUIManager.instance.initBattle()
+        });
     }
     addMosnter(id) {
         let monster = PoolManager.instance.createObjectByName('monsterItem', this.monsterContainer)
