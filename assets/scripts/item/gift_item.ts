@@ -48,6 +48,7 @@ export default class GiftItem extends cc.Component {
                     let reward = { 1: 1, 2: 2, 'money': 100, 'ticket': 100 }
                     UIManager.instance.openUI(RewardUIManager, { name: config.uiName.rewardUI, param: [reward] })
                     DD.instance.giftData[this.index] = { isHave: false, isStart: false }
+                    DD.instance.getReward(reward)
                     MainUIManager.instance.frashGitfs()
                 } else {
                     UIManager.instance.LoadMessageBox('提示', '是否要取消解锁', (isOK) => {

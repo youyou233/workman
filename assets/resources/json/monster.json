@@ -1,0 +1,326 @@
+{
+  "1": {
+    "id": "1",
+    "name": "史莱姆",
+    "hp": 100,
+    "dec": "青翠欲滴的史莱姆",
+    "spd": 1,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "2": {
+    "id": "2",
+    "name": "火焰史莱姆",
+    "hp": 200,
+    "dec": "火炙之后的史莱姆",
+    "spd": 1,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "3": {
+    "id": "3",
+    "name": "雷电史莱姆",
+    "hp": 200,
+    "dec": "被雷劈中的史莱姆",
+    "spd": 1,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "4": {
+    "id": "4",
+    "name": "水史莱姆",
+    "hp": 400,
+    "dec": "生活在水里的史莱姆",
+    "spd": 1,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "5": {
+    "id": "5",
+    "name": "老鼠",
+    "hp": 100,
+    "dec": "离家出走的老鼠",
+    "spd": 2,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "6": {
+    "id": "6",
+    "name": "异变植株",
+    "hp": 1000,
+    "dec": "可以自由活动的植物",
+    "spd": 0.5,
+    "isBoss": true,
+    "skillDec": "死亡时将勇者永久缠绕，无法攻击无法移动"
+  },
+  "7": {
+    "id": "7",
+    "name": "野狼",
+    "hp": 400,
+    "dec": "野外的狼，双眼发红",
+    "spd": 2.5,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "8": {
+    "id": "8",
+    "name": "骷髅狗",
+    "hp": 600,
+    "dec": "脸上画着骷髅花纹的狗",
+    "spd": 1.2,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "9": {
+    "id": "9",
+    "name": "粉红章鱼",
+    "hp": 200,
+    "dec": "来自深海的味道",
+    "spd": 1,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "10": {
+    "id": "10",
+    "name": "嘻嘻熊",
+    "hp": 300,
+    "dec": "脸上笑嘻嘻",
+    "spd": 0.8,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "11": {
+    "id": "11",
+    "name": "异变蚂蚁",
+    "hp": 100,
+    "dec": "秃然变大的蚂蚁",
+    "spd": 3,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "12": {
+    "id": "12",
+    "name": "独眼巨人",
+    "hp": 2000,
+    "dec": "力大无穷",
+    "spd": 0.4,
+    "isBoss": true,
+    "skillDec": "投掷巨石，使勇者一段时间内眩晕无法攻击无法移动"
+  },
+  "13": {
+    "id": "13",
+    "name": "坐山雕",
+    "hp": 300,
+    "dec": "坐在山上的雕",
+    "spd": 1.5,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "14": {
+    "id": "14",
+    "name": "大鳄鱼",
+    "hp": 500,
+    "dec": "一种鳄鱼",
+    "spd": 0.8,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "15": {
+    "id": "15",
+    "name": "烈焰狼",
+    "hp": 800,
+    "dec": "被火焰包裹的狼",
+    "spd": 2,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "16": {
+    "id": "16",
+    "name": "诅咒之狼",
+    "hp": 1000,
+    "dec": "被诅咒吞噬的狼",
+    "spd": 1.8,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "17": {
+    "id": "17",
+    "name": "巨眼鸟",
+    "hp": 1000,
+    "dec": "眼睛很大的鸟",
+    "spd": 2,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "18": {
+    "id": "18",
+    "name": "虚无球",
+    "hp": 3000,
+    "dec": "一个被诅咒之后的生物",
+    "spd": 1,
+    "isBoss": true,
+    "skillDec": "技能会将所有角色随机变换"
+  },
+  "19": {
+    "id": "19",
+    "name": "岩石球",
+    "hp": 1000,
+    "dec": "一个被岩石包裹的生物",
+    "spd": 0.2,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "20": {
+    "id": "20",
+    "name": "超绝",
+    "hp": 500,
+    "dec": "雷电的化生",
+    "spd": 3,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "21": {
+    "id": "21",
+    "name": "埃及舞者",
+    "hp": 2000,
+    "dec": "被做成了木乃伊",
+    "spd": 0.8,
+    "isBoss": true,
+    "skillDec": "召唤小怪"
+  },
+  "22": {
+    "id": "22",
+    "name": "星光灿烂",
+    "hp": 300,
+    "dec": "受到祝福的猪",
+    "spd": 1,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "23": {
+    "id": "23",
+    "name": "白魂",
+    "hp": 200,
+    "dec": "魂的一种",
+    "spd": 2,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "24": {
+    "id": "24",
+    "name": "黑魂",
+    "hp": 800,
+    "dec": "魂的一种",
+    "spd": 2,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "25": {
+    "id": "25",
+    "name": "绿魂",
+    "hp": 1000,
+    "dec": "魂的一种",
+    "spd": 2,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "26": {
+    "id": "26",
+    "name": "开罗人",
+    "hp": 600,
+    "dec": "一个开罗君雕像",
+    "spd": 0.2,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "27": {
+    "id": "27",
+    "name": "禁忌之钟",
+    "hp": 800,
+    "dec": "古老的时钟",
+    "spd": 0.3,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "28": {
+    "id": "28",
+    "name": "变色蝙蝠",
+    "hp": 300,
+    "dec": "跟随环境变换颜色的蝙蝠",
+    "spd": 1.9,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "29": {
+    "id": "29",
+    "name": "猪小弟",
+    "hp": 500,
+    "dec": "猪人",
+    "spd": 1,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "30": {
+    "id": "30",
+    "name": "雪怪",
+    "hp": 500,
+    "dec": "融化之后不知道是什么样子",
+    "spd": 0.8,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "31": {
+    "id": "31",
+    "name": "龙",
+    "hp": 10000,
+    "dec": "未知",
+    "spd": 0.5,
+    "isBoss": true,
+    "skillDec": "陆地最强"
+  },
+  "32": {
+    "id": "32",
+    "name": "幽灵长老",
+    "hp": 5000,
+    "dec": "一个大幽灵",
+    "spd": 0.6,
+    "isBoss": true,
+    "skillDec": "随机将角色升星或者降星并变换"
+  },
+  "33": {
+    "id": "33",
+    "name": "铜人",
+    "hp": 800,
+    "dec": "身上涂满了屎黄色的染料",
+    "spd": 0.9,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "34": {
+    "id": "34",
+    "name": "剑术猫猫",
+    "hp": 900,
+    "dec": "会使用剑的猫猫",
+    "spd": 1,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "35": {
+    "id": "35",
+    "name": "豆豆",
+    "hp": 200,
+    "dec": null,
+    "spd": 1,
+    "isBoss": null,
+    "skillDec": null
+  },
+  "36": {
+    "id": "36",
+    "name": "蛇",
+    "hp": 50,
+    "dec": null,
+    "spd": 2,
+    "isBoss": null,
+    "skillDec": null
+  }
+}

@@ -1,7 +1,8 @@
 export enum ResType {
     main,
     battle,
-    monster
+    monster,
+    bg
 }
 
 export enum RoleActionType {
@@ -34,10 +35,10 @@ export enum BossStatusType {
 
 export enum AtkType {
     none = 0,
-    normol = 1,
+    normol = 1,//普通扔东西
     range = 2,
     randomRange = 3,
-    chain = 4,
+    chain = 4,//立即释放
     random = 5
 }
 export enum SkillType {

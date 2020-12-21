@@ -73,7 +73,7 @@ export default class GroupUIManager extends cc.Component {
             DD.instance.group[groupIndex] = newGroup
             this.showUI()
             setTimeout(() => {
-                console.log(DD.instance.cards, DD.instance.group)
+                //  console.log(DD.instance.cards, DD.instance.group)
             }, 100);
         } else {
             UIManager.instance.openUI(RoleInfoUIManager, { name: config.uiName.roleInfoUI, param: [data] })

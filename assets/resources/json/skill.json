@@ -181,7 +181,7 @@
     "isActive": false,
     "skillType": 13,
     "param": {
-      "type": 1,
+      "type": 2,
       "num": 0.2
     }
   },

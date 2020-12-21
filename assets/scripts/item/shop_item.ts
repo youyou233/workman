@@ -5,7 +5,9 @@ import DD from "../manager/dynamic_data_manager"
 import JsonManager from "../manager/json_manager"
 import ResourceManager from "../manager/resources_manager"
 import UIManager from "../manager/ui_manager"
+import RoleInfoUIManager from "../ui/role_info_ui_manager"
 import ShopUIManager from "../ui/shop_ui_manager"
+import config from "../utils/config"
 import { ResType } from "../utils/enum"
 import IconItem from "./icon_item"
 
@@ -33,7 +35,9 @@ export default class ShopItem extends cc.Component {
         } else {
             this.moneyLabel.node.color = cc.Color.RED
         }
-        this.icon.init(data.cardData, null)
+        this.icon.init(data.cardData, () => {
+            UIManager.instance.openUI(RoleInfoUIManager, { name: config.uiName.roleInfoUI, param: [data.cardData, false] })
+        })
         let role = JsonManager.instance.getDataByName('role')[data.cardData.id]
         this.nameLabel.string = 'Lv' + data.cardData.lv + role.name
     }

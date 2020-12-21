@@ -6,6 +6,7 @@ import PoolManager from "../manager/pool_manager"
 import UIManager from "../manager/ui_manager"
 import { Utils } from "../utils/utils"
 import GroupUIManager from "./group_ui_manager"
+import RoleInfoUIManager from "./role_info_ui_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -77,6 +78,7 @@ export default class MixUIManager extends cc.Component {
     hideUI() {
         DD.instance.cards.push(...this._choosedCards)
         GroupUIManager.instance.showUI()
+        RoleInfoUIManager.instance.showUI(this.card)
         this.content.active = false
     }
     clearContainers() {

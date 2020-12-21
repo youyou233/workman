@@ -1,9 +1,11 @@
+import { AreaData } from "../interface/area_data"
 import { CardData } from "../interface/card_data"
 import { GiftData } from "../interface/gift_data"
 import { ShopData } from "../interface/shop_data"
 import BossItem from "../item/boss_item"
 import MonsterItem from "../item/monster_item"
 import BattleUIManager from "../ui/battle_ui_manager"
+import MainUIManager from "../ui/main_ui_manager"
 
 const { ccclass, property } = cc._decorator
 /**
@@ -20,13 +22,34 @@ export default class DD extends cc.Component {
         return this._instance
     }
 
-    money: number = 100
-    ticket: number = 100//招待券
-
+    _money: number = 100
+    set money(val: number) {
+        this._money = val
+        MainUIManager.instance.moneyLabel.string = this._money.toFixed(0)
+    }
+    get money() {
+        return this._money
+    }
+    _ticket: number = 100//招待券
+    set ticket(val: number) {
+        this._ticket = val
+        MainUIManager.instance.ticketLabel.string = this.ticket.toFixed(0)
+    }
+    get ticket() {
+        return this._ticket
+    }
     cards: CardData[] = []
     group: CardData[] = []
     giftData: GiftData[] = []
     shopData: ShopData[] = []
+    area: number = 1
+    areaData: { [key: number]: AreaData } = {
+        1: {
+            diff: 1,
+            gift: [true, true, true],
+            rank: [2, 3, 1]
+        }
+    }
     getMonsterByNode(monster): MonsterItem | BossItem {
         if (monster.name == 'monsterItem') {
             return monster.getComponent(MonsterItem)
@@ -64,5 +87,9 @@ export default class DD extends cc.Component {
     }
     randomGetCurUnlockCard() {
 
+    }
+
+    getCurAreaDiff() {
+        return this.areaData[this.area].diff
     }
 }

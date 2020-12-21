@@ -50,6 +50,8 @@ export default class MainManager extends cc.Component {
             { isHave: true, isStart: true, startTime: 1608082541, needTime: 5000, quality: 1 }
         ]
         MainUIManager.instance.switchUI(1)
+        DD.instance.money = 200
+        DD.instance.ticket = 200
         //BattleManager.instance.initBattle()
         // UIManager.instance.LoadMessageBox('d', 'kkkk')
         // setInterval(() => {

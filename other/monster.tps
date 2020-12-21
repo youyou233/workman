@@ -232,7 +232,6 @@
             <key type="filename">../assets/main_res/monster/monster (33).png</key>
             <key type="filename">../assets/main_res/monster/monster (34).png</key>
             <key type="filename">../assets/main_res/monster/monster (36).png</key>
-            <key type="filename">../assets/main_res/monster/monster (37).png</key>
             <key type="filename">../assets/main_res/monster/monster (5).png</key>
             <key type="filename">../assets/main_res/monster/monster (6).png</key>
             <key type="filename">../assets/main_res/monster/monster (7).png</key>

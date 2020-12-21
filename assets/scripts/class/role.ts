@@ -68,7 +68,7 @@ export class Role {
             case SkillType.sameRoleStar:
                 if (this.id == 15 && skillData.param.type == SelfStackType.atk) {
                     let list = BattleManager.instance.getSameRole(this.id)
-                    let add = 0
+                    let add = -1
                     list.forEach((item: LandItem) => {
                         add += skillData.param.num * item.stack
                     })

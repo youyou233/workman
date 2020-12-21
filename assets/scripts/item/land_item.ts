@@ -198,6 +198,7 @@ export default class LandItem extends cc.Component {
         if (!monster) {
             this.watchMonster = false
         } else {
+            this.roleAnima.node.scaleX = monster.x < this.node.x ? 2.5 : -2.5
             switch (this.role.getAtkType()) {
                 case AtkType.normol:
                 case AtkType.random:
@@ -237,9 +238,6 @@ export default class LandItem extends cc.Component {
                             DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { range: this.role.getAtkRange(this) })
                     }
                     break
-
-
-
             }
         }
     }

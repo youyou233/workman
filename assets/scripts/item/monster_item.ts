@@ -39,6 +39,7 @@ export default class MonsterItem extends cc.Component {
     }
     maxHp: number = 0
     _hp: number = 0
+    monsterSpd: number = 0
     set hp(val: number) {
         this._hp = val
         this.hpProgress.node.active = this.maxHp > val
@@ -64,6 +65,8 @@ export default class MonsterItem extends cc.Component {
     init(id: number) {
         this.oid = new Date().getTime()//时间戳代表唯一id
         this.sp.spriteFrame = ResourceManager.instance.getSprite(ResType.monster, `monster (${id})`)
+        let monsterData = JsonManager.instance.getDataByName('monster')[id]
+        this.monsterSpd = Math.sqrt(monsterData.spd)
         let startPos = cc.v2(-250, -225)
         this.spd = cc.v2(0, 100)
         this.node.setPosition(startPos)
@@ -71,7 +74,7 @@ export default class MonsterItem extends cc.Component {
         this.buffMap = {}
         this.sp.node.color = cc.Color.WHITE
         this.randomPos[1] = cc.v3(250, 400)
-        this.maxHp = 1000 * BattleManager.instance.rank
+        this.maxHp = monsterData.hp * BattleManager.instance.getHpmult()
         this.hp = this.maxHp
         this.path = 0
         this.explosion = 0
@@ -119,7 +122,7 @@ export default class MonsterItem extends cc.Component {
         this.removeSelf()
     }
     onDied() {
-        BattleManager.instance.sun += 10
+        BattleManager.instance.sun += 10 * BattleManager.instance.rank
         if (this.explosion) {
             //发射爆炸
             EffectManager.instance.creatEffect(21, this.node.position)
@@ -134,9 +137,9 @@ export default class MonsterItem extends cc.Component {
         PoolManager.instance.removeObjectByName('monsterItem', this.node)
     }
     onUpdate(dt) {
-        this.node.x += this.spd.x * dt
-        this.node.y += this.spd.y * dt
-        this.path += (Math.abs(this.spd.x) * dt + Math.abs(this.spd.y * dt))
+        this.node.x += this.spd.x * dt * this.monsterSpd
+        this.node.y += this.spd.y * dt * this.monsterSpd
+        this.path += (Math.abs(this.spd.x * this.monsterSpd) * dt + Math.abs(this.spd.y * dt * this.monsterSpd))
         this.checkNearPos()
         for (let buffId in this.buffMap) {
             this.buffMap[buffId].time -= dt

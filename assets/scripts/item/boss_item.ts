@@ -18,6 +18,8 @@ export default class BossItem extends cc.Component {
 
     @property(cc.ProgressBar)
     hpProgress: cc.ProgressBar = null
+    monsterSpd: number = 0
+
     _spd: cc.Vec2 = cc.v2(0, 0)
     set spd(val: cc.Vec2) {
         this._spd = val
@@ -38,6 +40,7 @@ export default class BossItem extends cc.Component {
         this.hpProgress.node.active = this.maxHp > val
         this.hpProgress.progress = val / this.maxHp
         if (this.hp <= 0) {
+            Emitter.fire('message_' + MessageType.killBoss)
             this.removeSelf()
         }
     }
@@ -56,6 +59,9 @@ export default class BossItem extends cc.Component {
     init(id: number, addHp: number = 0) {
         this.oid = new Date().getTime()//时间戳代表唯一id
         this.sp.spriteFrame = ResourceManager.instance.getSprite(ResType.monster, `monster (${id})`)
+        let monsterData = JsonManager.instance.getDataByName('monster')[id]
+        this.monsterSpd = Math.sqrt(monsterData.spd)
+
         let startPos = cc.v2(-250, -225)
         this.spd = cc.v2(0, 100)
         this.node.setPosition(startPos)
@@ -64,7 +70,7 @@ export default class BossItem extends cc.Component {
         this.buffMap = {}
         this.skillTimer = 10
         this.randomPos[1] = cc.v3(250, 400)
-        this.maxHp = this.hp = 5000 * BattleManager.instance.rank + addHp
+        this.maxHp = this.hp = monsterData.hp * BattleManager.instance.getHpmult() + addHp
         this.path = 0
         Emitter.fire('message_' + MessageType.addMonster)
     }
@@ -92,16 +98,17 @@ export default class BossItem extends cc.Component {
     }
     getInCity() {
         BattleManager.instance.hp -= 2
+        BattleManager.instance.bossInCity()
         this.removeSelf()
+
     }
     removeSelf() {
         PoolManager.instance.removeObjectByName('bossItem', this.node)
-        Emitter.fire('message_' + MessageType.killBoss)
     }
     onUpdate(dt) {
-        this.node.x += this.spd.x * dt
-        this.node.y += this.spd.y * dt
-        this.path += (Math.abs(this.spd.x) * dt + Math.abs(this.spd.y * dt))
+        this.node.x += this.spd.x * dt * this.monsterSpd
+        this.node.y += this.spd.y * dt * this.monsterSpd
+        this.path += (Math.abs(this.spd.x * this.monsterSpd) * dt + Math.abs(this.spd.y * this.monsterSpd * dt))
         this.checkNearPos()
         for (let buffId in this.buffMap) {
             this.buffMap[buffId].time -= dt

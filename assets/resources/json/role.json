@@ -41,10 +41,10 @@
     "id": "4",
     "quality": 2,
     "typeName": "辅助型角色",
-    "name": "梁上君子",
+    "name": "梦想家",
     "atk": 10,
     "atkCD": 1,
-    "dec": "<color=#412900>可以加快周围角色的<color=#3AFFF3>攻击速度</color>\r\n进行快速快速更快速的攻击吧！</c>",
+    "dec": "<color=#412900>可以加快周围角色的<color=#3AFFF3>攻击速度</color>。\r\n进行快速快速更快速的攻击吧！</c>",
     "param": null,
     "atkType": 1,
     "talk": "穷则独善其身，达则兼济天下。"
@@ -53,7 +53,7 @@
     "id": "5",
     "quality": 3,
     "typeName": "特殊型角色",
-    "name": "易容大师",
+    "name": "飞行员",
     "atk": 30,
     "atkCD": 1,
     "dec": "<color=#412900>只要星星相同，可以与任何角色合体</c>",
@@ -68,7 +68,7 @@
     "name": "跆拳道家",
     "atk": 80,
     "atkCD": 1,
-    "dec": "<color=#412900>使用风的角色，随机攻击敌人\r\n可以强力攻击燃烧的敌人\r\n除掉燃烧的敌人会引发<color=#3AFFF3>爆炸</color></c>",
+    "dec": "<color=#412900>使用风的角色，随机攻击敌人\r\n可以强力攻击燃烧的敌人\r\n除掉燃烧的敌人会引发<color=#3AFFF3>爆炸</color>。</c>",
     "param": null,
     "atkType": 5,
     "talk": "始于礼，终于礼。"
@@ -104,7 +104,7 @@
     "name": "学者",
     "atk": 50,
     "atkCD": 1.4,
-    "dec": "<color=#412900>使用冰的魔法，会让敌人<color=#3AFFF3>减速</color>\r\n当怪物涌入时会起到不错的效果。</c>",
+    "dec": "<color=#412900>使用冰的魔法，会让敌人<color=#3AFFF3>减速</color>。\r\n当怪物涌入时会起到不错的效果。</c>",
     "param": null,
     "atkType": 1,
     "talk": "一张饼，切三刀，平均切成八份，该怎么切？"
@@ -128,7 +128,7 @@
     "name": "偶像",
     "atk": 70,
     "atkCD": 1.2,
-    "dec": "<color=#412900>唱歌时全员将进入<color=#3AFFF3>超高速加速模式！</color>\r\n攻击速度会变得非常非常快！</c>",
+    "dec": "<color=#412900>唱歌时全员将进入<color=#3AFFF3>超高速加速模式！</color>。\r\n攻击速度会变得非常非常快！</c>",
     "param": null,
     "atkType": 1,
     "talk": "光与影乃遥不可及。"
@@ -140,7 +140,7 @@
     "name": "阳光小伙",
     "atk": 45,
     "atkCD": 1.2,
-    "dec": "<color=#412900>根据当前的阳光提高攻击力\r\n只要阳光足够，就可以非常强力</c>",
+    "dec": "<color=#412900>根据当前的名誉提高攻击力\r\n只要名誉足够，就可以非常强力</c>",
     "param": null,
     "atkType": 1,
     "talk": "什么时候放下, 什么时候就没有烦恼。"
@@ -195,7 +195,7 @@
   },
   "17": {
     "id": "17",
-    "quality": 4,
+    "quality": 6,
     "typeName": "特殊型角色",
     "name": "探险家",
     "atk": 60,
@@ -212,7 +212,7 @@
     "name": "神奇蒙面侠",
     "atk": 60,
     "atkCD": 1,
-    "dec": "<color=#412900>随机向敌人发射猫猫炸弹。\r\n<color=#3AFFF3>星级越高，范围越大！</color></c>",
+    "dec": "<color=#412900>随机向敌人发射猫猫炸弹。\r\n<color=#3AFFF3>星级越高，范围越大！</color>。</c>",
     "param": null,
     "atkType": 3,
     "talk": "怎么样，怕了吧"

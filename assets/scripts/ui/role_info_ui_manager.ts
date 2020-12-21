@@ -46,10 +46,10 @@ export default class RoleInfoUIManager extends cc.Component {
         this.mixBtn.node.on('click', this.onMix, this)
         this.addGroupBtn.node.on('click', this.onAddGroup, this)
     }
-    showUI(cardData: CardData) {
+    showUI(cardData: CardData, opa: boolean = true) {
         this.content.active = true
-        this.addGroupBtn.node.active = !cardData.group && !DD.instance.group.some((item) => { return item.id == cardData.id })
-        this.mixBtn.node.active = cardData.group
+        this.addGroupBtn.node.active = opa && !cardData.group && !DD.instance.group.some((item) => { return item.id == cardData.id })
+        this.mixBtn.node.active = opa && cardData.group
         this.cardData = cardData
         this.sp.spriteFrame = ResourceManager.instance.getSprite(ResType.main, 'role_' + cardData.id)
         let roleData = JsonManager.instance.getDataByName('role')[cardData.id]
@@ -81,7 +81,7 @@ export default class RoleInfoUIManager extends cc.Component {
             node2.getChildByName('2').getComponent(cc.Label).string = `⭐*${skill.param.num}`
         } else {
             node1.getChildByName('1').getComponent(cc.Label).string = '攻击力'
-            node1.getChildByName('2').getComponent(cc.Label).string = role.atk
+            node1.getChildByName('2').getComponent(cc.Label).string = (role.atk * Math.pow(1.2, card.lv - 1)).toFixed(0)
             node2.getChildByName('1').getComponent(cc.Label).string = '攻击间隔'
             node2.getChildByName('2').getComponent(cc.Label).string = role.atkCD + 's'
             let node3 = this.otherLabelContainer.children[2]

@@ -141,17 +141,25 @@ export default class BattleManager extends cc.Component {
         }
     }
     addMonster() {
-        BattleUIManager.instance.addMosnter(Utils.getRandomNumber(2) + 1)
+        let areaMonsterList = JsonManager.instance.getDataByName('area')[DD.instance.area].monsters
+        BattleUIManager.instance.addMosnter(areaMonsterList[Utils.getRandomNumber(2)])
     }
     //倒计时结束 出现boss
     onBoss() {
         this.isBoss = true
+        let areaMonsterList = JsonManager.instance.getDataByName('area')[DD.instance.area].monsters
+
         BattleUIManager.instance.bossLabel.string = 'boss进场中'
-        BattleUIManager.instance.addBoss(5)
+        BattleUIManager.instance.addBoss(areaMonsterList[3])
     }
     killBoss() {
         this.isBoss = false
         this.sun += 100 * this.rank
+        this.rank++
+        this.bossTimer = 20
+    }
+    bossInCity() {
+        this.isBoss = false
         this.rank++
         this.bossTimer = 20
     }
@@ -245,7 +253,7 @@ export default class BattleManager extends cc.Component {
         for (let i = 0; i < this.mapData.length; i++) {
             for (let j = 0; j < this.mapData[i].length; j++) {
                 if (this.mapData[i][j].id == id) {
-                    arr.push([i, j])
+                    arr.push(this.mapData[i][j])
                 }
             }
         }
@@ -265,5 +273,9 @@ export default class BattleManager extends cc.Component {
             }
         }
         return [row, col]
+    }
+    getHpmult() {
+        let areaData = JsonManager.instance.getDataByName('area')[DD.instance.area]
+        return this.rank * areaData.diff * DD.instance.getCurAreaDiff()
     }
 }
