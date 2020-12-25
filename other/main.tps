@@ -656,6 +656,26 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../assets/main_res/ui/bg_1.png</key>
+            <key type="filename">../assets/main_res/ui/bg_2.png</key>
+            <key type="filename">../assets/main_res/ui/bg_3.png</key>
+            <key type="filename">../assets/main_res/ui/bg_4.png</key>
+            <key type="filename">../assets/main_res/ui/bg_5.png</key>
+            <key type="filename">../assets/main_res/ui/down.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>13,13,25,25</rect>
+                <key>scale9Paddings</key>
+                <rect>13,13,25,25</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../assets/main_res/ui/btn (1).png</key>
             <key type="filename">../assets/main_res/ui/btn (10).png</key>
             <key type="filename">../assets/main_res/ui/btn (11).png</key>
@@ -739,21 +759,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../assets/main_res/ui/down.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>13,13,25,25</rect>
-                <key>scale9Paddings</key>
-                <rect>13,13,25,25</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">../assets/main_res/ui/health-bar-fill.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -812,6 +817,49 @@
                 <rect>63,63,125,125</rect>
                 <key>scale9Paddings</key>
                 <rect>63,63,125,125</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../assets/main_res/ui/land_1.png</key>
+            <key type="filename">../assets/main_res/ui/land_2.png</key>
+            <key type="filename">../assets/main_res/ui/land_3.png</key>
+            <key type="filename">../assets/main_res/ui/land_4.png</key>
+            <key type="filename">../assets/main_res/ui/land_5.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>30,30,60,60</rect>
+                <key>scale9Paddings</key>
+                <rect>30,30,60,60</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../assets/main_res/ui/level_1.png</key>
+            <key type="filename">../assets/main_res/ui/level_10.png</key>
+            <key type="filename">../assets/main_res/ui/level_2.png</key>
+            <key type="filename">../assets/main_res/ui/level_3.png</key>
+            <key type="filename">../assets/main_res/ui/level_4.png</key>
+            <key type="filename">../assets/main_res/ui/level_5.png</key>
+            <key type="filename">../assets/main_res/ui/level_6.png</key>
+            <key type="filename">../assets/main_res/ui/level_7.png</key>
+            <key type="filename">../assets/main_res/ui/level_8.png</key>
+            <key type="filename">../assets/main_res/ui/level_9.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>5,5,11,11</rect>
+                <key>scale9Paddings</key>
+                <rect>5,5,11,11</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

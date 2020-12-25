@@ -34,6 +34,9 @@ export default class IconItem extends cc.Component {
         this.sp.spriteFrame = ResourceManager.instance.getSprite(
             ResType.main, 'role_' + data.id
         )
+        this.lvSp.spriteFrame = ResourceManager.instance.getSprite(
+            ResType.main, 'level_' + Math.sqrt(data.lv).toFixed(0)
+        )
         let roleData = JsonManager.instance.getDataByName('role')[data.id]
         this.qualitySp.spriteFrame = ResourceManager.instance.getSprite(
             ResType.main, 'rare_' + roleData['quality']

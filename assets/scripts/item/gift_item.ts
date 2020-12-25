@@ -34,6 +34,8 @@ export default class GiftItem extends cc.Component {
             this.timeLabel.string = '空'
             this.sp.spriteFrame = null
             return
+        } else {
+            this.sp.spriteFrame = ResourceManager.instance.getSprite(ResType.main, 'bg_' + data.quality)
         }
         if (data.isStart) {
             this.startTimer()
