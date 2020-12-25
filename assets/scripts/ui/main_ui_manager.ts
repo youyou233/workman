@@ -1,8 +1,10 @@
 import GiftItem from "../item/gift_item"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
+import ResourceManager from "../manager/resources_manager"
 import UIManager from "../manager/ui_manager"
 import config from "../utils/config"
+import { ResType } from "../utils/enum"
 import GroupUIManager from "./group_ui_manager"
 import RankUIManager from "./rank_ui_manager"
 import ShopUIManager from "./shop_ui_manager"
@@ -38,7 +40,15 @@ export default class MainUIManager extends cc.Component {
     bossBtn: cc.Button = null
     @property(cc.Button)
     unlimitedBtn: cc.Button = null
+    @property(cc.Node)
+    moreTypePage: cc.Node = null
+    @property(cc.Node)
+    morePageMask: cc.Node = null
+    @property(cc.Node)
+    moreBtn: cc.Node = null
 
+    @property(cc.Node)
+    moreCloseBtn: cc.Node = null
     onLoad() {
         MainUIManager.instance = this
         this.groupBtn.node.on('click', () => {
@@ -53,6 +63,15 @@ export default class MainUIManager extends cc.Component {
         this.levelBtn.node.on('click', () => {
             UIManager.instance.openUI(RankUIManager, { name: config.uiName.rankUI })
         }, this)
+        this.moreBtn.on('click', () => {
+            this.moreTypePage.active = true
+        })
+        this.morePageMask.on('click', () => {
+            this.moreTypePage.active = false
+        })
+        this.moreCloseBtn.on('click', () => {
+            this.moreTypePage.active = false
+        })
     }
     showUI() {
         this.content.active = true
@@ -89,5 +108,13 @@ export default class MainUIManager extends cc.Component {
         if (type != 3 && ShopUIManager.instance.content.active) {
             ShopUIManager.instance.hideUI()
         }
+        let btns = [this.battleBtn, this.groupBtn, this.shopBtn]
+        btns.forEach((item, index) => {
+            let name = '1_mainMenu'
+            if (index == type - 1) {
+                name = '1_mainBtnchoose'
+            }
+            item.node.getComponent(cc.Sprite).spriteFrame = ResourceManager.instance.getSprite(ResType.main, name)
+        })
     }
 }

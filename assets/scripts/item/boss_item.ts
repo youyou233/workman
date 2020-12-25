@@ -8,6 +8,8 @@ import MainManager from "../manager/main_manager"
 import { BuffData } from "../interface/buff_data"
 import JsonManager from "../manager/json_manager"
 import EffectManager from "../manager/effect_manager"
+import { Utils } from "../utils/utils"
+import LandItem from "./land_item"
 
 const { ccclass, property } = cc._decorator
 
@@ -53,7 +55,7 @@ export default class BossItem extends cc.Component {
     oid: number = 0
     skillTimer: number = 10
     buffMap: { [key: number]: BuffData } = {}
-
+    id: number = 0
     onLoad() {
     }
     init(id: number, addHp: number = 0) {
@@ -61,14 +63,15 @@ export default class BossItem extends cc.Component {
         this.sp.spriteFrame = ResourceManager.instance.getSprite(ResType.monster, `monster (${id})`)
         let monsterData = JsonManager.instance.getDataByName('monster')[id]
         this.monsterSpd = Math.sqrt(monsterData.spd)
-
+        this.id = id
         let startPos = cc.v2(-250, -225)
+        this.bossStatus = BossStatusType.move
         this.spd = cc.v2(0, 100)
         this.node.setPosition(startPos)
         this.randomPos[0] = cc.v3(-250, 400)
         this.sp.node.color = cc.Color.WHITE
         this.buffMap = {}
-        this.skillTimer = 10
+        this.skillTimer = 4
         this.randomPos[1] = cc.v3(250, 400)
         this.maxHp = this.hp = monsterData.hp * BattleManager.instance.getHpmult() + addHp
         this.path = 0
@@ -103,29 +106,81 @@ export default class BossItem extends cc.Component {
 
     }
     removeSelf() {
+        if (this.onSkillTimer) clearTimeout(this.onSkillTimer)
         PoolManager.instance.removeObjectByName('bossItem', this.node)
     }
     onUpdate(dt) {
-        this.node.x += this.spd.x * dt * this.monsterSpd
-        this.node.y += this.spd.y * dt * this.monsterSpd
-        this.path += (Math.abs(this.spd.x * this.monsterSpd) * dt + Math.abs(this.spd.y * this.monsterSpd * dt))
-        this.checkNearPos()
-        for (let buffId in this.buffMap) {
-            this.buffMap[buffId].time -= dt
-            if (this.buffMap[buffId].time <= 0) {
-                this.removeBuff(buffId)
+        if (this.bossStatus == BossStatusType.move) {
+            this.node.x += this.spd.x * dt * this.monsterSpd
+            this.node.y += this.spd.y * dt * this.monsterSpd
+            this.path += (Math.abs(this.spd.x * this.monsterSpd) * dt + Math.abs(this.spd.y * this.monsterSpd * dt))
+            this.checkNearPos()
+            for (let buffId in this.buffMap) {
+                this.buffMap[buffId].time -= dt
+                if (this.buffMap[buffId].time <= 0) {
+                    this.removeBuff(buffId)
+                }
+            }
+            this.skillTimer -= dt
+            if (this.skillTimer <= 0) {
+                this.skillTimer = 4
+                this.onSkill()
             }
         }
-        this.skillTimer -= dt
-        if (this.skillTimer <= 0) {
-            this.skillTimer = 10
-            this.onSkill()
-        }
     }
+    onSkillTimer: any = null
     onSkill() {
-        let cure = (this.maxHp / 5).toFixed(0)
-        this.hp += +cure
-        EffectManager.instance.createDamageLabel(cure + '', this.node.position, false, { color: cc.Color.WHITE, outLineColor: cc.Color.GREEN, fontSize: 20 })
+        // let bossData = JsonManager.instance.getDataByName('monster')[this.id]
+        this.bossStatus = BossStatusType.skill
+        if (this.onSkillTimer) clearTimeout(this.onSkillTimer)
+        this.onSkillTimer = setTimeout(() => {
+            this.bossStatus = BossStatusType.move
+        }, 1000);
+        let list: LandItem[] = null
+        switch (+this.id) {
+            case 6:
+                let cure = (this.maxHp / 5).toFixed(0)
+                this.hp += +cure
+                EffectManager.instance.createDamageLabel(cure + '', this.node.position, false, { color: cc.Color.WHITE, outLineColor: cc.Color.GREEN, fontSize: 20 })
+                EffectManager.instance.creatEffect(2, this.node.position)
+                break
+            case 12:
+                for (let i = 0; i < 3; i++) {
+                    let x = Utils.getRandomNumber(2)
+                    let y = Utils.getRandomNumber(4)
+                    BattleManager.instance.mapData[x][y].isDiz = true
+                }
+                break
+            case 18:
+                list = BattleManager.instance.findAllLandItem()
+                for (let i = 0; i < list.length; i++) {
+                    list[i].showRole()
+                }
+                break
+            case 21:
+                for (let i = 0; i < 5; i++) {
+                    BattleManager.instance.addMonster()
+                }
+                break
+            case 32:
+                //找到一个非空得
+                list = BattleManager.instance.findAllLandItem()
+                if (list.length > 0) {
+                    let random = Utils.getRandomNumber(list.length - 1)
+                    let rankChange = Utils.getRandomNumber(4) - 2
+                    list[random].stack += rankChange
+                    if (list[random].stack < 1) {
+                        list[random].stack = 1
+                    }
+                    if (list[random].stack > 7) {
+                        list[random].stack = 7
+                    }
+                    list[random].showRole()
+                }
+
+                break
+        }
+
     }
     addBuff(buffId, buffData: BuffData) {
         this.buffMap[buffId] = buffData

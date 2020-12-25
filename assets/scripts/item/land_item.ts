@@ -42,6 +42,18 @@ export default class LandItem extends cc.Component {
     aroundBuffTimer: number = 0
     _stack: number
     generateTimer: number = null
+    _isDiz: boolean = false//是否眩晕
+    get isDiz() {
+        return this._isDiz
+    }
+    set isDiz(val: boolean) {
+        this._isDiz = val
+        if (val && this.id) {
+            EffectManager.instance.creatEffect(18, this.node.position)
+            let name = 'role_' + this.id + '_' + RoleActionType.death
+            this.roleAnima.play(name)
+        }
+    }
     set stack(val: number) {
         this._stack = val
         this.stackContainer.children.forEach((item, index) => {
@@ -72,7 +84,7 @@ export default class LandItem extends cc.Component {
         this.mergeStatus.active = false
         this.atkTimer = 999
         this.watchMonster = false
-
+        this.isDiz = false
     }
     setNull() {
         if (this.id) {
@@ -129,6 +141,12 @@ export default class LandItem extends cc.Component {
             ResourceManager.instance.getRoleAnimation(this.id, RoleActionType.throw).then((res: cc.AnimationClip) => {
                 this.roleAnima.addClip(res)
             })
+            ResourceManager.instance.getRoleAnimation(this.id, RoleActionType.death).then((res: cc.AnimationClip) => {
+                this.roleAnima.addClip(res)
+            })
+            ResourceManager.instance.getRoleAnimation(this.id, RoleActionType.success).then((res: cc.AnimationClip) => {
+                this.roleAnima.addClip(res)
+            })
         }
     }
     checkMerge(landItem: LandItem) {
@@ -138,7 +156,7 @@ export default class LandItem extends cc.Component {
         //     return true
         // }
         let mergeData = landItem.role.getMergeData()
-        if (this != landItem &&
+        if (this != landItem && !landItem.isDiz &&
             ((!mergeData[1] && this.id) || this.id == landItem.id) &&
             (!mergeData[0] || this.stack == landItem.stack)) {
             return true
@@ -146,6 +164,7 @@ export default class LandItem extends cc.Component {
             return false
         }
     }
+
     onMerge(land: LandItem) {
         if (land.id == 17) {
             this.stack = Math.ceil((land.stack + this.stack + 1) / 2)
@@ -174,6 +193,7 @@ export default class LandItem extends cc.Component {
         }
     }
     aniCB(type: RoleActionType) {
+        if (this.isDiz) return
         let name = 'role_' + this.id + '_' + RoleActionType.idle
         switch (+type) {
             case RoleActionType.atk:
@@ -193,6 +213,7 @@ export default class LandItem extends cc.Component {
     }
     actionCb: { [key: number]: Function } = {}
     onAtk() {
+        if (this.isDiz) return
         let name = ''
         let monster = BattleUIManager.instance.findAheadMonster()
         if (!monster) {
@@ -202,6 +223,7 @@ export default class LandItem extends cc.Component {
             switch (this.role.getAtkType()) {
                 case AtkType.normol:
                 case AtkType.random:
+                case AtkType.melee:
                 case AtkType.chain:
                     if (this.role.getAtkType() == AtkType.random) {
                         monster = BattleUIManager.instance.findRandomMonster()
@@ -214,16 +236,23 @@ export default class LandItem extends cc.Component {
                             id: this.id,
                             stack: this.stack
                         }
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, this.role.getAtkDamege(this),
-                            DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), param)
+                        if (this.role.getAtkType() == AtkType.melee) {
+                            let target = DD.instance.getMonsterByNode(monster)
+                            target.beAtk(this.role.getAtkDamege(this), param)
+                            EffectManager.instance.creatEffect(Utils.getRandomNumber(7) + 10, monster.position)
+                        } else {
+                            let time = this.role.getAtkType() == AtkType.chain ? 0.1 : 0.5
+                            BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, time, this.role.getAtkDamege(this),
+                                DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), param)
+                        }
                     }
                     break
-                case AtkType.range:
+                case AtkType.range://只有魔法是
                     name = 'role_' + this.id + '_' + RoleActionType.sing
                     this.roleAnima.play(name).speed = 1.1 / this.role.getAtkCD(this)
                     this.watchMonster = true
                     this.actionCb[RoleActionType.sing] = () => {
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, this.role.getAtkDamege(this),
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.1, this.role.getAtkDamege(this),
                             DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { range: this.role.getAtkRange(this) }
                         )
                     }
@@ -234,14 +263,15 @@ export default class LandItem extends cc.Component {
                     this.roleAnima.play(name).speed = 1.1 / this.role.getAtkCD(this)
                     this.watchMonster = true
                     this.actionCb[RoleActionType.throw] = () => {
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.5, this.role.getAtkDamege(this),
-                            DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { range: this.role.getAtkRange(this) })
+                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 1, this.role.getAtkDamege(this),
+                            DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { range: this.role.getAtkRange(this) }, true)
                     }
                     break
             }
         }
     }
     onGenerate() {
+        if (this.isDiz) return
         this.watchMonster = true
         let name = 'role_' + this.id + '_' + RoleActionType.sing
         this.roleAnima.play(name).speed = 1

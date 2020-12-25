@@ -1,0 +1,33 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "mainBgMove",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 2,
+  "sample": 10,
+  "speed": 0.3,
+  "wrapMode": 2,
+  "curveData": {
+    "props": {
+      "position": [
+        {
+          "frame": 0,
+          "value": [
+            500,
+            -734,
+            0
+          ]
+        },
+        {
+          "frame": 2,
+          "value": [
+            -345,
+            921,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "events": []
+}

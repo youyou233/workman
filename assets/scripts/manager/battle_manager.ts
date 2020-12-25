@@ -95,6 +95,7 @@ export default class BattleManager extends cc.Component {
         }, this)
     }
     initBattle() {
+        this.isBoss = false
         this.bossTimer = 30
         this.btnAddTimes = 0
         this.monsterTimer = 1
@@ -159,9 +160,7 @@ export default class BattleManager extends cc.Component {
         this.bossTimer = 20
     }
     bossInCity() {
-        this.isBoss = false
-        this.rank++
-        this.bossTimer = 20
+        this.gameFail()
     }
     addRole(free: boolean = false) {
         let arr = this.findFree()
@@ -190,6 +189,17 @@ export default class BattleManager extends cc.Component {
             for (let j = 0; j < this.mapData[i].length; j++) {
                 if (!this.mapData[i][j].id) {
                     arr.push([i, j])
+                }
+            }
+        }
+        return arr
+    }
+    findAllLandItem(): LandItem[] {
+        let arr = []
+        for (let i = 0; i < this.mapData.length; i++) {
+            for (let j = 0; j < this.mapData[i].length; j++) {
+                if (this.mapData[i][j].id) {
+                    arr.push(this.mapData[i][j])
                 }
             }
         }

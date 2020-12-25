@@ -39,7 +39,8 @@ export enum AtkType {
     range = 2,
     randomRange = 3,
     chain = 4,//立即释放
-    random = 5
+    random = 5,
+    melee = 6,
 }
 export enum SkillType {
     none = 0,

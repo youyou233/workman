@@ -18,7 +18,7 @@ export default class ThrowItem extends cc.Component {
     damage: number = null
     type: AtkType = null
     param: any = null
-    init(id: number, start: cc.Vec2, end: cc.Vec2, time: number, damage: number, oid: number, type: AtkType, param?) {
+    init(id: number, start: cc.Vec2, end: cc.Vec2, time: number, damage: number, oid: number, type: AtkType, param?, jump: boolean = false) {
         this.sp.spriteFrame = ResourceManager.instance.getSprite(ResType.main, `throw (${id})`)
         this.node.stopAllActions()
         this.oid = oid
@@ -28,8 +28,23 @@ export default class ThrowItem extends cc.Component {
         this.param = param
         start.y += 65
         this.node.setPosition(start)
-        let tween = new cc.Tween().target(this.node)
-            .to(time, { x: end.x, y: end.y, angle: 900 }).call(this.endAni.bind(this)).start()
+        let rote = true
+        if ([2, 5, 8, 11, 17, 20].indexOf(+id) != -1) {
+            rote = false
+            let angle = end.sub(start).signAngle(cc.v2(0, 1)) * 180 / Math.PI
+            // console.log(angle)
+            this.node.angle = -angle
+        }
+        if (jump) {
+            let jumpPos = cc.v2((start.x + end.x) / 2, (start.y + end.y) + 200)
+            let tween = new cc.Tween().target(this.node)
+                .to(time / 2, { x: jumpPos.x, y: jumpPos.y, angle: rote ? 450 : this.node.angle }, cc.easeOut(2))
+                .to(time / 2, { x: end.x, y: end.y, angle: rote ? 900 : this.node.angle }, cc.easeIn(2))
+                .call(this.endAni.bind(this)).start()
+        } else {
+            let tween = new cc.Tween().target(this.node)
+                .to(time, { x: end.x, y: end.y, angle: rote ? 900 : this.node.angle }).call(this.endAni.bind(this)).start()
+        }
     }
     endAni() {
         let monster: MonsterItem | BossItem = null

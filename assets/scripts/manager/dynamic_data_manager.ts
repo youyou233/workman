@@ -6,6 +6,7 @@ import BossItem from "../item/boss_item"
 import MonsterItem from "../item/monster_item"
 import BattleUIManager from "../ui/battle_ui_manager"
 import MainUIManager from "../ui/main_ui_manager"
+import JsonManager from "./json_manager"
 
 const { ccclass, property } = cc._decorator
 /**
@@ -91,5 +92,8 @@ export default class DD extends cc.Component {
 
     getCurAreaDiff() {
         return this.areaData[this.area].diff
+    }
+    getRoleEffect(id: number, index: number) {
+        return JsonManager.instance.getDataByName('role')[id]['effect'][index]
     }
 }

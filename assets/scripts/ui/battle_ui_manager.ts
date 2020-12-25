@@ -98,9 +98,9 @@ export default class BattleUIManager extends cc.Component {
         let boss = PoolManager.instance.createObjectByName('bossItem', this.bossContainer)
         boss.getComponent(BossItem).init(id, this.clearAllMonsters())
     }
-    addThrow(id, start, end, time: number = 1, damage, oid, type, param?) {
+    addThrow(id, start, end, time: number = 1, damage, oid, type, param?, jump: boolean = false) {
         let node = PoolManager.instance.createObjectByName('throwItem', this.throwContainer)
-        node.getComponent(ThrowItem).init(id, start, end, time, damage, oid, type, param)
+        node.getComponent(ThrowItem).init(id, start, end, time, damage, oid, type, param, jump)
     }
     clearContainer() {
         let containers = [this.landContainer, this.monsterContainer, this.throwContainer, this.bossContainer, this.effectContainer, this.damageLabelContainer]

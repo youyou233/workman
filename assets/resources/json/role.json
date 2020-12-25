@@ -34,7 +34,7 @@
     "atkCD": 1,
     "dec": "<color=#412900>明明很普通却那么自信\r\n在一定时间向全体赋予<color=#3AFFF3>攻击力增益</color>。</c>",
     "param": null,
-    "atkType": 1,
+    "atkType": 6,
     "talk": "我…或许能拯救世界！"
   },
   "4": {
@@ -70,7 +70,7 @@
     "atkCD": 1,
     "dec": "<color=#412900>使用风的角色，随机攻击敌人\r\n可以强力攻击燃烧的敌人\r\n除掉燃烧的敌人会引发<color=#3AFFF3>爆炸</color>。</c>",
     "param": null,
-    "atkType": 5,
+    "atkType": 6,
     "talk": "始于礼，终于礼。"
   },
   "7": {
@@ -154,7 +154,7 @@
     "atkCD": 1.5,
     "dec": "<color=#412900>按一定的概率秒杀小怪。</c>",
     "param": null,
-    "atkType": 1,
+    "atkType": 6,
     "talk": "准备好接受审判了吗？"
   },
   "14": {
@@ -166,7 +166,7 @@
     "atkCD": 1,
     "dec": "<color=#412900>对<color=#3AFFF3>减速</color>的敌人造成更大的伤害。</c>",
     "param": null,
-    "atkType": 1,
+    "atkType": 6,
     "talk": "放松身心吧，由我来搞定。"
   },
   "15": {
