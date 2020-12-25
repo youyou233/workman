@@ -37,10 +37,14 @@ export default class CardItem extends cc.Component {
         this.roleIcon.spriteFrame = ResourceManager.instance.getSprite(
             ResType.main, 'role_' + roleId
         )
+
         this.coolProgress.node.active = false
         this.data = JsonManager.instance.getDataByName('skill')[roleId]
         this.skillSp.spriteFrame = ResourceManager.instance.getSprite(
             ResType.main, `skill (${roleId})`
+        )
+        this.cardBG.spriteFrame = ResourceManager.instance.getSprite(
+            ResType.main, 'card_' + this.data.bgName
         )
         this.passiveNode.active = !this.data.isActive
         this.costNode.active = this.data.isActive

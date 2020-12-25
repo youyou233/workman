@@ -70,6 +70,8 @@ export default class BattleManager extends cc.Component {
     team: RoleTeamData[] = []
     mapData: LandItem[][] = []
     _rank: number = 1
+
+    skillTimes: number = 0
     set rank(val: number) {
         this._rank = val
         if (val == 4) {
@@ -102,6 +104,7 @@ export default class BattleManager extends cc.Component {
         this.sun = 500
         this.hp = 3
         this.rank = 1
+        this.skillTimes = 0
         this.team = DD.instance.group
         //3*5
         this.mapData = []

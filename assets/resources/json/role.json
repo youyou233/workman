@@ -8,6 +8,7 @@
     "atkCD": 0.8,
     "dec": "<color=#412900>快速攻击的角色\r\n星级越多会<color=#3AFFF3>攻击的越快</color>！</c>",
     "param": null,
+    "effect": null,
     "atkType": 1,
     "talk": "天下武功唯快不破！"
   },
@@ -22,6 +23,7 @@
     "param": {
       "range": 50
     },
+    "effect": null,
     "atkType": 2,
     "talk": "不要去理解它，要试着去感受它。"
   },
@@ -34,6 +36,7 @@
     "atkCD": 1,
     "dec": "<color=#412900>明明很普通却那么自信\r\n在一定时间向全体赋予<color=#3AFFF3>攻击力增益</color>。</c>",
     "param": null,
+    "effect": null,
     "atkType": 6,
     "talk": "我…或许能拯救世界！"
   },
@@ -46,6 +49,7 @@
     "atkCD": 1,
     "dec": "<color=#412900>可以加快周围角色的<color=#3AFFF3>攻击速度</color>。\r\n进行快速快速更快速的攻击吧！</c>",
     "param": null,
+    "effect": null,
     "atkType": 1,
     "talk": "穷则独善其身，达则兼济天下。"
   },
@@ -58,6 +62,7 @@
     "atkCD": 1,
     "dec": "<color=#412900>只要星星相同，可以与任何角色合体</c>",
     "param": null,
+    "effect": null,
     "atkType": 1,
     "talk": "想我是什么，我就是什么。"
   },
@@ -70,6 +75,7 @@
     "atkCD": 1,
     "dec": "<color=#412900>使用风的角色，随机攻击敌人\r\n可以强力攻击燃烧的敌人\r\n除掉燃烧的敌人会引发<color=#3AFFF3>爆炸</color>。</c>",
     "param": null,
+    "effect": null,
     "atkType": 6,
     "talk": "始于礼，终于礼。"
   },
@@ -82,6 +88,7 @@
     "atkCD": 1.4,
     "dec": "<color=#412900>向敌人投掷带火的飞镖\r\n燃烧的敌人会在一定时间内受到伤害</c>",
     "param": null,
+    "effect": null,
     "atkType": 1,
     "talk": "准备好进入火焰世界了吗?"
   },
@@ -94,6 +101,7 @@
     "atkCD": 1.4,
     "dec": "<color=#412900>合体时，随机召唤一个一星的角色\r\n虽然概率很低但偶尔会多召唤出一个！</c>",
     "param": null,
+    "effect": null,
     "atkType": 1,
     "talk": "芜湖起飞！"
   },
@@ -106,6 +114,7 @@
     "atkCD": 1.4,
     "dec": "<color=#412900>使用冰的魔法，会让敌人<color=#3AFFF3>减速</color>。\r\n当怪物涌入时会起到不错的效果。</c>",
     "param": null,
+    "effect": null,
     "atkType": 1,
     "talk": "一张饼，切三刀，平均切成八份，该怎么切？"
   },
@@ -118,6 +127,7 @@
     "atkCD": 99999999,
     "dec": "<color=#412900>拥有超高的治疗技巧\r\n每隔一定时间生产名誉\r\n即使不会攻击也无所谓吧？</c>",
     "param": null,
+    "effect": null,
     "atkType": 0,
     "talk": "纵使社会再怎么进步，人性不会有丝毫改变。"
   },
@@ -130,6 +140,7 @@
     "atkCD": 1.2,
     "dec": "<color=#412900>唱歌时全员将进入<color=#3AFFF3>超高速加速模式！</color>。\r\n攻击速度会变得非常非常快！</c>",
     "param": null,
+    "effect": null,
     "atkType": 1,
     "talk": "光与影乃遥不可及。"
   },
@@ -142,7 +153,8 @@
     "atkCD": 1.2,
     "dec": "<color=#412900>根据当前的名誉提高攻击力\r\n只要名誉足够，就可以非常强力</c>",
     "param": null,
-    "atkType": 1,
+    "effect": null,
+    "atkType": 6,
     "talk": "什么时候放下, 什么时候就没有烦恼。"
   },
   "13": {
@@ -154,6 +166,7 @@
     "atkCD": 1.5,
     "dec": "<color=#412900>按一定的概率秒杀小怪。</c>",
     "param": null,
+    "effect": null,
     "atkType": 6,
     "talk": "准备好接受审判了吗？"
   },
@@ -166,6 +179,7 @@
     "atkCD": 1,
     "dec": "<color=#412900>对<color=#3AFFF3>减速</color>的敌人造成更大的伤害。</c>",
     "param": null,
+    "effect": null,
     "atkType": 6,
     "talk": "放松身心吧，由我来搞定。"
   },
@@ -178,7 +192,8 @@
     "atkCD": 2,
     "dec": "<color=#412900>召唤出更多的刺客\r\n将根据刺客们的星星和增加攻速</c>",
     "param": null,
-    "atkType": 1,
+    "effect": null,
+    "atkType": 6,
     "talk": "万物皆虚，万事皆允。"
   },
   "16": {
@@ -190,6 +205,7 @@
     "atkCD": 1.1,
     "dec": "<color=#412900>用神秘的力量弱化一个敌人\r\n被弱化的敌人会受到更多伤害</c>",
     "param": null,
+    "effect": null,
     "atkType": 1,
     "talk": "给予便是收获。"
   },
@@ -202,6 +218,7 @@
     "atkCD": 1.2,
     "dec": "<color=#412900>可以与任意角色合体\r\n合体后星星变为平均值</c>",
     "param": null,
+    "effect": null,
     "atkType": 1,
     "talk": "我们的征途是星辰大海！"
   },
@@ -214,6 +231,7 @@
     "atkCD": 1,
     "dec": "<color=#412900>随机向敌人发射猫猫炸弹。\r\n<color=#3AFFF3>星级越高，范围越大！</color>。</c>",
     "param": null,
+    "effect": null,
     "atkType": 3,
     "talk": "怎么样，怕了吧"
   },
@@ -226,6 +244,7 @@
     "atkCD": 1.5,
     "dec": "<color=#412900>使用闪电进行攻击\r\n按照星级可以同时攻击多个敌人</c>",
     "param": null,
+    "effect": null,
     "atkType": 4,
     "talk": "我们只有团结才会强大，如果分裂，便不堪一击。"
   },
@@ -238,6 +257,7 @@
     "atkCD": 1,
     "dec": "<color=#412900>可以额外召唤两名角色\r\n运气好会召唤三名</c>",
     "param": null,
+    "effect": null,
     "atkType": 1,
     "talk": "兵来将挡水来土掩。"
   },
@@ -250,6 +270,7 @@
     "atkCD": 1,
     "dec": "<color=#412900>把角色填满一行，攻击力将会变强\r\n努力挑战bingo吧(●'◡'●)</c>",
     "param": null,
+    "effect": null,
     "atkType": 1,
     "talk": "不是实力,全是运气。"
   },
@@ -262,6 +283,7 @@
     "atkCD": null,
     "dec": null,
     "param": null,
+    "effect": null,
     "atkType": null,
     "talk": null
   }
