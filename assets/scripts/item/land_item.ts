@@ -73,6 +73,16 @@ export default class LandItem extends cc.Component {
         Emitter.register('MessageType_' + MessageType.addBuff, (name, buffId, buffData) => {
             this.addBuff(buffId, Utils.deepCopy(buffData) as any)
         }, this)
+        Emitter.register('Message_' + MessageType.gameSuccess, (name) => {
+            if (!this.id) return
+            let success = 'role_' + this.id + '_' + RoleActionType.success
+            this.roleAnima.play(success)
+        }, this)
+        Emitter.register('Message_' + MessageType.gameFail, (name) => {
+            if (!this.id) return
+            let fail = 'role_' + this.id + '_' + RoleActionType.fail
+            this.roleAnima.play(fail)
+        }, this)
     }
     init(i, j) {
         //  this.addAnimationClip()
@@ -142,6 +152,9 @@ export default class LandItem extends cc.Component {
                 this.roleAnima.addClip(res)
             })
             ResourceManager.instance.getRoleAnimation(this.id, RoleActionType.death).then((res: cc.AnimationClip) => {
+                this.roleAnima.addClip(res)
+            })
+            ResourceManager.instance.getRoleAnimation(this.id, RoleActionType.fail).then((res: cc.AnimationClip) => {
                 this.roleAnima.addClip(res)
             })
             ResourceManager.instance.getRoleAnimation(this.id, RoleActionType.success).then((res: cc.AnimationClip) => {
@@ -239,7 +252,7 @@ export default class LandItem extends cc.Component {
                         if (this.role.getAtkType() == AtkType.melee) {
                             let target = DD.instance.getMonsterByNode(monster)
                             target.beAtk(this.role.getAtkDamege(this), param)
-                            EffectManager.instance.creatEffect(Utils.getRandomNumber(7) + 10, monster.position)
+                            EffectManager.instance.creatEffect(DD.instance.getRoleEffect(this.id, 0), monster.position)
                         } else {
                             let time = this.role.getAtkType() == AtkType.chain ? 0.1 : 0.5
                             BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, time, this.role.getAtkDamege(this),
@@ -331,7 +344,7 @@ export default class LandItem extends cc.Component {
         this.clearBuffContainer()
         for (let buffId in this.buffMap) {
             let buff = PoolManager.instance.createObjectByName('commonItem', this.buffContainer)
-            buff.getComponent(CommonItem).init(`skill (${buffId})`, null)
+            buff.getComponent(CommonItem).init(`buff_${buffId}`, null)
         }
     }
     clearBuffContainer() {

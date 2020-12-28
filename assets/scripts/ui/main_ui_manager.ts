@@ -21,6 +21,8 @@ export default class MainUIManager extends cc.Component {
     moneyLabel: cc.Label = null
     @property(cc.Label)
     ticketLabel: cc.Label = null
+    @property(cc.Label)
+    rankLabel: cc.Label = null
     @property(cc.Node)
     btmNode: cc.Node = null
     @property(cc.Button)

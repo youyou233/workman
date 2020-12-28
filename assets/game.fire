@@ -192,7 +192,7 @@
       "array": [
         0,
         0,
-        560.4769998422308,
+        561.1844616523163,
         0,
         0,
         0,
@@ -9367,6 +9367,9 @@
     "ticketLabel": {
       "__id__": 259
     },
+    "rankLabel": {
+      "__id__": 265
+    },
     "btmNode": {
       "__id__": 221
     },
@@ -12917,8 +12920,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 230,
-      "height": 585
+      "width": 287.5,
+      "height": 592
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -12930,7 +12933,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        65,
+        68,
         0,
         0,
         0,
@@ -12964,8 +12967,8 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 230,
-      "height": 585
+      "width": 287.5,
+      "height": 592
     },
     "_resize": 1,
     "_N$layoutType": 3,
@@ -15199,7 +15202,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 640,
-      "height": 700
+      "height": 763
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -15211,7 +15214,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        75.815,
+        107,
         0,
         0,
         0,

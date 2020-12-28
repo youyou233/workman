@@ -125,7 +125,7 @@ export default class MonsterItem extends cc.Component {
         BattleManager.instance.sun += 10 * BattleManager.instance.rank
         if (this.explosion) {
             //发射爆炸
-            EffectManager.instance.creatEffect(21, this.node.position)
+            EffectManager.instance.creatEffect(27, this.node.position)
             let monsters = BattleUIManager.instance.getRangeMonsters(this.node.position, 200)
             monsters.forEach((item) => {
                 DD.instance.getMonsterByNode(item).beAtk(this.explosion, null)

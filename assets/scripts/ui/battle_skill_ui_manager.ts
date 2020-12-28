@@ -1,5 +1,6 @@
 import PoolManager from "../manager/pool_manager"
 import CardItem from "../item/card_item"
+import UIManager from "../manager/ui_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -36,12 +37,14 @@ export default class BattleSkillUIManager extends cc.Component {
         })
     }
     curCard: cc.Node = null
+    touchStart: number = 0
     //TODO: 长按显示详情
     startTouch(event) {
         this.curCard = this.getTouchedCard(event)
+        this.touchStart = new Date().getTime()
     }
     moveTouch(event) {
-        if (this.curCard) {
+        if (this.curCard && this.curCard.getComponent(CardItem).data.isActive) {
             this.curCard.y += event.getDelta().y
             //console.log(event.getDelta())
             if (this.curCard.y > 150) this.curCard.y = 150
@@ -50,7 +53,10 @@ export default class BattleSkillUIManager extends cc.Component {
     }
     endTouch(event) {
         if (this.curCard) {
-            if (this.curCard.y > 130) {
+            if (new Date().getTime() - this.touchStart < 200) {
+                let data = this.curCard.getComponent(CardItem).data
+                UIManager.instance.LoadMessageBox(data.name, data.dec, null, null, false)
+            } else if (this.curCard.y > 130) {
                 this.curCard.getComponent(CardItem).onSkill()
             }
         }
@@ -59,7 +65,7 @@ export default class BattleSkillUIManager extends cc.Component {
         for (let i = 0; i < this.cardContainer.children.length; i++) {
             let node = this.cardContainer.children[i]
             let cardItem = node.getComponent(CardItem)
-            if (cardItem.data.isActive && cardItem.coolTimer == 0 && node.getBoundingBoxToWorld().contains(event.getLocation())) {
+            if (cardItem.coolTimer == 0 && node.getBoundingBoxToWorld().contains(event.getLocation())) {
                 return node
             }
         }

@@ -47,7 +47,7 @@ export default class MessageBoxUIManager extends cc.Component {
         // console.log("PoolManager Onload");
         MessageBoxUIManager.instance = this
 
-        //this.maskNode.on('click', this.hideUI, this);
+        this.maskNode.on('click', this.cancel, this);
 
         this.buttonCancel.node.on("click", this.cancel, this)
         this.buttonConfirm.node.on("click", this.confirm, this)
@@ -82,10 +82,10 @@ export default class MessageBoxUIManager extends cc.Component {
 
         if (isNormal) {
             this.buttonCancel.node.active = true
-            // this.buttonConfirm.node.position = new cc.Vec3(108, -200)
+            this.buttonConfirm.node.position = new cc.Vec3(-100, -140)
         } else {
             this.buttonCancel.node.active = false
-            //  this.buttonConfirm.node.position = new cc.Vec3(0, -200)
+            this.buttonConfirm.node.position = new cc.Vec3(0, -140)
         }
         //   console.log('打开', this.node.parent.name)
     }

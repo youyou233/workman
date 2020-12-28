@@ -31,7 +31,7 @@ export default class EffectItem extends cc.Component {
         this.node.scale = 1
         this.node.opacity = 255
         if (this.timer) clearTimeout(this.timer)
-        this.node.getComponent(cc.Sprite).spriteFrame = null
+        //  this.node.getComponent(cc.Sprite).spriteFrame = null
         if (clips.some((item: cc.AnimationClip) => {
             return item.name == name
         })) {
@@ -49,6 +49,7 @@ export default class EffectItem extends cc.Component {
         this.anima.play(name)
         this.timer = setTimeout(() => {
             if (this.recycle) {
+                this.node.getComponent(cc.Sprite).spriteFrame = null
                 PoolManager.instance.removeObjectByName('effectItem', this.node)
             }
         }, 1000 / config.aniConfig[name].speed)

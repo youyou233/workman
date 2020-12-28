@@ -38,6 +38,7 @@ export default class BossItem extends cc.Component {
     maxHp: number = 0
     _hp: number = 0
     set hp(val: number) {
+        if (this._hp < 0 && val < 0) return
         this._hp = val
         this.hpProgress.node.active = this.maxHp > val
         this.hpProgress.progress = val / this.maxHp

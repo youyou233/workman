@@ -1,6 +1,6 @@
 {
   "ver": "2.3.5",
-  "uuid": "3b6e9e02-b74c-4703-bb4f-56f397578c91",
+  "uuid": "404e875f-1659-4456-9fbe-38265421de58",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -11,10 +11,10 @@
   "height": 34,
   "platformSettings": {},
   "subMetas": {
-    "skill (4)": {
+    "buff_1": {
       "ver": "1.0.4",
-      "uuid": "74caa214-0464-43d9-9216-03995a838a9d",
-      "rawTextureUuid": "3b6e9e02-b74c-4703-bb4f-56f397578c91",
+      "uuid": "748e0011-b162-4ebc-9346-0a8259454f82",
+      "rawTextureUuid": "404e875f-1659-4456-9fbe-38265421de58",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,

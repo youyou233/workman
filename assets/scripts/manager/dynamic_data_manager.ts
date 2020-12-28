@@ -6,6 +6,7 @@ import BossItem from "../item/boss_item"
 import MonsterItem from "../item/monster_item"
 import BattleUIManager from "../ui/battle_ui_manager"
 import MainUIManager from "../ui/main_ui_manager"
+import config from "../utils/config"
 import JsonManager from "./json_manager"
 
 const { ccclass, property } = cc._decorator
@@ -38,6 +39,14 @@ export default class DD extends cc.Component {
     }
     get ticket() {
         return this._ticket
+    }
+    _rank: number = 0
+    set rank(val: number) {
+        this._rank = val
+        MainUIManager.instance.rankLabel.string = config.lvString[val]
+    }
+    get rank() {
+        return this._rank
     }
     cards: CardData[] = []
     group: CardData[] = []
@@ -84,7 +93,7 @@ export default class DD extends cc.Component {
      * 刷新商店
      */
     frashShop() {
-
+        //TODO:
     }
     randomGetCurUnlockCard() {
 

@@ -18,10 +18,12 @@ export default class ThrowItem extends cc.Component {
     damage: number = null
     type: AtkType = null
     param: any = null
+    id: number = 0
     init(id: number, start: cc.Vec2, end: cc.Vec2, time: number, damage: number, oid: number, type: AtkType, param?, jump: boolean = false) {
         this.sp.spriteFrame = ResourceManager.instance.getSprite(ResType.main, `throw (${id})`)
         this.node.stopAllActions()
         this.oid = oid
+        this.id = id
         this.damage = damage
         this.node.angle = 0
         this.type = type
@@ -63,17 +65,15 @@ export default class ThrowItem extends cc.Component {
                 if (monster) {
                     monster.beAtk(this.damage, this.param)//param是buff内容
                 }
-                EffectManager.instance.creatEffect(Utils.getRandomNumber(6) + 3, this.node.position)
 
                 break
             case AtkType.range:
             case AtkType.randomRange:
-                list = BattleUIManager.instance.getRangeMonsters(this.node.position, this.param.range)//TODO: 待定100
+                list = BattleUIManager.instance.getRangeMonsters(this.node.position, this.param.range)
                 for (let i = 0; i < list.length; i++) {
                     let monster = DD.instance.getMonsterByNode(list[i])
                     monster.beAtk(this.damage, this.param)
                 }
-                EffectManager.instance.creatEffect(24, this.node.position)
                 break
             case AtkType.chain:
                 let num = this.param.stack + 2
@@ -82,7 +82,6 @@ export default class ThrowItem extends cc.Component {
                     let monster = DD.instance.getMonsterByNode(list[i])
                     monster.beAtk(this.damage, this.param)
                 }
-                EffectManager.instance.creatEffect(18, this.node.position)
                 break
             case AtkType.random:
                 monster = BattleUIManager.instance.findMonsterByOid(this.oid)
@@ -97,9 +96,9 @@ export default class ThrowItem extends cc.Component {
                 if (monster) {
                     monster.beAtk(this.damage, this.param)//param是buff内容
                 }
-                EffectManager.instance.creatEffect(Utils.getRandomNumber(6) + 3, this.node.position)
                 break
         }
+        EffectManager.instance.creatEffect(DD.instance.getRoleEffect(this.id, 0), this.node.position)
         PoolManager.instance.removeObjectByName('throwItem', this.node)
 
     }

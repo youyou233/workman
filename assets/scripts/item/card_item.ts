@@ -6,6 +6,9 @@ import DD from "../manager/dynamic_data_manager"
 import { BuffData } from "../interface/buff_data"
 import { Emitter } from "../utils/emmiter"
 import { MessageType } from "../utils/message"
+import UIManager from "../manager/ui_manager"
+import OnskillUIManager from "../ui/onskill_ui_manager"
+import config from "../utils/config"
 
 const { ccclass, property } = cc._decorator
 
@@ -31,6 +34,11 @@ export default class CardItem extends cc.Component {
     data: any = null
     coolTimer: number = 0
     id: number = 0
+    onLoad() {
+        Emitter.register('message_' + MessageType.onSkill, (name) => {
+            this.costLabel.string = 30 * Math.pow(BattleManager.instance.skillTimes, 2) + ''
+        }, this)
+    }
     init(index) {
         let roleId = BattleManager.instance.team[index].id
         this.id = roleId
@@ -41,7 +49,7 @@ export default class CardItem extends cc.Component {
         this.coolProgress.node.active = false
         this.data = JsonManager.instance.getDataByName('skill')[roleId]
         this.skillSp.spriteFrame = ResourceManager.instance.getSprite(
-            ResType.main, `skill (${roleId})`
+            ResType.main, `skill_${roleId}`
         )
         this.cardBG.spriteFrame = ResourceManager.instance.getSprite(
             ResType.main, 'card_' + this.data.bgName
@@ -54,15 +62,23 @@ export default class CardItem extends cc.Component {
         } else {
             this.node.y = 90
         }
-
+        // this.node.on('click', () => {
+        //     UIManager.instance.LoadMessageBox(this.data.name, this.data.dec, null, null, false)
+        // }, this)
     }
     onSkill() {
+        if (BattleManager.instance.sun < 30 * Math.pow(BattleManager.instance.skillTimes, 2)) {
+            UIManager.instance.LoadTipsByStr('阳光不足')
+            return
+        }
+        BattleManager.instance.sun -= 30 * Math.pow(BattleManager.instance.skillTimes, 2)
         this.node.y = 90
-        //TODO: 计算消耗
         this.coolTimer = this.data.cool
         this.coolProgress.node.active = true
         this.passiveNode.active = true
         this.passiveLabel.string = '冷却中'
+        BattleManager.instance.skillTimes++
+        UIManager.instance.openUI(OnskillUIManager, { name: config.uiName.onskillUI, param: [this.id] })
         switch (this.data.skillType) {
             case SkillType.addBuff:
                 switch (this.data.param.targetType) {

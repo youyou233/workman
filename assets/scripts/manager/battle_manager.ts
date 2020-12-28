@@ -71,7 +71,14 @@ export default class BattleManager extends cc.Component {
     mapData: LandItem[][] = []
     _rank: number = 1
 
-    skillTimes: number = 0
+    _skillTimes: number = 0
+    set skillTimes(val) {
+        this.skillTimes = val
+        Emitter.fire('message_' + MessageType.onSkill)
+    }
+    get skillTimes() {
+        return this._skillTimes
+    }
     set rank(val: number) {
         this._rank = val
         if (val == 4) {
@@ -119,16 +126,21 @@ export default class BattleManager extends cc.Component {
         this.status = BattleStatusType.play
     }
     gameSuccess() {
+        //TODO: 设置奖励
         this.status = BattleStatusType.end
-        BattleUIManager.instance.content.active = false
+        Emitter.fire('Message_' + MessageType.gameSuccess)
+        // BattleUIManager.instance.content.active = false
         UIManager.instance.LoadMessageBox('游戏结束', '守卫成功,你保卫了城市', () => {
+            BattleUIManager.instance.content.active = false
             // this.initBattle()
         }, null, false)
     }
     gameFail() {
         this.status = BattleStatusType.end
-        BattleUIManager.instance.content.active = false
+        Emitter.fire('Message_' + MessageType.gameFail)
+        // BattleUIManager.instance.content.active = false
         UIManager.instance.LoadMessageBox('游戏结束', '史莱姆霸占了你的城市', () => {
+            BattleUIManager.instance.content.active = false
             // this.initBattle()
         }, null, false)
     }
@@ -157,10 +169,12 @@ export default class BattleManager extends cc.Component {
         BattleUIManager.instance.addBoss(areaMonsterList[3])
     }
     killBoss() {
-        this.isBoss = false
-        this.sun += 100 * this.rank
-        this.rank++
-        this.bossTimer = 20
+        if (this.isBoss) {
+            this.isBoss = false
+            this.sun += 100 * this.rank
+            this.rank++
+            this.bossTimer = 20
+        }
     }
     bossInCity() {
         this.gameFail()

@@ -13,4 +13,6 @@ export enum MessageType {
     addDebuff,
     addRole,
     removeRole,
+
+    onSkill,
 }
