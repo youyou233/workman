@@ -1,4 +1,4 @@
-import { BattleStatusType, SkillType } from "../utils/enum"
+import { BattleStatusType, BattleType, SkillType } from "../utils/enum"
 import BattleUIManager from "../ui/battle_ui_manager"
 import { Emitter } from "../utils/emmiter"
 import { MessageType } from "../utils/message"
@@ -9,6 +9,8 @@ import LandItem from "../item/land_item"
 import JsonManager from "./json_manager"
 import { BuffData } from "../interface/buff_data"
 import DD from "./dynamic_data_manager"
+import RewardUIManager from "../ui/reward_ui_manager"
+import config from "../utils/config"
 
 const { ccclass, property } = cc._decorator
 /**
@@ -51,16 +53,16 @@ export default class BattleManager extends cc.Component {
         return this._hp
     }
     isBoss: boolean = false//当前是否在打boss
-    _bossTimer: number = 999999
-    set bossTimer(val: number) {
-        this._bossTimer = val
+    _rankTimer: number = 999999
+    set rankTimer(val: number) {
+        this._rankTimer = val
         BattleUIManager.instance.bossLabel.string = val.toFixed(0) + 's'
-        if (this.bossTimer <= 0) {
-            this.onBoss()
+        if (this.rankTimer <= 0) {
+            this.nextRank()
         }
     }
-    get bossTimer() {
-        return this._bossTimer
+    get rankTimer() {
+        return this._rankTimer
     }
 
     monsterTimer: number = 0
@@ -69,22 +71,32 @@ export default class BattleManager extends cc.Component {
     status: BattleStatusType = BattleStatusType.before
     team: RoleTeamData[] = []
     mapData: LandItem[][] = []
-    _rank: number = 1
-
+    curLv: number = 1
     _skillTimes: number = 0
+    type: BattleType = BattleType.normal
     set skillTimes(val) {
-        this.skillTimes = val
+        this._skillTimes = val
         Emitter.fire('message_' + MessageType.onSkill)
     }
     get skillTimes() {
         return this._skillTimes
     }
+    _rank: number = 1
     set rank(val: number) {
         this._rank = val
-        if (val == 4) {
-            this.gameSuccess()
-        } else {
-            BattleUIManager.instance.rankLabel.string = '当前波数:' + val + '/3'
+        switch (this.type) {
+            case BattleType.normal:
+                if (val == 4) {
+                    this.gameSuccess()
+                } else {
+                    BattleUIManager.instance.rankLabel.string = '当前波数:' + val + '/3'
+                }
+                break
+            case BattleType.boss:
+            case BattleType.unlimited:
+                BattleUIManager.instance.rankLabel.string = '当前波数:' + val
+                break
+
         }
     }
     get rank() {
@@ -103,11 +115,22 @@ export default class BattleManager extends cc.Component {
             BattleManager.instance.killBoss()
         }, this)
     }
-    initBattle() {
-        this.isBoss = false
-        this.bossTimer = 30
+    initBattle(type?: BattleType) {
+        if (type) this.type = type
+        switch (this.type) {
+            case BattleType.normal:
+                this.isBoss = false
+                this.rankTimer = 30
+                break
+            case BattleType.boss:
+                //TODO: 设计
+                break
+            case BattleType.unlimited:
+                break
+        }
+
         this.btnAddTimes = 0
-        this.monsterTimer = 1
+        this.monsterTimer = this.getGenerateMosnterTimer()
         this.sun = 500
         this.hp = 3
         this.rank = 1
@@ -126,34 +149,51 @@ export default class BattleManager extends cc.Component {
         this.status = BattleStatusType.play
     }
     gameSuccess() {
-        //TODO: 设置奖励
         this.status = BattleStatusType.end
         Emitter.fire('Message_' + MessageType.gameSuccess)
         // BattleUIManager.instance.content.active = false
-        UIManager.instance.LoadMessageBox('游戏结束', '守卫成功,你保卫了城市', () => {
-            BattleUIManager.instance.content.active = false
-            // this.initBattle()
-        }, null, false)
+        let reward = {
+            'bag': { isHave: true, isStart: false, startTime: 1608082541, needTime: 300, quality: 1 }
+        }
+        //TODO: 临时
+        DD.instance.rank++
+        DD.instance.getReward(reward)
+        UIManager.instance.openUI(RewardUIManager, {
+            name: config.uiName.rewardUI, param: [reward, '防御成功', () => {
+                BattleUIManager.instance.content.active = false
+
+            }]
+        })
     }
     gameFail() {
         this.status = BattleStatusType.end
         Emitter.fire('Message_' + MessageType.gameFail)
         // BattleUIManager.instance.content.active = false
-        UIManager.instance.LoadMessageBox('游戏结束', '史莱姆霸占了你的城市', () => {
-            BattleUIManager.instance.content.active = false
-            // this.initBattle()
-        }, null, false)
+        let reward = {}
+        UIManager.instance.openUI(RewardUIManager, {
+            name: config.uiName.rewardUI, param: [reward, '防御失败', () => {
+                BattleUIManager.instance.content.active = false
+
+            }]
+        })
     }
     onUpdate(dt) {
         if (this.status == BattleStatusType.play) {
             if (!this.isBoss) {
-                this.bossTimer -= dt
+                this.rankTimer -= dt
                 this.monsterTimer -= dt
                 if (this.monsterTimer <= 0) {
-                    this.monsterTimer = 1
+                    this.monsterTimer = this.getGenerateMosnterTimer()
                     this.addMonster()
                 }
             }
+        }
+    }
+    nextRank() {
+        switch (this.type) {
+            case BattleType.normal:
+                this.onBoss()
+                break
         }
     }
     addMonster() {
@@ -173,7 +213,7 @@ export default class BattleManager extends cc.Component {
             this.isBoss = false
             this.sun += 100 * this.rank
             this.rank++
-            this.bossTimer = 20
+            this.rankTimer = 20
         }
     }
     bossInCity() {
@@ -303,6 +343,9 @@ export default class BattleManager extends cc.Component {
     }
     getHpmult() {
         let areaData = JsonManager.instance.getDataByName('area')[DD.instance.area]
-        return this.rank * areaData.diff * DD.instance.getCurAreaDiff()
+        return this.rank * areaData.diff * DD.instance.getCurAreaDiff() * (this.curLv / 5 + 0.8)
+    }
+    getGenerateMosnterTimer() {
+        return 1
     }
 }

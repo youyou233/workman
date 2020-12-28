@@ -7,7 +7,9 @@ import MonsterItem from "../item/monster_item"
 import BattleUIManager from "../ui/battle_ui_manager"
 import MainUIManager from "../ui/main_ui_manager"
 import config from "../utils/config"
+import { Utils } from "../utils/utils"
 import JsonManager from "./json_manager"
+import UIManager from "./ui_manager"
 
 const { ccclass, property } = cc._decorator
 /**
@@ -42,6 +44,7 @@ export default class DD extends cc.Component {
     }
     _rank: number = 0
     set rank(val: number) {
+        if (val > 20) val = 20
         this._rank = val
         MainUIManager.instance.rankLabel.string = config.lvString[val]
     }
@@ -50,8 +53,16 @@ export default class DD extends cc.Component {
     }
     cards: CardData[] = []
     group: CardData[] = []
-    giftData: GiftData[] = []
-    shopData: ShopData[] = []
+    giftData: GiftData[] = [
+        { isHave: false },
+        { isHave: false },
+        //{ isHave: false },
+        { isHave: true, isStart: false, startTime: 1608082541, needTime: 600, quality: 2 },
+        { isHave: false }]
+    // { isHave: true, isStart: false, startTime: 1608082541, needTime: 5000, quality: 2 },
+    // { isHave: true, isStart: true, startTime: 1608082541, needTime: 5000, quality: 1 }
+    shopData: ShopData[] = [{ cardData: { id: 1, lv: 1 }, num: 1, price: 10 }]
+    lastShopFrashTime: number = 0
     area: number = 1
     areaData: { [key: number]: AreaData } = {
         1: {
@@ -78,6 +89,9 @@ export default class DD extends cc.Component {
                 case 'ticket':
                     this[keys[i]] += rewards[keys[i]]
                     break
+                case 'bag':
+                    this.addBag(rewards[keys[i]])
+                    break
                 default:
                     let card: CardData = {
                         group: false,
@@ -93,10 +107,31 @@ export default class DD extends cc.Component {
      * 刷新商店
      */
     frashShop() {
-        //TODO:
+        this.shopData = []
+        for (let i = 0; i <= Math.floor(this.rank / 20 * 8); i++) {
+            let cardData = this.getRandomCard()
+            let qua = JsonManager.instance.getDataByName('role')[cardData.id].quality
+            this.shopData.push({
+                cardData,
+                num: 1,
+                price: Math.floor(cardData.lv * 10 * qua)
+            })
+        }
     }
-    randomGetCurUnlockCard() {
-
+    findFreeBag() {
+        for (let i = 0; i < this.giftData.length; i++) {
+            if (!this.giftData[i].isHave) return i
+        }
+        return -1
+    }
+    addBag(data: GiftData) {
+        let index = this.findFreeBag()
+        if (index >= 0) {
+            this.giftData[index] = data
+            MainUIManager.instance.frashGitfs()
+        } else {
+            UIManager.instance.LoadTipsByStr('背包已满')
+        }
     }
 
     getCurAreaDiff() {
@@ -104,5 +139,21 @@ export default class DD extends cc.Component {
     }
     getRoleEffect(id: number, index: number) {
         return JsonManager.instance.getDataByName('role')[id]['effect'][index]
+    }
+    /**
+     *  随机商店和随机获取奖励时获得的卡牌数据
+     */
+    getRandomCard(): CardData {
+        let id = Utils.getRandomNumber(Math.floor(this.rank / 20 * 16) + 5) + 1
+        let card: CardData = {
+            lv: Utils.getRandomNumber(this.rank) + 1,
+            id
+        }
+        return card
+    }
+    pauseGift(index) {
+        this.giftData[index].isStart = false
+        this.giftData[index].startTime = new Date().getTime()
+        MainUIManager.instance.frashGitfs()
     }
 }

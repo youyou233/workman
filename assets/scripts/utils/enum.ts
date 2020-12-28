@@ -71,3 +71,9 @@ export enum SkillTargetType {
     group = 2,//自己全体
     around = 3
 }
+
+export enum BattleType {
+    normal = 1,
+    boss = 2,
+    unlimited = 3
+}

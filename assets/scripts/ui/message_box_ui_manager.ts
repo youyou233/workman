@@ -82,7 +82,7 @@ export default class MessageBoxUIManager extends cc.Component {
 
         if (isNormal) {
             this.buttonCancel.node.active = true
-            this.buttonConfirm.node.position = new cc.Vec3(-100, -140)
+            this.buttonConfirm.node.position = new cc.Vec3(100, -140)
         } else {
             this.buttonCancel.node.active = false
             this.buttonConfirm.node.position = new cc.Vec3(0, -140)

@@ -11,7 +11,6 @@ export default class BattleSkillUIManager extends cc.Component {
     cardContainer: cc.Node = null
     @property(cc.Node)
     touchGround: cc.Node = null
-    //TODO: 实装释放技能
     onLoad() {
         BattleSkillUIManager.instance = this
         this.touchGround.on(cc.Node.EventType.TOUCH_START, this.startTouch, this)
@@ -38,7 +37,6 @@ export default class BattleSkillUIManager extends cc.Component {
     }
     curCard: cc.Node = null
     touchStart: number = 0
-    //TODO: 长按显示详情
     startTouch(event) {
         this.curCard = this.getTouchedCard(event)
         this.touchStart = new Date().getTime()

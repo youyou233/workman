@@ -43,7 +43,8 @@ export default class ShopUIManager extends cc.Component {
             UIManager.instance.LoadMessageBox('刷新', '是否花费10张招待券立即刷新', (isOK) => {
                 if (isOK) {
                     DD.instance.ticket -= 10
-
+                    DD.instance.frashShop()
+                    this.showUI()
                 }
             })
         }

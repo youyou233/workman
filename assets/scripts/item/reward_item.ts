@@ -38,6 +38,13 @@ export default class RewardItem extends cc.Component {
                 )
                 this.label.string = '获得招待券*' + data[key]
                 break
+            case 'bag':
+                this.currencyNode.active = true
+                this.currencySp.spriteFrame = ResourceManager.instance.getSprite(
+                    ResType.main, 'bg_' + data[key].quality
+                )
+                this.label.string = '获得新的背包'
+                break
             default:
                 this.icon.node.active = true
                 let card: CardData = {

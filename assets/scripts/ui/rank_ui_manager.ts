@@ -6,7 +6,9 @@ import DD from "../manager/dynamic_data_manager"
 import JsonManager from "../manager/json_manager"
 import PoolManager from "../manager/pool_manager"
 import ResourceManager from "../manager/resources_manager"
+import UIManager from "../manager/ui_manager"
 import { ResType } from "../utils/enum"
+import { Utils } from "../utils/utils"
 
 const { ccclass, property } = cc._decorator
 
@@ -44,7 +46,7 @@ export default class RankUIManager extends cc.Component {
         this.mask.on('click', this.hideUI, this)
         this.container.children.forEach((item, index) => {
             item.on('click', () => {
-                //TODO:
+                BattleManager.instance.curLv = index + 1
                 BattleManager.instance.initBattle()
                 this.hideUI()
             }, this)
@@ -95,7 +97,13 @@ export default class RankUIManager extends cc.Component {
     }
     getGift() {
         this.giftNode.active = false
-        //TODO:设计奖励
+        UIManager.instance.LoadTipsByStr('获得一个背包')
+        DD.instance.addBag({
+            isHave: true,
+            isStart: false,
+            quality: Utils.getRandomNumber(4) + 1,
+            needTime: (Utils.getRandomNumber(50) + 10) * 60
+        })
         let data = DD.instance.areaData[DD.instance.area]
         data.gift[data.diff] = false
     }

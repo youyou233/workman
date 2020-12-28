@@ -18,15 +18,18 @@ export default class RewardUIManager extends cc.Component {
     container: cc.Node = null
     @property(cc.Button)
     certainBtn: cc.Button = null
+    @property(cc.Label)
+    label: cc.Label = null
+    cb: Function = null
     onLoad() {
         RewardUIManager.instance = this
         this.certainBtn.node.on('click', this.hideUI, this)
-
         this.mask.on('click', this.hideUI, this)
-
     }
-    showUI(rewards) {
+    showUI(rewards, label: string, cb?: Function) {
+        this.cb = cb
         this.content.active = true
+        this.label.string = label
         this.clearContainers()
         let keys = Object.keys(rewards)
         for (let i = 0; i < keys.length; i++) {
@@ -37,6 +40,7 @@ export default class RewardUIManager extends cc.Component {
         }
     }
     hideUI() {
+        if (this.cb) this.cb()
         this.content.active = false
     }
     clearContainers() {

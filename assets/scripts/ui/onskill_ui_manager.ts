@@ -28,7 +28,7 @@ export default class OnskillUIManager extends cc.Component {
         // this.mask.on('click', this.hideUI, this)
     }
     showUI(id: number) {
-        let skillData = JsonManager.instance.getDataByName('skill')
+        let skillData = JsonManager.instance.getDataByName('skill')[id]
         this.roleIcon.spriteFrame = ResourceManager.instance.getSprite(
             ResType.main, 'role_' + id
         )
