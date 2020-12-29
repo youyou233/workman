@@ -52,7 +52,7 @@ export default class GiftItem extends cc.Component {
                 if (this.timeLabel.string == '点击领取') {
                     let reward = this.getGiftData()
                     UIManager.instance.openUI(RewardUIManager, { name: config.uiName.rewardUI, param: [reward, '打开背包'] })
-                    DD.instance.giftData[this.index] = { isHave: false, isStart: false }
+                    DD.instance.removeBag(this.index)
                     DD.instance.getReward(reward)
                     MainUIManager.instance.frashGitfs()
                 } else {
@@ -65,8 +65,7 @@ export default class GiftItem extends cc.Component {
                 }
             } else {
                 if (DD.instance.checkCanUnlockGift()) {
-                    DD.instance.giftData[this.index].isStart = true
-                    DD.instance.giftData[this.index].startTime = new Date().getTime() / 1000
+                    DD.instance.startUnlockBag(this.index)
                     this.data = DD.instance.giftData[this.index]
                     this.startTimer()
                 } else {
@@ -114,7 +113,7 @@ export default class GiftItem extends cc.Component {
     remove() {
         UIManager.instance.LoadMessageBox('确认删除', '是否确认删除该背包？', (isOK) => {
             if (isOK) {
-                DD.instance.giftData[this.index] = { isHave: false, isStart: false }
+                DD.instance.removeBag(this.index)
                 MainUIManager.instance.frashGitfs()
                 if (this.timer) {
                     clearInterval(this.timer)

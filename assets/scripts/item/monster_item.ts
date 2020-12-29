@@ -1,5 +1,5 @@
 import ResourceManager from "../manager/resources_manager"
-import { ResType } from "../utils/enum"
+import { BattleType, ResType } from "../utils/enum"
 import PoolManager from "../manager/pool_manager"
 import BattleManager from "../manager/battle_manager"
 import { Emitter } from "../utils/emmiter"
@@ -122,7 +122,11 @@ export default class MonsterItem extends cc.Component {
         this.removeSelf()
     }
     onDied() {
-        BattleManager.instance.sun += 10 * BattleManager.instance.rank
+        if (BattleManager.instance.type == BattleType.unlimited) {
+            BattleManager.instance.sun += 10
+        } else {
+            BattleManager.instance.sun += 10 * BattleManager.instance.rank
+        }
         if (this.explosion) {
             //发射爆炸
             EffectManager.instance.creatEffect(27, this.node.position)

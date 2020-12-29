@@ -9,6 +9,7 @@ import MainUIManager from "../ui/main_ui_manager"
 import config from "../utils/config"
 import { Utils } from "../utils/utils"
 import JsonManager from "./json_manager"
+import StorageManager from "./storage_manager"
 import UIManager from "./ui_manager"
 
 const { ccclass, property } = cc._decorator
@@ -56,8 +57,8 @@ export default class DD extends cc.Component {
     giftData: GiftData[] = [
         { isHave: false },
         { isHave: false },
-        //{ isHave: false },
-        { isHave: true, isStart: false, startTime: 1608082541, needTime: 600, quality: 2 },
+        { isHave: false },
+        //{ isHave: true, isStart: false, startTime: 1608082541, needTime: 600, quality: 2 },
         { isHave: false }]
     // { isHave: true, isStart: false, startTime: 1608082541, needTime: 5000, quality: 2 },
     // { isHave: true, isStart: true, startTime: 1608082541, needTime: 5000, quality: 1 }
@@ -68,9 +69,10 @@ export default class DD extends cc.Component {
         1: {
             diff: 1,
             gift: [true, true, true],
-            rank: [2, 3, 1]
+            rank: [1, 1, 1]
         }
     }
+    guide: object = { 1: false, 2: false, 3: false, 4: false }//教程查看
     getMonsterByNode(monster): MonsterItem | BossItem {
         if (monster.name == 'monsterItem') {
             return monster.getComponent(MonsterItem)
@@ -102,6 +104,19 @@ export default class DD extends cc.Component {
                     break
             }
         }
+        StorageManager.instance.savePlayerData()
+    }
+    onCost(data) {
+        let keys = Object.keys(data)
+        switch (keys[0]) {
+            case 'money':
+            case 'ticket':
+                this[keys[0]] -= data[keys[0]]
+                break
+            default:
+                this.cards.splice(data[keys[0]], 1)
+        }
+        StorageManager.instance.savePlayerData()
     }
     /**
      * 刷新商店
@@ -117,12 +132,19 @@ export default class DD extends cc.Component {
                 price: Math.floor(cardData.lv * 10 * qua)
             })
         }
+        this.lastShopFrashTime = new Date().getTime()
+        StorageManager.instance.savePlayerData()
     }
     findFreeBag() {
         for (let i = 0; i < this.giftData.length; i++) {
             if (!this.giftData[i].isHave) return i
         }
         return -1
+    }
+    startUnlockBag(index) {
+        this.giftData[index].isStart = true
+        this.giftData[index].startTime = new Date().getTime() / 1000
+        StorageManager.instance.savePlayerData()
     }
     addBag(data: GiftData) {
         let index = this.findFreeBag()
@@ -132,8 +154,18 @@ export default class DD extends cc.Component {
         } else {
             UIManager.instance.LoadTipsByStr('背包已满')
         }
+        StorageManager.instance.savePlayerData()
     }
-
+    removeBag(index) {
+        this.giftData[index] = { isHave: false }
+        StorageManager.instance.savePlayerData()
+    }
+    pauseGift(index) {
+        this.giftData[index].isStart = false
+        this.giftData[index].startTime = new Date().getTime()
+        MainUIManager.instance.frashGitfs()
+        StorageManager.instance.savePlayerData()
+    }
     getCurAreaDiff() {
         return this.areaData[this.area].diff
     }
@@ -151,9 +183,15 @@ export default class DD extends cc.Component {
         }
         return card
     }
-    pauseGift(index) {
-        this.giftData[index].isStart = false
-        this.giftData[index].startTime = new Date().getTime()
-        MainUIManager.instance.frashGitfs()
+    rankSuccess(lv) {
+        DD.instance.rank++
+        let data = this.areaData[this.area]
+        if (lv == data.rank[data.diff - 1] && lv != 6) {
+            this.areaData[this.area].rank[data.diff - 1]++
+            UIManager.instance.LoadTipsByStr('新地图已解锁')
+        }
+    }
+    checkDailyFrash() {
+
     }
 }

@@ -3,6 +3,7 @@ import IconItem from "../item/icon_item"
 import ShopItem from "../item/shop_item"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
+import StorageManager from "../manager/storage_manager"
 import UIManager from "../manager/ui_manager"
 import { Utils } from "../utils/utils"
 import GroupUIManager from "./group_ui_manager"
@@ -114,5 +115,6 @@ export default class MixUIManager extends cc.Component {
             UIManager.instance.LoadTipsByStr('强化失败')
         }
         this.choosedCards = []
+        StorageManager.instance.savePlayerData()
     }
 }

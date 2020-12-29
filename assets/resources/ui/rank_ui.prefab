@@ -5972,6 +5972,9 @@
     "mapMaskNode": {
       "__id__": 145
     },
+    "getGiftBtn": {
+      "__id__": 112
+    },
     "mapAreaContainer": {
       "__id__": 147
     },

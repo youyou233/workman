@@ -1,10 +1,11 @@
 import GiftItem from "../item/gift_item"
+import BattleManager from "../manager/battle_manager"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
 import ResourceManager from "../manager/resources_manager"
 import UIManager from "../manager/ui_manager"
 import config from "../utils/config"
-import { ResType } from "../utils/enum"
+import { BattleType, ResType } from "../utils/enum"
 import GroupUIManager from "./group_ui_manager"
 import RankUIManager from "./rank_ui_manager"
 import ShopUIManager from "./shop_ui_manager"
@@ -74,6 +75,14 @@ export default class MainUIManager extends cc.Component {
         this.moreCloseBtn.on('click', () => {
             this.moreTypePage.active = false
         })
+        this.unlimitedBtn.node.on('click', () => {
+            BattleManager.instance.initBattle(BattleType.unlimited)
+            this.moreTypePage.active = false
+        }, this)
+        this.bossBtn.node.on('click', () => {
+            BattleManager.instance.initBattle(BattleType.boss)
+            this.moreTypePage.active = false
+        }, this)
     }
     showUI() {
         this.content.active = true

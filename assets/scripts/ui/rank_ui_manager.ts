@@ -6,8 +6,9 @@ import DD from "../manager/dynamic_data_manager"
 import JsonManager from "../manager/json_manager"
 import PoolManager from "../manager/pool_manager"
 import ResourceManager from "../manager/resources_manager"
+import StorageManager from "../manager/storage_manager"
 import UIManager from "../manager/ui_manager"
-import { ResType } from "../utils/enum"
+import { BattleType, ResType } from "../utils/enum"
 import { Utils } from "../utils/utils"
 
 const { ccclass, property } = cc._decorator
@@ -29,6 +30,8 @@ export default class RankUIManager extends cc.Component {
     moreMapBtn: cc.Button = null
     @property(cc.Button)
     mapMaskNode: cc.Button = null
+    @property(cc.Button)
+    getGiftBtn: cc.Button = null
     @property(cc.Node)
     mapAreaContainer: cc.Node = null
     @property(cc.Node)
@@ -47,7 +50,7 @@ export default class RankUIManager extends cc.Component {
         this.container.children.forEach((item, index) => {
             item.on('click', () => {
                 BattleManager.instance.curLv = index + 1
-                BattleManager.instance.initBattle()
+                BattleManager.instance.initBattle(BattleType.normal)
                 this.hideUI()
             }, this)
         })
@@ -62,6 +65,7 @@ export default class RankUIManager extends cc.Component {
         this.mapMaskNode.node.on('click', () => {
             this.mapNode.active = false
         }, this)
+        this.getGiftBtn.node.on('click', this.getGift, this)
         setTimeout(() => {
             for (let i = 1; i <= 20; i++) {
                 let area = JsonManager.instance.getDataByName('area')[i]

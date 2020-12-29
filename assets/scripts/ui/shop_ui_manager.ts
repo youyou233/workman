@@ -4,6 +4,7 @@ import ShopItem from "../item/shop_item"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
 import UIManager from "../manager/ui_manager"
+import { Utils } from "../utils/utils"
 
 const { ccclass, property } = cc._decorator
 
@@ -16,7 +17,9 @@ export default class ShopUIManager extends cc.Component {
     container: cc.Node = null
     @property(cc.Button)
     freashBtn: cc.Button = null
-
+    @property(cc.Label)
+    lastFrashLabel: cc.Label = null
+    frashTimer: any = null
     onLoad() {
         ShopUIManager.instance = this
         this.freashBtn.node.on('click', this.freash, this)
@@ -29,6 +32,22 @@ export default class ShopUIManager extends cc.Component {
             good.getComponent(ShopItem).init(item)
         })
         this.freashBtn.node.active = DD.instance.ticket >= 10
+        if (this.frashTimer) clearInterval(this.frashTimer)
+        let leftTime = DD.instance.lastShopFrashTime + 5 * 60 * 1000 - new Date().getTime()
+        if (leftTime > 0) {
+            this.lastFrashLabel.string = '刷新倒计时' + Utils.getTimeFormat(Math.floor(leftTime / 1000))
+            this.frashTimer = setInterval(() => {
+                let left = DD.instance.lastShopFrashTime + 5 * 60 * 1000 - new Date().getTime()
+                if (left > 0) {
+                    this.lastFrashLabel.string = '刷新倒计时' + Utils.getTimeFormat(Math.floor(left / 1000))
+                } else {
+                    this.timeFrash()
+                }
+            }, 1000)
+        } else {
+            this.timeFrash()
+        }
+
     }
     hideUI() {
         this.content.active = false
@@ -48,7 +67,12 @@ export default class ShopUIManager extends cc.Component {
                 }
             })
         }
-
-
+    }
+    timeFrash() {
+        if (this.frashTimer) clearInterval(this.frashTimer)
+        if (this.content.active) {
+            DD.instance.frashShop()
+            this.showUI()
+        }
     }
 }

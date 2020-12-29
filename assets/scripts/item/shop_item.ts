@@ -4,6 +4,7 @@ import { ShopData } from "../interface/shop_data"
 import DD from "../manager/dynamic_data_manager"
 import JsonManager from "../manager/json_manager"
 import ResourceManager from "../manager/resources_manager"
+import StorageManager from "../manager/storage_manager"
 import UIManager from "../manager/ui_manager"
 import RoleInfoUIManager from "../ui/role_info_ui_manager"
 import ShopUIManager from "../ui/shop_ui_manager"
@@ -52,7 +53,7 @@ export default class ShopItem extends cc.Component {
         } else {
             UIManager.instance.LoadTipsByStr('您的金币不足')
         }
-
+        StorageManager.instance.savePlayerData()
     }
 
 }

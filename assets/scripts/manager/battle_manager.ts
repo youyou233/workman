@@ -117,18 +117,6 @@ export default class BattleManager extends cc.Component {
     }
     initBattle(type?: BattleType) {
         if (type) this.type = type
-        switch (this.type) {
-            case BattleType.normal:
-                this.isBoss = false
-                this.rankTimer = 30
-                break
-            case BattleType.boss:
-                //TODO: 设计
-                break
-            case BattleType.unlimited:
-                break
-        }
-
         this.btnAddTimes = 0
         this.monsterTimer = this.getGenerateMosnterTimer()
         this.sun = 500
@@ -137,6 +125,7 @@ export default class BattleManager extends cc.Component {
         this.skillTimes = 0
         this.team = DD.instance.group
         //3*5
+        this.isBoss = false
         this.mapData = []
         for (let i = 0; i < 3; i++) {
             this.mapData[i] = []
@@ -144,6 +133,18 @@ export default class BattleManager extends cc.Component {
                 let data: LandItem = null
                 this.mapData[i][j] = data
             }
+        }
+        switch (this.type) {
+            case BattleType.normal:
+                this.rankTimer = 30
+                break
+            case BattleType.boss:
+                this.rankTimer = 3
+                //TODO: 设计
+                break
+            case BattleType.unlimited:
+                this.rankTimer = 20
+                break
         }
         BattleUIManager.instance.initBattle()
         this.status = BattleStatusType.play
@@ -155,8 +156,7 @@ export default class BattleManager extends cc.Component {
         let reward = {
             'bag': { isHave: true, isStart: false, startTime: 1608082541, needTime: 300, quality: 1 }
         }
-        //TODO: 临时
-        DD.instance.rank++
+        DD.instance.rankSuccess(this.curLv)
         DD.instance.getReward(reward)
         UIManager.instance.openUI(RewardUIManager, {
             name: config.uiName.rewardUI, param: [reward, '防御成功', () => {
@@ -168,8 +168,26 @@ export default class BattleManager extends cc.Component {
     gameFail() {
         this.status = BattleStatusType.end
         Emitter.fire('Message_' + MessageType.gameFail)
-        // BattleUIManager.instance.content.active = false
         let reward = {}
+        // BattleUIManager.instance.content.active = false
+        switch (this.type) {
+            case BattleType.boss:
+                if (this.rank >= 7) {
+                    //50关以下1-4 以上5
+                    let quality = 1
+                    if (this.rank >= 50) {
+                        quality = 5
+                    } else {
+                        quality = Math.floor((this.rank - 7) / 42) * 4 + 1
+                    }
+                    reward['bag'] = { isHave: true, isStart: false, startTime: 1608082541, needTime: quality * 600, quality }
+                }
+                break
+            case BattleType.unlimited:
+                reward['money'] = this.rank * 100
+                break
+        }
+        DD.instance.getReward(reward)
         UIManager.instance.openUI(RewardUIManager, {
             name: config.uiName.rewardUI, param: [reward, '防御失败', () => {
                 BattleUIManager.instance.content.active = false
@@ -183,6 +201,7 @@ export default class BattleManager extends cc.Component {
                 this.rankTimer -= dt
                 this.monsterTimer -= dt
                 if (this.monsterTimer <= 0) {
+                    if (this.type == BattleType.boss) return
                     this.monsterTimer = this.getGenerateMosnterTimer()
                     this.addMonster()
                 }
@@ -192,28 +211,57 @@ export default class BattleManager extends cc.Component {
     nextRank() {
         switch (this.type) {
             case BattleType.normal:
+            case BattleType.boss:
                 this.onBoss()
+                break
+            case BattleType.unlimited:
+                this.rank++
+                this.rankTimer = 20
                 break
         }
     }
     addMonster() {
-        let areaMonsterList = JsonManager.instance.getDataByName('area')[DD.instance.area].monsters
-        BattleUIManager.instance.addMosnter(areaMonsterList[Utils.getRandomNumber(2)])
+
+        let id = 1
+        if (this.type == BattleType.normal) {
+            let areaMonsterList = JsonManager.instance.getDataByName('area')[DD.instance.area].monsters
+            id = areaMonsterList[Utils.getRandomNumber(2)]
+        } else {
+            let bosslist = [6, 12, 21, 18, 32, 31]
+            id = Utils.getRandomNumber(35) + 1
+            if (bosslist.indexOf(id) != -1) id = 1
+        }
+        BattleUIManager.instance.addMosnter(id)
     }
     //倒计时结束 出现boss
     onBoss() {
         this.isBoss = true
         let areaMonsterList = JsonManager.instance.getDataByName('area')[DD.instance.area].monsters
-
         BattleUIManager.instance.bossLabel.string = 'boss进场中'
-        BattleUIManager.instance.addBoss(areaMonsterList[3])
+        let id = 0
+        if (this.type == BattleType.boss) {
+            let list = [6, 12, 21, 18, 32, 31]
+            if (this.rank <= 6) {
+                id = list[this.rank - 1]
+            } else {
+                id = list[Utils.getRandomNumber(5)]
+            }
+        } else {
+            id = areaMonsterList[3]
+        }
+        BattleUIManager.instance.addBoss(id)
     }
     killBoss() {
         if (this.isBoss) {
             this.isBoss = false
-            this.sun += 100 * this.rank
             this.rank++
-            this.rankTimer = 20
+            if (this.type == BattleType.boss) {
+                this.sun += Math.floor(100 * Math.sqrt(this.rank))
+                this.rankTimer = 1
+            } else {
+                this.sun += 100 * this.rank
+                this.rankTimer = 20
+            }
         }
     }
     bossInCity() {
@@ -342,8 +390,20 @@ export default class BattleManager extends cc.Component {
         return [row, col]
     }
     getHpmult() {
-        let areaData = JsonManager.instance.getDataByName('area')[DD.instance.area]
-        return this.rank * areaData.diff * DD.instance.getCurAreaDiff() * (this.curLv / 5 + 0.8)
+        if (this.type == BattleType.normal) {
+            let areaData = JsonManager.instance.getDataByName('area')[DD.instance.area]
+            return this.rank * areaData.diff * DD.instance.getCurAreaDiff() * (this.curLv / 5 + 0.8)
+        } else if (this.type == BattleType.unlimited) {
+            return this.rank
+        } else {
+            return this.rank
+            // if (this.rank <= 6) {
+            //     return 1
+            // } else {
+            //     return this.rank / 2
+            // }
+        }
+
     }
     getGenerateMosnterTimer() {
         return 1

@@ -2,6 +2,7 @@ import { CardData } from "../interface/card_data"
 import IconItem from "../item/icon_item"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
+import StorageManager from "../manager/storage_manager"
 import UIManager from "../manager/ui_manager"
 import config from "../utils/config"
 import { Utils } from "../utils/utils"
@@ -72,9 +73,8 @@ export default class GroupUIManager extends cc.Component {
             DD.instance.cards.push(newCard)
             DD.instance.group[groupIndex] = newGroup
             this.showUI()
-            setTimeout(() => {
-                //  console.log(DD.instance.cards, DD.instance.group)
-            }, 100);
+            StorageManager.instance.savePlayerData()
+
         } else {
             UIManager.instance.openUI(RoleInfoUIManager, { name: config.uiName.roleInfoUI, param: [data] })
         }

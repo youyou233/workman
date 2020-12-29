@@ -15,6 +15,7 @@ import CommonItem from "./common_item"
 import EffectManager from "../manager/effect_manager"
 import DD from "../manager/dynamic_data_manager"
 import { CardData } from "../interface/card_data"
+import UIManager from "../manager/ui_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -55,6 +56,10 @@ export default class LandItem extends cc.Component {
         }
     }
     set stack(val: number) {
+        if (val > 7) {
+            val = 7
+            UIManager.instance.LoadTipsByStr('最高七级')
+        }
         this._stack = val
         this.stackContainer.children.forEach((item, index) => {
             item.active = index < val
@@ -108,6 +113,7 @@ export default class LandItem extends cc.Component {
         this.aroundBuffTimer = 0
         this.role = null
         this.buffMap = {}
+        this.isDiz = false
         this.updateBuffContainer()
     }
     showRole() {
@@ -124,6 +130,7 @@ export default class LandItem extends cc.Component {
             let skillData = JsonManager.instance.getDataByName('skill')[this.id]
             this.generateTimer = skillData.param.cold
         }
+        this.isDiz = false
         this.addAnimationClip()
         this.updateBuffContainer()
         EffectManager.instance.creatEffect(1, cc.v3(this.node.position.x, this.node.position.y + 65))

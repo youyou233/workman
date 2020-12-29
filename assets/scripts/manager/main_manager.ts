@@ -4,6 +4,7 @@ import BattleUIManager from "../ui/battle_ui_manager";
 import BattleManager from "./battle_manager";
 import MainUIManager from "../ui/main_ui_manager";
 import DD from "./dynamic_data_manager";
+import StorageManager from "./storage_manager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,22 +24,29 @@ export default class MainManager extends cc.Component {
         ResourceManager.instance.init()
         //加载资源
     }
+    //资源加载
     resLoaded() {
         console.log('资源加载完毕')
-        DD.instance.group = [
-            { id: 1, lv: 1, group: true }, { id: 2, lv: 1, group: true }, { id: 3, lv: 1, group: true },
-            { id: 4, lv: 1, group: true }, { id: 5, lv: 1, group: true }
-        ]
+        this.checkUserData()
+    }
+    checkUserData() {
+        let newb = StorageManager.instance.isFristPlay()
+        if (newb) {
+            DD.instance.group = [
+                { id: 1, lv: 1, group: true }, { id: 2, lv: 1, group: true }, { id: 3, lv: 1, group: true },
+                { id: 4, lv: 1, group: true }, { id: 5, lv: 1, group: true }
+            ]
+            MainUIManager.instance.switchUI(1)
+            DD.instance.money = 0
+            DD.instance.ticket = 0
+            StorageManager.instance.savePlayerData()
+        } else {
+            StorageManager.instance.loadPlayerData()
+        }
+    }
+    //数据加载
+    dataLoaded() {
         MainUIManager.instance.switchUI(1)
-        DD.instance.money = 200
-        DD.instance.ticket = 200
-        //BattleManager.instance.initBattle()
-        // UIManager.instance.LoadMessageBox('d', 'kkkk')
-        // setInterval(() => {
-        //     UIManager.instance.LoadTipsByStr('timer' + this.timer)
-        //     this.timer++
-        // }, 1000)
-        //展示开始按钮
     }
     setDesignResolution() {
         var canvas = cc.find("Canvas").getComponent(cc.Canvas)
