@@ -62,8 +62,9 @@ export default class StorageManager extends cc.Component {
             DD.instance.lastShopFrashTime = data['LSFT']
             DD.instance.area = data['A']
             DD.instance.areaData = data['AD']
+            DD.instance.rankGift = data['RG']
             DD.instance.checkDailyFrash(data['LL'])
-
+            DD.instance.vip = data['V']
             MainManager.instance.dataLoaded()
             resolve(data)
         })
@@ -84,6 +85,8 @@ export default class StorageManager extends cc.Component {
         data['A'] = DD.instance.area
         data['AD'] = DD.instance.areaData
         data['LL'] = DD.instance.lastLogin
+        data['RG'] = DD.instance.rankGift || []
+        data['V'] = DD.instance.vip || 0
         cc.sys.localStorage.setItem('userdata', JSON.stringify(data))
         cc.log('数据保存成功')
     }

@@ -18,7 +18,7 @@
   },
   "2": {
     "id": "2",
-    "quality": 3,
+    "quality": 2,
     "typeName": "攻击型角色",
     "name": "魔法师",
     "atk": 100,
@@ -54,7 +54,7 @@
   },
   "4": {
     "id": "4",
-    "quality": 2,
+    "quality": 5,
     "typeName": "辅助型角色",
     "name": "梦想家",
     "atk": 10,
@@ -122,7 +122,7 @@
   },
   "8": {
     "id": "8",
-    "quality": 3,
+    "quality": 4,
     "typeName": "特殊型角色",
     "name": "解说员",
     "atk": 30,
@@ -173,7 +173,7 @@
   },
   "11": {
     "id": "11",
-    "quality": 2,
+    "quality": 4,
     "typeName": "主角",
     "name": "偶像",
     "atk": 70,
@@ -326,7 +326,7 @@
   },
   "20": {
     "id": "20",
-    "quality": 2,
+    "quality": 6,
     "typeName": "主角",
     "name": "弓箭手",
     "atk": 100,

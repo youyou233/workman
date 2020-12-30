@@ -6,6 +6,7 @@ import BossItem from "../item/boss_item"
 import MonsterItem from "../item/monster_item"
 import BattleUIManager from "../ui/battle_ui_manager"
 import MainUIManager from "../ui/main_ui_manager"
+import RewardUIManager from "../ui/reward_ui_manager"
 import config from "../utils/config"
 import { Utils } from "../utils/utils"
 import JsonManager from "./json_manager"
@@ -47,7 +48,7 @@ export default class DD extends cc.Component {
     set rank(val: number) {
         if (val > 20) val = 20
         this._rank = val
-        MainUIManager.instance.rankLabel.string = config.lvString[val]
+        MainUIManager.instance.rankLabel.string = config.lvString[val - 1]
     }
     get rank() {
         return this._rank
@@ -77,6 +78,9 @@ export default class DD extends cc.Component {
         1: 3, 2: 3
     }
     lastLogin: number = 0
+
+    rankGift: [boolean, boolean][] = []
+    vip: number = 0//写明到期时间
     getMonsterByNode(monster): MonsterItem | BossItem {
         if (monster.name == 'monsterItem') {
             return monster.getComponent(MonsterItem)
@@ -191,8 +195,9 @@ export default class DD extends cc.Component {
         }
         let roleList = this.getUnlcokRoleIdByQuality(qua)
         let id = roleList[Utils.getRandomNumber(roleList.length - 1)]
+        console.log('随机到的', roleList, id)
         let card: CardData = {
-            lv: Utils.getRandomNumber(this.rank) + 1,
+            lv: Utils.getRandomNumber(this.rank - 1) + 1,
             id
         }
         return card
@@ -215,7 +220,7 @@ export default class DD extends cc.Component {
     rankSuccess(lv) {
         DD.instance.rank++
         let data = this.areaData[this.area]
-        if (lv == data.rank[data.diff - 1] && lv != 6) {
+        if (lv == data.rank[data.diff - 1]) {
             this.areaData[this.area].rank[data.diff - 1]++
             UIManager.instance.LoadTipsByStr('新地图已解锁')
         }
@@ -249,5 +254,18 @@ export default class DD extends cc.Component {
             }
         }
         return null
+    }
+    isVip() {
+        return new Date().getTime() < this.vip
+    }
+    getRankGift(lv, index) {
+        this.rankGift[lv - 1][index] = true
+        let reward = { 'money': lv * 100 }
+        if (index == 0) {
+            let card = this.getRandomCard(lv)
+            reward[card.id] = card.lv
+        }
+        this.getReward(reward)
+        UIManager.instance.openUI(RewardUIManager, { name: config.uiName.rewardUI, param: [reward, '等级奖励'] }, 300)
     }
 }

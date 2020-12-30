@@ -97,7 +97,7 @@ export default class RankUIManager extends cc.Component {
         this.container.children.forEach((item, index) => {
             item.active = index < list
         })
-        this.giftNode.active = list == 6 && data.gift[data.diff]
+        this.giftNode.active = list == 7 && data.gift[data.diff]
     }
     getGift() {
         this.giftNode.active = false

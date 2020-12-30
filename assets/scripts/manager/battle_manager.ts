@@ -166,7 +166,7 @@ export default class BattleManager extends cc.Component {
             name: config.uiName.rewardUI, param: [reward, '防御成功', () => {
                 BattleUIManager.instance.content.active = false
             }]
-        })
+        }, 300)
     }
     gameFail() {
         this.status = BattleStatusType.end
@@ -176,12 +176,11 @@ export default class BattleManager extends cc.Component {
         switch (this.type) {
             case BattleType.boss:
                 if (this.rank >= 7) {
-                    //50关以下1-4 以上5
                     let quality = 1
                     if (this.rank >= 50) {
                         quality = 5
                     } else {
-                        quality = Math.floor((this.rank - 7) / 42) * 4 + 1
+                        quality = Math.floor((this.rank - 7) / 42 * 4.99) + 1
                     }
                     reward['bag'] = { isHave: true, isStart: false, startTime: 1608082541, needTime: this.rank * 60, quality }
                 }
@@ -198,7 +197,7 @@ export default class BattleManager extends cc.Component {
                 BattleUIManager.instance.content.active = false
 
             }]
-        })
+        }, 300)
     }
     onUpdate(dt) {
         if (this.status == BattleStatusType.play) {

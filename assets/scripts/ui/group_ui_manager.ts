@@ -76,7 +76,7 @@ export default class GroupUIManager extends cc.Component {
             StorageManager.instance.savePlayerData()
 
         } else {
-            UIManager.instance.openUI(RoleInfoUIManager, { name: config.uiName.roleInfoUI, param: [data] })
+            UIManager.instance.openUI(RoleInfoUIManager, { name: config.uiName.roleInfoUI, param: [data] }, 300)
         }
     }
     touchMask() {

@@ -87,12 +87,30 @@ export default class MixUIManager extends cc.Component {
             PoolManager.instance.removeObjectByName('iconItem', this.container.children[j])
         }
     }
+    //TODO: 自动将高级的替换到队伍
     onAdd(card: CardData) {
         let index = DD.instance.cards.indexOf(card)
-        this.mixIcon.init(card, null)
-        this.choosedCards = this.choosedCards.concat(Utils.deepCopy(DD.instance.cards[index]) as any)
-        DD.instance.cards.splice(index, 1)
-        this.frashContainer()
+
+        if (card.lv > this.card.lv) {
+            let oriIndex = DD.instance.group.indexOf(this.card)
+            let swtichCard = Utils.deepCopy(card) as any
+            let groupCard = Utils.deepCopy(DD.instance.group[oriIndex]) as any
+            DD.instance.group[oriIndex] = swtichCard
+            this.card = DD.instance.group[oriIndex]
+            this.choosedCards = this.choosedCards.concat(groupCard)
+            DD.instance.cards.splice(index, 1)
+            this.curIcon.init(swtichCard, null)
+            this.mixIcon.init(groupCard, null)
+            UIManager.instance.LoadTipsByStr('自动将高级的替换到队伍了')
+            this.frashContainer()
+        } else {
+            this.mixIcon.init(card, null)
+            this.choosedCards = this.choosedCards.concat(Utils.deepCopy(DD.instance.cards[index]) as any)
+            DD.instance.cards.splice(index, 1)
+            this.frashContainer()
+        }
+
+
     }
     onMix() {
         let level = 0

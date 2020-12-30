@@ -81,7 +81,7 @@ export default class GiftItem extends cc.Component {
             clearInterval(this.timer)
         }
         let reward = this.getGiftData()
-        UIManager.instance.openUI(RewardUIManager, { name: config.uiName.rewardUI, param: [reward, '打开背包'] })
+        UIManager.instance.openUI(RewardUIManager, { name: config.uiName.rewardUI, param: [reward, '打开背包'] }, 300)
         DD.instance.removeBag(this.index)
         DD.instance.getReward(reward)
         MainUIManager.instance.frashGitfs()

@@ -156,8 +156,8 @@
     "isActive": false,
     "skillType": 11,
     "param": {
-      "num": 2.5,
-      "add": 0.3
+      "num": 1.5,
+      "add": 0.4
     }
   },
   "13": {
@@ -169,8 +169,8 @@
     "isActive": false,
     "skillType": 12,
     "param": {
-      "num": 2.5,
-      "add": 0.3
+      "num": 1.5,
+      "add": 0.4
     }
   },
   "14": {

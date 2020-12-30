@@ -37,7 +37,7 @@ export default class ShopItem extends cc.Component {
             this.moneyLabel.node.color = cc.Color.RED
         }
         this.icon.init(data.cardData, () => {
-            UIManager.instance.openUI(RoleInfoUIManager, { name: config.uiName.roleInfoUI, param: [data.cardData, false] })
+            UIManager.instance.openUI(RoleInfoUIManager, { name: config.uiName.roleInfoUI, param: [data.cardData, false] }, 300)
         })
         let role = JsonManager.instance.getDataByName('role')[data.cardData.id]
         this.nameLabel.string = 'Lv' + data.cardData.lv + role.name

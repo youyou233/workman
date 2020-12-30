@@ -17,12 +17,14 @@ export default class IconItem extends cc.Component {
     lvSp: cc.Sprite = null
     data: any = null
     cb: Function = null
+    lvNode: cc.Node = null
     onLoad() {
+        this.lvNode = this.node.getChildByName('ui (11)')
         this.node.on('click', () => {
             this.cb && this.cb(this.data)
         }, this)
     }
-    init(data: CardData, cb: Function) {
+    init(data: CardData, cb: Function, showLv: boolean = true) {
         if (!data) {
             this.lvLabel.string = ''
             this.sp.spriteFrame = null
@@ -44,6 +46,11 @@ export default class IconItem extends cc.Component {
         this.data = data
         this.cb = cb
         this.lvLabel.string = data.lv + ''
+        setTimeout(() => {
+            if (this.lvNode) {
+                this.lvNode.active = showLv
+            }
+        });
     }
 
 }

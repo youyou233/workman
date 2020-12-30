@@ -186,7 +186,7 @@ export default class RoleInfoUIManager extends cc.Component {
 
     }
     onMix() {
-        UIManager.instance.openUI(MixUIManager, { name: config.uiName.mixUI, param: [this.cardData] })
+        UIManager.instance.openUI(MixUIManager, { name: config.uiName.mixUI, param: [this.cardData] }, 300)
     }
     onAddGroup() {
         this.hideUI()

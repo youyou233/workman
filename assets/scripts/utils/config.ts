@@ -2,7 +2,7 @@ let resConfig = {
     altasArr: ['main', 'battle', 'monster', 'bg'],
     jsonArr: ['role', 'skill', 'buff', 'monster', 'area'],
     prefabArr: ['cardItem', 'landItem', 'monsterItem', 'bossItem', 'throwItem', 'commonItem', 'effectItem', 'damageLabel', 'iconItem', 'giftItem',
-        'shopItem', 'rewardItem', 'areaItem']
+        'shopItem', 'rewardItem', 'areaItem', 'lvItem']
 }
 
 let uiName = {

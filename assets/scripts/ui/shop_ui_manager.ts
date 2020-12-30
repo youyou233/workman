@@ -33,11 +33,11 @@ export default class ShopUIManager extends cc.Component {
         })
         this.freashBtn.node.active = DD.instance.ticket >= 10
         if (this.frashTimer) clearInterval(this.frashTimer)
-        let leftTime = DD.instance.lastShopFrashTime + 5 * 60 * 1000 - new Date().getTime()
+        let leftTime = DD.instance.lastShopFrashTime + 10 * 1000 - new Date().getTime()
         if (leftTime > 0) {
             this.lastFrashLabel.string = '刷新倒计时' + Utils.getTimeFormat(Math.floor(leftTime / 1000))
             this.frashTimer = setInterval(() => {
-                let left = DD.instance.lastShopFrashTime + 5 * 60 * 1000 - new Date().getTime()
+                let left = DD.instance.lastShopFrashTime + 10 * 1000 - new Date().getTime()
                 if (left > 0) {
                     this.lastFrashLabel.string = '刷新倒计时' + Utils.getTimeFormat(Math.floor(left / 1000))
                 } else {
