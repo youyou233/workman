@@ -118,6 +118,7 @@ export default class LandItem extends cc.Component {
     }
     showRole() {
         this.cardData = BattleManager.instance.team[Utils.getRandomNumber(4)]
+        // this.cardData = BattleManager.instance.team[0]
         this.id = this.cardData.id
         if (this.role && this.role.isAroundBuff()) {
             this.aroundBuffTimer = 1

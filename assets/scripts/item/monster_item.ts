@@ -54,7 +54,7 @@ export default class MonsterItem extends cc.Component {
     get hp() {
         return this._hp
     }
-    explosion: number = 0//TODO: 待验证
+    explosion: number = 0
     randomPos: cc.Vec3[] = []
     path: number = 0
     oid: number = 0

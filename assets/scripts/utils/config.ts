@@ -11,7 +11,8 @@ let uiName = {
     roleInfoUI: 'role_info_ui',
     mixUI: 'mix_ui',
     rewardUI: 'reward_ui',
-    onskillUI: 'onskill_ui'
+    onskillUI: 'onskill_ui',
+    vipUI: 'vip_ui'
 }
 
 let aniConfig = {
@@ -93,6 +94,9 @@ let aniConfig = {
 
 let lvString = ['初窥门径', '略知一二', '粗通皮毛', '半生不熟', '渐入佳境', '了然于胸', '心领神会', '炉火纯青', '融会贯通',
     '略有小成', '出类拔萃', '运斤成风', '技冠群雄', '登峰造极', '鬼斧神工', '出神入化', '震古烁今', '绝代宗师', '巧夺天工', '举世无双']
+let unlockRole = [
+    [1, 2, 3, 4, 5, 8, 20], [9, 10, 14, 21], [7, 6, 17, 19], [11, 12, 18], [13, 15, 16]
+]
 let version = '0.0.1'
 
-export default { lvString, resConfig, uiName, aniConfig }
+export default { unlockRole, lvString, resConfig, uiName, aniConfig }

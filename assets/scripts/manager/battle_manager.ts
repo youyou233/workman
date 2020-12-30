@@ -140,7 +140,6 @@ export default class BattleManager extends cc.Component {
                 break
             case BattleType.boss:
                 this.rankTimer = 3
-                //TODO: 设计
                 break
             case BattleType.unlimited:
                 this.rankTimer = 20
@@ -152,16 +151,20 @@ export default class BattleManager extends cc.Component {
     gameSuccess() {
         this.status = BattleStatusType.end
         Emitter.fire('Message_' + MessageType.gameSuccess)
-        // BattleUIManager.instance.content.active = false
+        let areaData = JsonManager.instance.getDataByName('area')[DD.instance.area]
         let reward = {
-            'bag': { isHave: true, isStart: false, startTime: 1608082541, needTime: 300, quality: 1 }
+            'money': areaData.diff * DD.instance.getCurAreaDiff() * 10 * this.curLv
+        }
+        let bag = DD.instance.areaSuccessBag(this.curLv)
+        if (bag) {
+            reward['bag'] = bag
+            console.log(bag)
         }
         DD.instance.rankSuccess(this.curLv)
         DD.instance.getReward(reward)
         UIManager.instance.openUI(RewardUIManager, {
             name: config.uiName.rewardUI, param: [reward, '防御成功', () => {
                 BattleUIManager.instance.content.active = false
-
             }]
         })
     }
@@ -180,11 +183,13 @@ export default class BattleManager extends cc.Component {
                     } else {
                         quality = Math.floor((this.rank - 7) / 42) * 4 + 1
                     }
-                    reward['bag'] = { isHave: true, isStart: false, startTime: 1608082541, needTime: quality * 600, quality }
+                    reward['bag'] = { isHave: true, isStart: false, startTime: 1608082541, needTime: this.rank * 60, quality }
                 }
+                DD.instance.changeTime['1']--
                 break
             case BattleType.unlimited:
-                reward['money'] = this.rank * 100
+                reward['money'] = this.rank * 30
+                DD.instance.changeTime['2']--
                 break
         }
         DD.instance.getReward(reward)
@@ -406,6 +411,6 @@ export default class BattleManager extends cc.Component {
 
     }
     getGenerateMosnterTimer() {
-        return 1
+        return (Utils.getRandomNumber(10) + 1) / 10
     }
 }

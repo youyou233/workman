@@ -9,6 +9,7 @@ import { BattleType, ResType } from "../utils/enum"
 import GroupUIManager from "./group_ui_manager"
 import RankUIManager from "./rank_ui_manager"
 import ShopUIManager from "./shop_ui_manager"
+import VipUIManager from "./vip_ui_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -52,6 +53,12 @@ export default class MainUIManager extends cc.Component {
 
     @property(cc.Node)
     moreCloseBtn: cc.Node = null
+    @property(cc.Label)
+    unlimitedNumLabel: cc.Label = null
+    @property(cc.Label)
+    bossNumLabel: cc.Label = null
+    @property(cc.Button)
+    vipBtn: cc.Button = null
     onLoad() {
         MainUIManager.instance = this
         this.groupBtn.node.on('click', () => {
@@ -68,6 +75,8 @@ export default class MainUIManager extends cc.Component {
         }, this)
         this.moreBtn.on('click', () => {
             this.moreTypePage.active = true
+            this.bossNumLabel.string = 'Boss Rush(' + DD.instance.changeTime['1'] + '/3)'
+            this.unlimitedNumLabel.string = '无尽模式(' + DD.instance.changeTime['2'] + '/3)'
         })
         this.morePageMask.on('click', () => {
             this.moreTypePage.active = false
@@ -75,11 +84,22 @@ export default class MainUIManager extends cc.Component {
         this.moreCloseBtn.on('click', () => {
             this.moreTypePage.active = false
         })
+        this.vipBtn.node.on('click', () => {
+            UIManager.instance.openUI(VipUIManager, { name: config.uiName.vipUI })
+        })
         this.unlimitedBtn.node.on('click', () => {
+            if (DD.instance.changeTime['2'] <= 0) {
+                UIManager.instance.LoadTipsByStr('今天没有次数了')
+                return
+            }
             BattleManager.instance.initBattle(BattleType.unlimited)
             this.moreTypePage.active = false
         }, this)
         this.bossBtn.node.on('click', () => {
+            if (DD.instance.changeTime['1'] <= 0) {
+                UIManager.instance.LoadTipsByStr('今天没有次数了')
+                return
+            }
             BattleManager.instance.initBattle(BattleType.boss)
             this.moreTypePage.active = false
         }, this)

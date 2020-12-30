@@ -33,7 +33,9 @@ export class Role {
 
     getAtkCD(land: LandItem) {
         // return 0.1
-        return (this.atkCD - this.getSkillStr(land, SelfStackType.atkSpd)) / (1 + this.getAllBuffStr(land.buffMap, 'atkspd'))
+        let cd = this.atkCD / (1 + this.getAllBuffStr(land.buffMap, 'atkspd') + this.getSkillStr(land, SelfStackType.atkSpd))
+        //  console.log(cd)
+        return cd
     }
 
     getAtkType() {

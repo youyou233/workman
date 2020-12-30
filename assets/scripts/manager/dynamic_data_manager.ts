@@ -43,7 +43,7 @@ export default class DD extends cc.Component {
     get ticket() {
         return this._ticket
     }
-    _rank: number = 0
+    _rank: number = 1
     set rank(val: number) {
         if (val > 20) val = 20
         this._rank = val
@@ -73,6 +73,10 @@ export default class DD extends cc.Component {
         }
     }
     guide: object = { 1: false, 2: false, 3: false, 4: false }//教程查看
+    changeTime: object = {
+        1: 3, 2: 3
+    }
+    lastLogin: number = 0
     getMonsterByNode(monster): MonsterItem | BossItem {
         if (monster.name == 'monsterItem') {
             return monster.getComponent(MonsterItem)
@@ -173,15 +177,40 @@ export default class DD extends cc.Component {
         return JsonManager.instance.getDataByName('role')[id]['effect'][index]
     }
     /**
-     *  随机商店和随机获取奖励时获得的卡牌数据
+     *  随机商店和随机获取奖励时获得的卡牌数据 
      */
-    getRandomCard(): CardData {
-        let id = Utils.getRandomNumber(Math.floor(this.rank / 20 * 16) + 5) + 1
+    getRandomCard(mult?: number): CardData {
+        let quality = Utils.getRandomNumber(100) + (mult || 0)
+        let qua = 1
+        let range = [40, 65, 80, 90, 96, 100]
+        for (let i = 0; i < range.length; i++) {
+            if (quality < range[i]) {
+                qua = i + 1
+                break
+            }
+        }
+        let roleList = this.getUnlcokRoleIdByQuality(qua)
+        let id = roleList[Utils.getRandomNumber(roleList.length - 1)]
         let card: CardData = {
             lv: Utils.getRandomNumber(this.rank) + 1,
             id
         }
         return card
+    }
+    getUnlcokRoleIdByQuality(qua) {
+        let list = [...config.unlockRole[0]]
+        if (this.rank >= 5) list.push(...config.unlockRole[1])
+        if (this.rank >= 9) list.push(...config.unlockRole[2])
+        if (this.rank >= 13) list.push(...config.unlockRole[3])
+        if (this.rank >= 16) list.push(...config.unlockRole[4])
+        let roles = []
+        for (let i = 0; i < list.length; i++) {
+            let roleData = JsonManager.instance.getDataByName('role')[list[i]]
+            if (roleData.quality == qua) {
+                roles.push(list[i])
+            }
+        }
+        return roles
     }
     rankSuccess(lv) {
         DD.instance.rank++
@@ -191,7 +220,34 @@ export default class DD extends cc.Component {
             UIManager.instance.LoadTipsByStr('新地图已解锁')
         }
     }
-    checkDailyFrash() {
-
+    checkDailyFrash(lastLogin) {
+        if (new Date(lastLogin).toDateString() !== new Date().toDateString()) {
+            this.changeTime = {
+                1: 3, 2: 3
+            }
+        }
+        this.lastLogin = new Date().getTime()
+        StorageManager.instance.savePlayerData()
+    }
+    areaSuccessBag(lv) {
+        let chance = lv * 5
+        let have = Utils.getRandomNumber(100) < chance
+        if (have) {
+            let time = [600, 3600, 7200, 28800]
+            let quality = Utils.getRandomNumber(100) + this.area
+            let qua = 1
+            let range = [40, 70, 85, 95, 100]
+            for (let i = 0; i < range.length; i++) {
+                if (quality < range[i]) {
+                    qua = i + 1
+                    break
+                }
+            }
+            // let bag=
+            return {
+                isHave: true, isStart: false, startTime: 0, needTime: time[Utils.getRandomNumber(3)], quality: qua
+            }
+        }
+        return null
     }
 }

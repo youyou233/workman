@@ -50,16 +50,17 @@ export default class GiftItem extends cc.Component {
         if (this.data.isHave) {
             if (this.data.isStart) {
                 if (this.timeLabel.string == '点击领取') {
-                    let reward = this.getGiftData()
-                    UIManager.instance.openUI(RewardUIManager, { name: config.uiName.rewardUI, param: [reward, '打开背包'] })
-                    DD.instance.removeBag(this.index)
-                    DD.instance.getReward(reward)
-                    MainUIManager.instance.frashGitfs()
+                    this.onOpen()
                 } else {
-                    UIManager.instance.LoadMessageBox('提示', '是否要取消解锁', (isOK) => {
+                    let left = Math.floor((this.data.startTime + this.data.needTime - new Date().getTime() / 1000) / 600) + 1
+                    UIManager.instance.LoadMessageBox('提示', '是否花费' + left + '张招待券加速解锁', (isOK) => {
                         if (isOK) {
-                            clearInterval(this.timer)
-                            DD.instance.pauseGift(this.index)
+                            if (DD.instance.ticket >= left) {
+                                DD.instance.ticket -= left
+                                this.onOpen()
+                            } else {
+                                UIManager.instance.LoadTipsByStr('招待券不足┭┮﹏┭┮')
+                            }
                         }
                     })
                 }
@@ -74,6 +75,16 @@ export default class GiftItem extends cc.Component {
             }
         }
 
+    }
+    onOpen() {
+        if (this.timer) {
+            clearInterval(this.timer)
+        }
+        let reward = this.getGiftData()
+        UIManager.instance.openUI(RewardUIManager, { name: config.uiName.rewardUI, param: [reward, '打开背包'] })
+        DD.instance.removeBag(this.index)
+        DD.instance.getReward(reward)
+        MainUIManager.instance.frashGitfs()
     }
     startTimer() {
         let left = this.data.startTime + this.data.needTime - new Date().getTime() / 1000
@@ -111,15 +122,23 @@ export default class GiftItem extends cc.Component {
         return reward
     }
     remove() {
-        UIManager.instance.LoadMessageBox('确认删除', '是否确认删除该背包？', (isOK) => {
-            if (isOK) {
-                DD.instance.removeBag(this.index)
-                MainUIManager.instance.frashGitfs()
-                if (this.timer) {
+        if (this.data.isStart) {
+            UIManager.instance.LoadMessageBox('提示', '是否要取消解锁', (isOK) => {
+                if (isOK) {
                     clearInterval(this.timer)
+                    DD.instance.pauseGift(this.index)
                 }
-            }
-        })
-
+            })
+        } else {
+            UIManager.instance.LoadMessageBox('确认删除', '是否确认删除该背包？', (isOK) => {
+                if (isOK) {
+                    DD.instance.removeBag(this.index)
+                    MainUIManager.instance.frashGitfs()
+                    if (this.timer) {
+                        clearInterval(this.timer)
+                    }
+                }
+            })
+        }
     }
 }
