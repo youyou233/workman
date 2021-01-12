@@ -45,13 +45,13 @@ export default class BattleSkillUIManager extends cc.Component {
         if (this.curCard && this.curCard.getComponent(CardItem).data.isActive) {
             this.curCard.y += event.getDelta().y
             //console.log(event.getDelta())
-            if (this.curCard.y > 150) this.curCard.y = 150
+            if (this.curCard.y > 130) this.curCard.y = 130
             if (this.curCard.y < 105) this.curCard.y = 105
         }
     }
     endTouch(event) {
         if (this.curCard) {
-            if (this.curCard.y > 130) {
+            if (this.curCard.y > 120) {
                 this.curCard.getComponent(CardItem).onSkill()
             } else if (new Date().getTime() - this.touchStart < 100) {
                 let data = this.curCard.getComponent(CardItem).data

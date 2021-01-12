@@ -44,13 +44,15 @@ export default class LandItem extends cc.Component {
     _stack: number
     generateTimer: number = null
     _isDiz: boolean = false//是否眩晕
+
+    pos: cc.Vec2 = cc.v2(0, 0)
     get isDiz() {
         return this._isDiz
     }
     set isDiz(val: boolean) {
         this._isDiz = val
         if (val && this.id) {
-            EffectManager.instance.creatEffect(18, this.node.position)
+            EffectManager.instance.creatEffect(18, this.pos)
             let name = 'role_' + this.id + '_' + RoleActionType.death
             this.roleAnima.play(name)
         }
@@ -134,7 +136,8 @@ export default class LandItem extends cc.Component {
         this.isDiz = false
         this.addAnimationClip()
         this.updateBuffContainer()
-        EffectManager.instance.creatEffect(1, cc.v3(this.node.position.x, this.node.position.y + 65))
+        console.log(this.curI, this.curJ, '生成')
+        EffectManager.instance.creatEffect(1, cc.v3(this.pos.x, this.pos.y + 65))
     }
 
     addAnimationClip() {
@@ -176,6 +179,7 @@ export default class LandItem extends cc.Component {
         // } else  {
         //     return true
         // }
+        if (!landItem.role) return false
         let mergeData = landItem.role.getMergeData()
         if (this != landItem && !landItem.isDiz &&
             ((!mergeData[1] && this.id) || this.id == landItem.id) &&
@@ -263,7 +267,7 @@ export default class LandItem extends cc.Component {
                             EffectManager.instance.creatEffect(DD.instance.getRoleEffect(this.id, 0), monster.position)
                         } else {
                             let time = this.role.getAtkType() == AtkType.chain ? 0.1 : 0.5
-                            BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, time, this.role.getAtkDamege(this),
+                            BattleUIManager.instance.addThrow(this.id, JSON.parse(JSON.stringify(this.pos)), monster.position, time, this.role.getAtkDamege(this),
                                 DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), param)
                         }
                     }
@@ -273,7 +277,7 @@ export default class LandItem extends cc.Component {
                     this.roleAnima.play(name).speed = 1.1 / this.role.getAtkCD(this)
                     this.watchMonster = true
                     this.actionCb[RoleActionType.sing] = () => {
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 0.1, this.role.getAtkDamege(this),
+                        BattleUIManager.instance.addThrow(this.id, JSON.parse(JSON.stringify(this.pos)), monster.position, 0.1, this.role.getAtkDamege(this),
                             DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { range: this.role.getAtkRange(this) }
                         )
                     }
@@ -284,7 +288,7 @@ export default class LandItem extends cc.Component {
                     this.roleAnima.play(name).speed = 1.1 / this.role.getAtkCD(this)
                     this.watchMonster = true
                     this.actionCb[RoleActionType.throw] = () => {
-                        BattleUIManager.instance.addThrow(this.id, this.node.position, monster.position, 1, this.role.getAtkDamege(this),
+                        BattleUIManager.instance.addThrow(this.id, JSON.parse(JSON.stringify(this.pos)), monster.position, 1, this.role.getAtkDamege(this),
                             DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { range: this.role.getAtkRange(this) }, true)
                     }
                     break
@@ -299,7 +303,7 @@ export default class LandItem extends cc.Component {
         this.actionCb[RoleActionType.sing] = () => {
             let num = this.stack * JsonManager.instance.getDataByName('skill')[this.id].param.num
             BattleManager.instance.sun += num
-            EffectManager.instance.createDamageLabel(num + '', this.node.position, false, { color: cc.Color.WHITE, outLineColor: cc.color(121, 0, 147), fontSize: 18 })
+            EffectManager.instance.createDamageLabel(num + '', this.pos, false, { color: cc.Color.WHITE, outLineColor: cc.color(121, 0, 147), fontSize: 18 })
         }
 
     }

@@ -675,6 +675,81 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../assets/main_res/ui/2_battle_btm.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>21,45,43,90</rect>
+                <key>scale9Paddings</key>
+                <rect>21,45,43,90</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../assets/main_res/ui/2_pow.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>14,13,29,27</rect>
+                <key>scale9Paddings</key>
+                <rect>14,13,29,27</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../assets/main_res/ui/2_powBtn.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,19,64,38</rect>
+                <key>scale9Paddings</key>
+                <rect>32,19,64,38</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../assets/main_res/ui/2_powUI.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>34,11,68,21</rect>
+                <key>scale9Paddings</key>
+                <rect>34,11,68,21</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../assets/main_res/ui/2_power.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,12,25,25</rect>
+                <key>scale9Paddings</key>
+                <rect>12,12,25,25</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../assets/main_res/ui/bg_1.png</key>
             <key type="filename">../assets/main_res/ui/bg_2.png</key>
             <key type="filename">../assets/main_res/ui/bg_3.png</key>
@@ -808,6 +883,36 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../assets/main_res/ui/hp_active.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>10,8,19,17</rect>
+                <key>scale9Paddings</key>
+                <rect>10,8,19,17</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../assets/main_res/ui/hp_unactive.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>9,8,19,16</rect>
+                <key>scale9Paddings</key>
+                <rect>9,8,19,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../assets/main_res/ui/iconCross_beige.png</key>
             <key type="filename">../assets/main_res/ui/iconCross_brown.png</key>
             <struct type="IndividualSpriteSettings">
@@ -899,6 +1004,22 @@
                 <rect>14,14,27,27</rect>
                 <key>scale9Paddings</key>
                 <rect>14,14,27,27</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../assets/main_res/ui/skill_active.png</key>
+            <key type="filename">../assets/main_res/ui/skill_unactive.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>11,36,21,72</rect>
+                <key>scale9Paddings</key>
+                <rect>11,36,21,72</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

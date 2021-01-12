@@ -1,7 +1,7 @@
 import LandItem from "../item/land_item";
 import PoolManager from "../manager/pool_manager";
 import BattleManager from "../manager/battle_manager";
-import { BattleStatusType, TouchStatusType, ResType } from "../utils/enum";
+import { BattleStatusType, TouchStatusType, ResType, ArrType } from "../utils/enum";
 import ResourceManager from "../manager/resources_manager";
 import MonsterItem from "../item/monster_item";
 import ThrowItem from "../item/throw_item";
@@ -10,6 +10,8 @@ import BossItem from "../item/boss_item";
 import BattleSkillUIManager from "./battle_skill_ui_manager";
 import { Utils } from "../utils/utils";
 import DD from "../manager/dynamic_data_manager";
+import GridItem from "../item/grid_item";
+import JsonManager from "../manager/json_manager";
 
 const { ccclass, property } = cc._decorator
 
@@ -38,8 +40,8 @@ export default class BattleUIManager extends cc.Component {
     addBtn: cc.Button = null
     @property(cc.Label)
     addCostLabel: cc.Label = null
-    @property(cc.Label)
-    hpLabel: cc.Label = null
+    @property(cc.Node)
+    hpContainer: cc.Node = null
     @property(cc.Label)
     bossLabel: cc.Label = null
     @property(cc.Label)
@@ -69,14 +71,14 @@ export default class BattleUIManager extends cc.Component {
     initBattle() {
         this.clearContainer()
         this.content.active = true
-        for (let i = 0; i < BattleManager.instance.mapData.length; i++) {
-            for (let j = 0; j < BattleManager.instance.mapData[i].length; j++) {
-                let land = PoolManager.instance.createObjectByName('landItem', this.landContainer)
-                let landItem = land.getComponent(LandItem)
-                BattleManager.instance.mapData[i][j] = landItem
-                landItem.init(i, j)
-            }
-        }
+        // for (let i = 0; i < BattleManager.instance.mapData.length; i++) {
+        //     for (let j = 0; j < BattleManager.instance.mapData[i].length; j++) {
+        //         let land = PoolManager.instance.createObjectByName('landItem', this.landContainer)
+        //         let landItem = land.getComponent(LandItem)
+        //         BattleManager.instance.mapData[i][j] = landItem
+        //         landItem.init(i, j)
+        //     }
+        // }
         setTimeout(() => {
             BattleSkillUIManager.instance.initBattle()
         });
@@ -103,8 +105,8 @@ export default class BattleUIManager extends cc.Component {
         node.getComponent(ThrowItem).init(id, start, end, time, damage, oid, type, param, jump)
     }
     clearContainer() {
-        let containers = [this.landContainer, this.monsterContainer, this.throwContainer, this.bossContainer, this.effectContainer, this.damageLabelContainer]
-        let itemName = ['landItem', 'monsterItem', 'throwItem', 'bossItem', 'effectItem', 'damageLabel']
+        let containers = [this.monsterContainer, this.throwContainer, this.bossContainer, this.effectContainer, this.damageLabelContainer]
+        let itemName = ['monsterItem', 'throwItem', 'bossItem', 'effectItem', 'damageLabel']
         for (let i = 0; i < containers.length; i++) {
             for (let j = containers[i].children.length - 1; j >= 0; j--) {
                 PoolManager.instance.removeObjectByName(itemName[i], containers[i].children[j])
@@ -121,7 +123,7 @@ export default class BattleUIManager extends cc.Component {
                 item.getComponent(MonsterItem).onUpdate(dt)
             })
             this.landContainer.children.forEach((item) => {
-                item.getComponent(LandItem).onUpdate(dt)
+                item.getComponent(GridItem).onUpdate(dt)
             })
             this.bossContainer.children.forEach((item) => {
                 item.getComponent(BossItem).onUpdate(dt)
@@ -289,7 +291,7 @@ export default class BattleUIManager extends cc.Component {
         for (let i = 0; i < this.landContainer.children.length; i++) {
             let node = this.landContainer.children[i]
             if (node.getBoundingBoxToWorld().contains(event.getLocation())) {
-                return node
+                return node.getChildByName('landItem')
             }
         }
         return null
@@ -301,7 +303,7 @@ export default class BattleUIManager extends cc.Component {
             left = BattleManager.instance.mapData[i - 1][j]
             if (left.id) list.push(left)
         }
-        if (i <= 1) {
+        if (i <= BattleManager.instance.mapData.length - 2) {
             right = BattleManager.instance.mapData[i + 1][j]
             if (right.id) list.push(right)
         }
@@ -309,11 +311,44 @@ export default class BattleUIManager extends cc.Component {
             down = BattleManager.instance.mapData[i][j - 1]
             if (down.id) list.push(down)
         }
-        if (j < 3) {
+        if (j < BattleManager.instance.mapData[0].length - 2) {
             up = BattleManager.instance.mapData[i][j + 1]
             if (up.id) list.push(up)
         }
         return list
     }
-
+    checkWayPoint(pos, wayId): boolean | cc.Vec2 {
+        let ways = JsonManager.instance.getDataByName('area')[DD.instance.area].way
+        let way = ways[wayId]
+        for (let i = 0; i < way.length; i++) {
+            let target = this.landContainer.children[way[i][0] * 6 + way[i][1]].position
+            if (pos.sub(target).mag() < 5) {
+                let spd = cc.v2(0, 0)
+                switch (way[i][2]) {
+                    case ArrType.up:
+                        spd.y = 100
+                        break
+                    case ArrType.down:
+                        spd.y = -100
+                        break
+                    case ArrType.left:
+                        spd.x = -100
+                        break
+                    case ArrType.right:
+                        spd.x = 100
+                        break
+                    case 0:
+                        return true//抵达终点
+                }
+                return spd
+            }
+        }
+        return null
+    }
+    getStartPos(wayId) {
+        let ways = JsonManager.instance.getDataByName('area')[DD.instance.area].way
+        let way = ways[wayId]
+        let target = this.landContainer.children[way[0][0] * 6 + way[0][1]].position
+        return cc.v2(target.x, target.y + 64)
+    }
 }

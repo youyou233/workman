@@ -12,7 +12,7 @@ export default class DamageLabel extends cc.Component {
         this.label = this.node.getComponent(cc.Label)
         this.outLine = this.node.getComponent(cc.LabelOutline)
     }
-    init(str: string, pos: cc.Vec3, cri: boolean = false, param?: any) {
+    init(str: string, pos: cc.Vec3 | cc.Vec2, cri: boolean = false, param?: any) {
         this.node.setPosition(pos)
         this.label.string = str
         this.node.opacity = 0

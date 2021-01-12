@@ -1,4 +1,4 @@
-import { BattleStatusType, BattleType, SkillType } from "../utils/enum"
+import { BattleStatusType, BattleType, ResType, SkillType } from "../utils/enum"
 import BattleUIManager from "../ui/battle_ui_manager"
 import { Emitter } from "../utils/emmiter"
 import { MessageType } from "../utils/message"
@@ -11,6 +11,10 @@ import { BuffData } from "../interface/buff_data"
 import DD from "./dynamic_data_manager"
 import RewardUIManager from "../ui/reward_ui_manager"
 import config from "../utils/config"
+import ResourceManager from "./resources_manager"
+import DamageLabel from "../item/damage_label"
+import PoolManager from "./pool_manager"
+import GridItem from "../item/grid_item"
 
 const { ccclass, property } = cc._decorator
 /**
@@ -43,7 +47,14 @@ export default class BattleManager extends cc.Component {
         } else {
             this._hp = val
         }
-        BattleUIManager.instance.hpLabel.string = val.toFixed(0) + '/3'
+        BattleUIManager.instance.hpContainer.children.map((item, index) => {
+            let spName = 'hp_unactive'
+            if (index < val) {
+                spName = 'hp_active'
+            }
+            item.getComponent(cc.Sprite).spriteFrame = ResourceManager.instance.getSprite(ResType.main, spName)
+        })
+        //BattleUIManager.instance.hpLabel.string = val.toFixed(0) + '/3'
         if (this.hp == 0) {
             Emitter.fire(`message_${MessageType.gameFail}`)
             this.gameFail()
@@ -71,6 +82,7 @@ export default class BattleManager extends cc.Component {
     status: BattleStatusType = BattleStatusType.before
     team: RoleTeamData[] = []
     mapData: LandItem[][] = []
+    areaData: any[][] = []
     curLv: number = 1
     _skillTimes: number = 0
     type: BattleType = BattleType.normal
@@ -126,14 +138,7 @@ export default class BattleManager extends cc.Component {
         this.team = DD.instance.group
         //3*5
         this.isBoss = false
-        this.mapData = []
-        for (let i = 0; i < 3; i++) {
-            this.mapData[i] = []
-            for (let j = 0; j < 5; j++) {
-                let data: LandItem = null
-                this.mapData[i][j] = data
-            }
-        }
+
         switch (this.type) {
             case BattleType.normal:
                 this.rankTimer = 30
@@ -145,6 +150,41 @@ export default class BattleManager extends cc.Component {
                 this.rankTimer = 20
                 break
         }
+        this.areaData = JsonManager.instance.getDataByName('area')[DD.instance.area].area
+        this.mapData = []
+        // let k = -1
+        // for (let j = 0; j < 5; j++) {
+        //     for (let i = 0; i < 6; i++) {
+
+        //     }
+        // }
+        let have = [false, false, false, false, false]
+        for (let i = 0; i < 6; i++) {
+            // if (this.areaData[i].some((item) => { return item === 1 })) {
+            //     k++
+            //     this.mapData[k] = []
+            // }
+            for (let j = 0; j < 5; j++) {
+                let gridItem = BattleUIManager.instance.landContainer.children[i + j * 6].getComponent(GridItem)
+                gridItem.init(this.areaData[i][j])
+                if (this.areaData[i][j]) {
+                    let k = -1
+                    if (!have[j]) {
+                        have[j] = true
+                    }
+                    for (let n = 0; n <= j; n++) {
+                        if (have[n]) {
+                            k++
+                        }
+                    }
+                    if (!this.mapData[k]) this.mapData[k] = []
+                    let landItem = gridItem.land
+                    this.mapData[k].push(landItem)
+                    landItem.init(k, this.mapData[k].length - 1)
+                }
+            }
+        }
+        console.log('地图数据', this.mapData)
         BattleUIManager.instance.initBattle()
         this.status = BattleStatusType.play
     }

@@ -31,7 +31,7 @@ export default class EffectManager extends cc.Component {
         return pos
     }
 
-    creatEffect(id: number, pos: cc.Vec3, node: cc.Node = BattleUIManager.instance.effectContainer) {
+    creatEffect(id: number, pos: cc.Vec3 | cc.Vec2, node: cc.Node = BattleUIManager.instance.effectContainer) {
         let effect = PoolManager.instance.createObjectByName('effectItem', node)
         effect.getComponent(EffectItem).init(id, pos, true)
     }
@@ -51,7 +51,7 @@ export default class EffectManager extends cc.Component {
     //     }
     // }
 
-    createDamageLabel(str: string, pos: cc.Vec3, cri: boolean = false, param?: any) {
+    createDamageLabel(str: string, pos: cc.Vec3 | cc.Vec2, cri: boolean = false, param?: any) {
         // if (!DD.instance.config[SysType.damageLabel]) return
         let label = PoolManager.instance.createObjectByName('damageLabel', BattleUIManager.instance.damageLabelContainer)
         label.getComponent(DamageLabel).init(str, pos, cri, param)

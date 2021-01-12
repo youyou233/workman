@@ -23,7 +23,7 @@ export default class EffectItem extends cc.Component {
      * @param pos 特效位置
      * @param recycle 是否回收特效
      */
-    init(effectId: number | string, pos: cc.Vec3, recycle: boolean = false) {
+    init(effectId: number | string, pos: cc.Vec3 | cc.Vec2, recycle: boolean = false) {
         let name = 'effect_' + effectId
         this.recycle = recycle
         let clips = this.anima.getClips()

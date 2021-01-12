@@ -77,3 +77,10 @@ export enum BattleType {
     boss = 2,
     unlimited = 3
 }
+
+export enum ArrType {
+    up = 1,
+    down = 2,
+    left = 3,
+    right = 4
+}

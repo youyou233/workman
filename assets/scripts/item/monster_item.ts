@@ -59,16 +59,17 @@ export default class MonsterItem extends cc.Component {
     path: number = 0
     oid: number = 0
     buffMap: { [key: number]: BuffData } = {}
-
+    wayId: number = 0
     onLoad() {
     }
-    init(id: number) {
+    init(id: number, wayId: number = 0) {
         this.oid = new Date().getTime()//时间戳代表唯一id
         this.sp.spriteFrame = ResourceManager.instance.getSprite(ResType.monster, `monster (${id})`)
         let monsterData = JsonManager.instance.getDataByName('monster')[id]
         this.monsterSpd = Math.sqrt(monsterData.spd)
-        let startPos = cc.v2(-250, -225)
-        this.spd = cc.v2(0, 100)
+        let startPos = BattleUIManager.instance.getStartPos(wayId) //cc.v2(-250, -225)
+        this.spd = cc.v2(0, 0)
+        this.wayId = wayId
         this.node.setPosition(startPos)
         this.randomPos[0] = cc.v3(-250, 400)
         this.buffMap = {}
@@ -81,16 +82,22 @@ export default class MonsterItem extends cc.Component {
         Emitter.fire('message_' + MessageType.addMonster)
     }
     checkNearPos() {
-        if (this.node.position.sub(this.randomPos[0]).mag() < 5) {
-            this.spd = cc.v2(100, 0)
-        } else if (this.node.position.sub(this.randomPos[1]).mag() < 5) {
-            this.spd = cc.v2(0, -100)
-        } else {
-            let endPos = cc.v3(250, -225)
-            if (this.node.position.sub(endPos).mag() < 5) {
-                this.getInCity()
-            }
+        let result = BattleUIManager.instance.checkWayPoint(cc.v2(this.node.x, this.node.y - 64), this.wayId)
+        if (result == true) {
+            this.getInCity()
+        } else if (result) {
+            this.spd = result
         }
+        // if (this.node.position.sub(this.randomPos[0]).mag() < 5) {
+        //     this.spd = cc.v2(100, 0)
+        // } else if (this.node.position.sub(this.randomPos[1]).mag() < 5) {
+        //     this.spd = cc.v2(0, -100)
+        // } else {
+        //     let endPos = cc.v3(250, -225)
+        //     if (this.node.position.sub(endPos).mag() < 5) {
+        //         this.getInCity()
+        //     }
+        // }
     }
     beAtk(damage, param) {
         let str = damage + ''
