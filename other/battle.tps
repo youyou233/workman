@@ -356,6 +356,106 @@
             <key type="filename">../assets/main_res/char/animation/21/21-44.png</key>
             <key type="filename">../assets/main_res/char/animation/21/21-5.png</key>
             <key type="filename">../assets/main_res/char/animation/21/21-51.png</key>
+            <key type="filename">../assets/main_res/char/animation/22/22-0.png</key>
+            <key type="filename">../assets/main_res/char/animation/22/22-1.png</key>
+            <key type="filename">../assets/main_res/char/animation/22/22-15.png</key>
+            <key type="filename">../assets/main_res/char/animation/22/22-16.png</key>
+            <key type="filename">../assets/main_res/char/animation/22/22-17.png</key>
+            <key type="filename">../assets/main_res/char/animation/22/22-2.png</key>
+            <key type="filename">../assets/main_res/char/animation/22/22-24.png</key>
+            <key type="filename">../assets/main_res/char/animation/22/22-3.png</key>
+            <key type="filename">../assets/main_res/char/animation/22/22-4.png</key>
+            <key type="filename">../assets/main_res/char/animation/22/22-44.png</key>
+            <key type="filename">../assets/main_res/char/animation/22/22-5.png</key>
+            <key type="filename">../assets/main_res/char/animation/22/22-51.png</key>
+            <key type="filename">../assets/main_res/char/animation/23/23-0.png</key>
+            <key type="filename">../assets/main_res/char/animation/23/23-1.png</key>
+            <key type="filename">../assets/main_res/char/animation/23/23-15.png</key>
+            <key type="filename">../assets/main_res/char/animation/23/23-16.png</key>
+            <key type="filename">../assets/main_res/char/animation/23/23-17.png</key>
+            <key type="filename">../assets/main_res/char/animation/23/23-2.png</key>
+            <key type="filename">../assets/main_res/char/animation/23/23-24.png</key>
+            <key type="filename">../assets/main_res/char/animation/23/23-3.png</key>
+            <key type="filename">../assets/main_res/char/animation/23/23-4.png</key>
+            <key type="filename">../assets/main_res/char/animation/23/23-44.png</key>
+            <key type="filename">../assets/main_res/char/animation/23/23-5.png</key>
+            <key type="filename">../assets/main_res/char/animation/23/23-51.png</key>
+            <key type="filename">../assets/main_res/char/animation/24/24-0.png</key>
+            <key type="filename">../assets/main_res/char/animation/24/24-1.png</key>
+            <key type="filename">../assets/main_res/char/animation/24/24-15.png</key>
+            <key type="filename">../assets/main_res/char/animation/24/24-16.png</key>
+            <key type="filename">../assets/main_res/char/animation/24/24-17.png</key>
+            <key type="filename">../assets/main_res/char/animation/24/24-2.png</key>
+            <key type="filename">../assets/main_res/char/animation/24/24-24.png</key>
+            <key type="filename">../assets/main_res/char/animation/24/24-3.png</key>
+            <key type="filename">../assets/main_res/char/animation/24/24-4.png</key>
+            <key type="filename">../assets/main_res/char/animation/24/24-44.png</key>
+            <key type="filename">../assets/main_res/char/animation/24/24-5.png</key>
+            <key type="filename">../assets/main_res/char/animation/24/24-51.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-0.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-1.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-12.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-15.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-16.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-17.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-18.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-19.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-2.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-20.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-24.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-3.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-4.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-44.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-5.png</key>
+            <key type="filename">../assets/main_res/char/animation/25/25-51.png</key>
+            <key type="filename">../assets/main_res/char/animation/26/26-0.png</key>
+            <key type="filename">../assets/main_res/char/animation/26/26-1.png</key>
+            <key type="filename">../assets/main_res/char/animation/26/26-15.png</key>
+            <key type="filename">../assets/main_res/char/animation/26/26-16.png</key>
+            <key type="filename">../assets/main_res/char/animation/26/26-17.png</key>
+            <key type="filename">../assets/main_res/char/animation/26/26-2.png</key>
+            <key type="filename">../assets/main_res/char/animation/26/26-24.png</key>
+            <key type="filename">../assets/main_res/char/animation/26/26-3.png</key>
+            <key type="filename">../assets/main_res/char/animation/26/26-4.png</key>
+            <key type="filename">../assets/main_res/char/animation/26/26-44.png</key>
+            <key type="filename">../assets/main_res/char/animation/26/26-5.png</key>
+            <key type="filename">../assets/main_res/char/animation/26/26-51.png</key>
+            <key type="filename">../assets/main_res/char/animation/27/27-0.png</key>
+            <key type="filename">../assets/main_res/char/animation/27/27-1.png</key>
+            <key type="filename">../assets/main_res/char/animation/27/27-15.png</key>
+            <key type="filename">../assets/main_res/char/animation/27/27-16.png</key>
+            <key type="filename">../assets/main_res/char/animation/27/27-17.png</key>
+            <key type="filename">../assets/main_res/char/animation/27/27-2.png</key>
+            <key type="filename">../assets/main_res/char/animation/27/27-24.png</key>
+            <key type="filename">../assets/main_res/char/animation/27/27-3.png</key>
+            <key type="filename">../assets/main_res/char/animation/27/27-4.png</key>
+            <key type="filename">../assets/main_res/char/animation/27/27-44.png</key>
+            <key type="filename">../assets/main_res/char/animation/27/27-5.png</key>
+            <key type="filename">../assets/main_res/char/animation/27/27-51.png</key>
+            <key type="filename">../assets/main_res/char/animation/28/28-0.png</key>
+            <key type="filename">../assets/main_res/char/animation/28/28-1.png</key>
+            <key type="filename">../assets/main_res/char/animation/28/28-15.png</key>
+            <key type="filename">../assets/main_res/char/animation/28/28-16.png</key>
+            <key type="filename">../assets/main_res/char/animation/28/28-17.png</key>
+            <key type="filename">../assets/main_res/char/animation/28/28-2.png</key>
+            <key type="filename">../assets/main_res/char/animation/28/28-24.png</key>
+            <key type="filename">../assets/main_res/char/animation/28/28-3.png</key>
+            <key type="filename">../assets/main_res/char/animation/28/28-4.png</key>
+            <key type="filename">../assets/main_res/char/animation/28/28-44.png</key>
+            <key type="filename">../assets/main_res/char/animation/28/28-5.png</key>
+            <key type="filename">../assets/main_res/char/animation/28/28-51.png</key>
+            <key type="filename">../assets/main_res/char/animation/29/29-0.png</key>
+            <key type="filename">../assets/main_res/char/animation/29/29-1.png</key>
+            <key type="filename">../assets/main_res/char/animation/29/29-15.png</key>
+            <key type="filename">../assets/main_res/char/animation/29/29-16.png</key>
+            <key type="filename">../assets/main_res/char/animation/29/29-17.png</key>
+            <key type="filename">../assets/main_res/char/animation/29/29-2.png</key>
+            <key type="filename">../assets/main_res/char/animation/29/29-24.png</key>
+            <key type="filename">../assets/main_res/char/animation/29/29-3.png</key>
+            <key type="filename">../assets/main_res/char/animation/29/29-4.png</key>
+            <key type="filename">../assets/main_res/char/animation/29/29-44.png</key>
+            <key type="filename">../assets/main_res/char/animation/29/29-5.png</key>
+            <key type="filename">../assets/main_res/char/animation/29/29-51.png</key>
             <key type="filename">../assets/main_res/char/animation/3/3-0.png</key>
             <key type="filename">../assets/main_res/char/animation/3/3-1.png</key>
             <key type="filename">../assets/main_res/char/animation/3/3-15.png</key>
@@ -371,6 +471,18 @@
             <key type="filename">../assets/main_res/char/animation/3/3-44.png</key>
             <key type="filename">../assets/main_res/char/animation/3/3-5.png</key>
             <key type="filename">../assets/main_res/char/animation/3/3-51.png</key>
+            <key type="filename">../assets/main_res/char/animation/30/30-0.png</key>
+            <key type="filename">../assets/main_res/char/animation/30/30-1.png</key>
+            <key type="filename">../assets/main_res/char/animation/30/30-15.png</key>
+            <key type="filename">../assets/main_res/char/animation/30/30-16.png</key>
+            <key type="filename">../assets/main_res/char/animation/30/30-17.png</key>
+            <key type="filename">../assets/main_res/char/animation/30/30-2.png</key>
+            <key type="filename">../assets/main_res/char/animation/30/30-24.png</key>
+            <key type="filename">../assets/main_res/char/animation/30/30-3.png</key>
+            <key type="filename">../assets/main_res/char/animation/30/30-4.png</key>
+            <key type="filename">../assets/main_res/char/animation/30/30-44.png</key>
+            <key type="filename">../assets/main_res/char/animation/30/30-5.png</key>
+            <key type="filename">../assets/main_res/char/animation/30/30-51.png</key>
             <key type="filename">../assets/main_res/char/animation/4/4-0.png</key>
             <key type="filename">../assets/main_res/char/animation/4/4-1.png</key>
             <key type="filename">../assets/main_res/char/animation/4/4-15.png</key>
@@ -481,6 +593,15 @@
             <filename>../assets/main_res/char/animation/19</filename>
             <filename>../assets/main_res/char/animation/20</filename>
             <filename>../assets/main_res/char/animation/21</filename>
+            <filename>../assets/main_res/char/animation/22</filename>
+            <filename>../assets/main_res/char/animation/23</filename>
+            <filename>../assets/main_res/char/animation/24</filename>
+            <filename>../assets/main_res/char/animation/25</filename>
+            <filename>../assets/main_res/char/animation/26</filename>
+            <filename>../assets/main_res/char/animation/27</filename>
+            <filename>../assets/main_res/char/animation/28</filename>
+            <filename>../assets/main_res/char/animation/29</filename>
+            <filename>../assets/main_res/char/animation/30</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

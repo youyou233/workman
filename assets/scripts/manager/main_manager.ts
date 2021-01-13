@@ -33,8 +33,8 @@ export default class MainManager extends cc.Component {
         let newb = StorageManager.instance.isFristPlay()
         if (newb) {
             DD.instance.group = [
-                { id: 1, lv: 1, group: true }, { id: 2, lv: 1, group: true }, { id: 3, lv: 1, group: true },
-                { id: 4, lv: 1, group: true }, { id: 5, lv: 1, group: true }
+                { id: 22, lv: 1, group: true }, { id: 23, lv: 1, group: true }, { id: 24, lv: 1, group: true },
+                { id: 25, lv: 1, group: true }, { id: 26, lv: 1, group: true }
             ]
             MainUIManager.instance.switchUI(1)
             DD.instance.money = 0

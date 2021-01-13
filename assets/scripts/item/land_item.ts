@@ -250,7 +250,7 @@ export default class LandItem extends cc.Component {
                 case AtkType.random:
                 case AtkType.melee:
                 case AtkType.chain:
-                    if (this.role.getAtkType() == AtkType.random) {
+                    if (this.role.getAtkType() == AtkType.random || this.role.getAtkType() == AtkType.randomMelee) {
                         monster = BattleUIManager.instance.findRandomMonster()
                     }
                     this.watchMonster = true

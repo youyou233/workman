@@ -56,7 +56,7 @@
     "id": "4",
     "quality": 5,
     "typeName": "辅助型角色",
-    "name": "梦想家",
+    "name": "诗人",
     "atk": 10,
     "atkCD": 1,
     "dec": "<color=#412900>可以加快周围角色的<color=#3AFFF3>攻击速度</color>。\r\n进行快速快速更快速的攻击吧！</c>",
@@ -100,7 +100,7 @@
       0,
       0
     ],
-    "atkType": 6,
+    "atkType": 7,
     "talk": "始于礼，终于礼。"
   },
   "7": {
@@ -141,7 +141,7 @@
     "id": "9",
     "quality": 1,
     "typeName": "辅助型角色",
-    "name": "学者",
+    "name": "冰法",
     "atk": 50,
     "atkCD": 1.4,
     "dec": "<color=#412900>使用冰的魔法，会让敌人<color=#3AFFF3>减速</color>。\r\n当怪物涌入时会起到不错的效果。</c>",
@@ -158,7 +158,7 @@
     "id": "10",
     "quality": 2,
     "typeName": "生产型角色",
-    "name": "治疗师",
+    "name": "奶妈",
     "atk": 0,
     "atkCD": 99999999,
     "dec": "<color=#412900>拥有超高的治疗技巧\r\n每隔一定时间生产名誉\r\n即使不会攻击也无所谓吧？</c>",
@@ -169,7 +169,7 @@
       0
     ],
     "atkType": 0,
-    "talk": "纵使社会再怎么进步，人性不会有丝毫改变。"
+    "talk": "让我来看看到底是谁又掉血了"
   },
   "11": {
     "id": "11",
@@ -192,7 +192,7 @@
     "id": "12",
     "quality": 3,
     "typeName": "攻击型角色",
-    "name": "阳光小伙",
+    "name": "富二代",
     "atk": 45,
     "atkCD": 1.2,
     "dec": "<color=#412900>根据当前的名誉提高攻击力\r\n只要名誉足够，就可以非常强力</c>",
@@ -358,17 +358,157 @@
     "atkType": 1,
     "talk": "不是实力,全是运气。"
   },
-  "null": {
-    "id": null,
-    "quality": null,
-    "typeName": null,
-    "name": null,
-    "atk": null,
-    "atkCD": null,
-    "dec": null,
+  "22": {
+    "id": "22",
+    "quality": 2,
+    "typeName": "辅助型角色",
+    "name": "黄金骑士",
+    "atk": 100,
+    "atkCD": 2,
+    "dec": "<color=#412900>合成时会获得名誉\r\n星星越多获得的越多</c>",
     "param": null,
-    "effect": null,
-    "atkType": null,
+    "effect": [
+      11,
+      0,
+      0
+    ],
+    "atkType": 6,
+    "talk": null
+  },
+  "23": {
+    "id": "23",
+    "quality": 5,
+    "typeName": "辅助型角色",
+    "name": "海豹突稽队",
+    "atk": 50,
+    "atkCD": 0.4,
+    "dec": "随机攻击敌人\r\n与不能合成的角色交换位置",
+    "param": null,
+    "effect": [
+      25,
+      0,
+      0
+    ],
+    "atkType": 5,
+    "talk": "P90!Rush B!"
+  },
+  "24": {
+    "id": "24",
+    "quality": 2,
+    "typeName": "辅助型角色",
+    "name": "花姑",
+    "atk": 75,
+    "atkCD": 1.3,
+    "dec": "可以解除同伴身上的异常状态哦，\r\n星星越多解除的人数越多哦",
+    "param": null,
+    "effect": [
+      7,
+      0,
+      0
+    ],
+    "atkType": 1,
+    "talk": null
+  },
+  "25": {
+    "id": "25",
+    "quality": 4,
+    "typeName": "攻击型角色",
+    "name": "洛丽塔",
+    "atk": 70,
+    "atkCD": 1,
+    "dec": "最喜欢打boss了\r\n对Boss造成多倍伤害",
+    "param": null,
+    "effect": [
+      19,
+      0,
+      0
+    ],
+    "atkType": 1,
+    "talk": null
+  },
+  "26": {
+    "id": "26",
+    "quality": 3,
+    "typeName": "攻击型角色",
+    "name": "光头吴克",
+    "atk": 50,
+    "atkCD": 1,
+    "dec": "击敌后所有吴克都加一层buff\r\n一个吴克倒下了\r\n千千万万个吴克站起来",
+    "param": null,
+    "effect": [
+      10,
+      0,
+      0
+    ],
+    "atkType": 6,
+    "talk": null
+  },
+  "27": {
+    "id": "27",
+    "quality": 3,
+    "typeName": "辅助型角色",
+    "name": "怪盗",
+    "atk": 85,
+    "atkCD": 1.1,
+    "dec": "最后一击击杀怪物的时候，可以获得超多金币哦",
+    "param": null,
+    "effect": [
+      15,
+      0,
+      0
+    ],
+    "atkType": 6,
+    "talk": null
+  },
+  "28": {
+    "id": "28",
+    "quality": 6,
+    "typeName": "攻击型角色",
+    "name": "船长",
+    "atk": 100,
+    "atkCD": 1.5,
+    "dec": "暴击伤害翻倍，升星能增加暴击概率",
+    "param": null,
+    "effect": [
+      17,
+      0,
+      0
+    ],
+    "atkType": 6,
+    "talk": null
+  },
+  "29": {
+    "id": "29",
+    "quality": 6,
+    "typeName": "辅助型角色",
+    "name": "伯爵",
+    "atk": 200,
+    "atkCD": 4,
+    "dec": "赋予周围概率秒杀敌人的能力",
+    "param": null,
+    "effect": [
+      13,
+      0,
+      0
+    ],
+    "atkType": 6,
+    "talk": "纵使社会再怎么进步，人性不会有丝毫改变。"
+  },
+  "30": {
+    "id": "30",
+    "quality": 6,
+    "typeName": "主角",
+    "name": "公主",
+    "atk": 100,
+    "atkCD": 2,
+    "dec": "将角色替换为其他角色的技能",
+    "param": null,
+    "effect": [
+      26,
+      0,
+      0
+    ],
+    "atkType": 1,
     "talk": null
   }
 }

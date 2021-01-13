@@ -74,6 +74,7 @@ export default class RoleInfoUIManager extends cc.Component {
         let skill = JsonManager.instance.getDataByName('skill')[card.id]
         node1.active = true
         node2.active = true
+
         if (card.id == 10) {
             node1.getChildByName('1').getComponent(cc.Label).string = '生产间隔'
             node1.getChildByName('2').getComponent(cc.Label).string = skill.param.cold
@@ -91,94 +92,138 @@ export default class RoleInfoUIManager extends cc.Component {
             if (skill.param && skill.param.buff) {
                 buff = JsonManager.instance.getDataByName('buff')[skill.param.buff]
             }
+            let labels = [
+                node3.getChildByName('1').getComponent(cc.Label), node3.getChildByName('2').getComponent(cc.Label),
+                node4.getChildByName('1').getComponent(cc.Label), node4.getChildByName('2').getComponent(cc.Label)
+            ]
             switch (card.id) {
                 case 17:
                 case 5:
+                case 23:
+
                     node3.active = false
                     break
                 case 1:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '升星提升攻速'
-                    node3.getChildByName('2').getComponent(cc.Label).string = (skill.param.num * 100).toFixed(0) + '%'
+                    labels[0].string = '升星提升攻速'
+                    labels[1].string = (skill.param.num * 100).toFixed(0) + '%'
                     break
                 case 2:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '升星攻击'
-                    node3.getChildByName('2').getComponent(cc.Label).string = (skill.param.num * 100).toFixed(0) + '%'
+                    labels[0].string = '升星攻击'
+                    labels[1].string = (skill.param.num * 100).toFixed(0) + '%'
                     break
                 case 3:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '技能冷却'
-                    node3.getChildByName('2').getComponent(cc.Label).string = skill.cool + 's'
+                    labels[0].string = '技能冷却'
+                    labels[1].string = skill.cool + 's'
                     node4.active = true
-                    node4.getChildByName('1').getComponent(cc.Label).string = '攻击提升'
-                    node4.getChildByName('2').getComponent(cc.Label).string = (buff.param.num + buff.param.add * (card.lv - 1)).toFixed(0) + '%'
+                    labels[2].string = '攻击提升'
+                    labels[3].string = (buff.param.num + buff.param.add * (card.lv - 1)).toFixed(0) + '%'
                     break
                 case 4:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '周围提升攻速'
-                    node3.getChildByName('2').getComponent(cc.Label).string = `${buff.param.num}+⭐*${buff.param.add}%`
+                    labels[0].string = '周围提升攻速'
+                    labels[1].string = `(${buff.param.num}+⭐*${buff.param.add}%)`
                     break
                 case 6:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '燃烧伤害倍率'
-                    node3.getChildByName('2').getComponent(cc.Label).string = (skill.param.mult * 100).toFixed(0) + '%'
+                    labels[0].string = '燃烧伤害倍率'
+                    labels[1].string = (skill.param.mult * 100).toFixed(0) + '%'
                     break
                 case 7:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '燃烧伤害'
-                    node3.getChildByName('2').getComponent(cc.Label).string = `⭐*${buff.param.num}`
+                    labels[0].string = '燃烧伤害'
+                    labels[1].string = `⭐*${buff.param.num}`
                     break
                 case 8:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '幸运'
-                    node3.getChildByName('2').getComponent(cc.Label).string = `${skill.param.num}+⭐*${skill.param.add}%`
+                    labels[0].string = '幸运'
+                    labels[1].string = `(${skill.param.num}+⭐*${skill.param.add})%`
                     break
                 case 9:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '减速'
-                    node3.getChildByName('2').getComponent(cc.Label).string = `${-buff.param.num}+⭐*${-buff.param.add}%`
+                    labels[0].string = '减速'
+                    labels[1].string = `(${-buff.param.num}+⭐*${-buff.param.add})%`
                     break
                 case 11:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '技能冷却'
-                    node3.getChildByName('2').getComponent(cc.Label).string = skill.cool + 's'
+                    labels[0].string = '技能冷却'
+                    labels[1].string = skill.cool + 's'
                     node4.active = true
-                    node4.getChildByName('1').getComponent(cc.Label).string = '攻速提升'
-                    node4.getChildByName('2').getComponent(cc.Label).string = (buff.param.num + buff.param.add * (card.lv - 1)).toFixed(0) + '%'
+                    labels[2].string = '攻速提升'
+                    labels[3].string = (buff.param.num + buff.param.add * (card.lv - 1)).toFixed(0) + '%'
                     break
                 case 12:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '转化率'
-                    node3.getChildByName('2').getComponent(cc.Label).string = `${skill.param.num}+⭐*${skill.param.add}%`
+                    labels[0].string = '转化率'
+                    labels[1].string = `(${skill.param.num}+⭐*${skill.param.add})%`
                     break
                 case 13:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '秒杀率'
-                    node3.getChildByName('2').getComponent(cc.Label).string = `${skill.param.num}+⭐*${skill.param.add}%`
+                    labels[0].string = '秒杀率'
+                    labels[1].string = `(${skill.param.num}+⭐*${skill.param.add})%`
                     break
                 case 14:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '减速伤害倍率'
-                    node3.getChildByName('2').getComponent(cc.Label).string = `${skill.param.mult * 100}+⭐*${skill.param.add * 100}%`
+                    labels[0].string = '减速伤害倍率'
+                    labels[1].string = `(${skill.param.mult * 100}+⭐*${skill.param.add * 100})%`
                     break
                 case 15:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '每个星提升攻速'
-                    node3.getChildByName('2').getComponent(cc.Label).string = (skill.param.num * 100).toFixed(0) + '%'
+                    labels[0].string = '每个星提升攻速'
+                    labels[1].string = (skill.param.num * 100).toFixed(0) + '%'
                     break
                 case 16:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '增加伤害'
-                    node3.getChildByName('2').getComponent(cc.Label).string = `${buff.param.num}+⭐*${buff.param.add}%`
+                    labels[0].string = '增加伤害'
+                    labels[1].string = `(${buff.param.num}+⭐*${buff.param.add})%`
                     break
                 case 18:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '攻击范围'
-                    node3.getChildByName('2').getComponent(cc.Label).string = `${skill.param.num}+⭐*${skill.param.add}`
+                    labels[0].string = '攻击范围'
+                    labels[1].string = `${skill.param.num}+⭐*${skill.param.add}`
                     break
                 case 19:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '连锁数量'
-                    node3.getChildByName('2').getComponent(cc.Label).string = `2+⭐个`
+                    labels[0].string = '连锁数量'
+                    labels[1].string = `2+⭐个`
                     break
                 case 20:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '技能冷却'
-                    node3.getChildByName('2').getComponent(cc.Label).string = skill.cool + 's'
+                    labels[0].string = '技能冷却'
+                    labels[1].string = skill.cool + 's'
                     node4.active = true
-                    node4.getChildByName('1').getComponent(cc.Label).string = '幸运'
-                    node4.getChildByName('2').getComponent(cc.Label).string = skill.param.num + skill.param.add * (card.lv - 1) + '%'
+                    labels[2].string = '幸运'
+                    labels[3].string = skill.param.num + skill.param.add * (card.lv - 1) + '%'
                     break
                 case 21:
-                    node3.getChildByName('1').getComponent(cc.Label).string = '横向bingo攻速增加'
-                    node3.getChildByName('2').getComponent(cc.Label).string = (skill.param.row * 100).toFixed(0) + "%"
+                    labels[0].string = '横向bingo攻速增加'
+                    labels[1].string = (skill.param.row * 100).toFixed(0) + "%"
                     node4.active = true
-                    node4.getChildByName('1').getComponent(cc.Label).string = '纵向bingo攻击增加'
-                    node4.getChildByName('2').getComponent(cc.Label).string = (skill.param.col * 100).toFixed(0) + "%"
+                    labels[2].string = '纵向bingo攻击增加'
+                    labels[3].string = (skill.param.col * 100).toFixed(0) + "%"
+                    break
+                case 22:
+                    labels[0].string = '获得名誉'
+                    labels[1].string = `60*⭐`
+                    break
+                case 24:
+                    labels[0].string = '发动间隔'
+                    labels[1].string = skill.param.cold + 's'
+                    node4.active = true
+                    labels[2].string = '净化人数'
+                    labels[3].string = `⭐人`
+                    break
+                case 25:
+                    labels[0].string = 'BOSS额外伤害'
+                    labels[1].string = `(${skill.param.num}*⭐)%`
+                    break
+                case 26:
+                    labels[0].string = '每层额外增伤'
+                    labels[1].string = skill.param.num + '%'
+                    break
+                case 27:
+                    labels[0].string = '增加倍率'
+                    labels[1].string = `(${skill.param.num}+${skill.param.add}*⭐)%`
+                    break
+                case 28:
+                    labels[0].string = '暴击伤害'
+                    labels[1].string = skill.param.damage + '%'
+                    node4.active = true
+                    labels[2].string = '暴击率'
+                    labels[3].string = `(${skill.param.num}+${skill.param.add}*⭐)%`
+                    break
+                case 29:
+                    labels[0].string = 'buff秒杀率'
+                    labels[1].string = `(${buff.param.num}+⭐*${buff.param.add})%`
+                    break
+                case 30:
+                    labels[0].string = '技能冷却'
+                    labels[1].string = skill.cool + 's'
                     break
             }
 

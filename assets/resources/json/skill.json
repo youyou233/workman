@@ -271,10 +271,119 @@
     "bgName": "death",
     "cool": 0,
     "isActive": false,
-    "skillType": 14,
+    "skillType": 15,
     "param": {
       "row": 2,
       "col": 4
     }
+  },
+  "22": {
+    "id": "22",
+    "name": "黄金梦想",
+    "dec": "被动技能，合成时生成名誉，随星星的提升而提升",
+    "bgName": "life",
+    "cool": 0,
+    "isActive": false,
+    "skillType": 16,
+    "param": {
+      "num": 60
+    }
+  },
+  "23": {
+    "id": "23",
+    "name": "RUSH",
+    "dec": "被动技能，可以与他人交换位置",
+    "bgName": "nature",
+    "cool": 0,
+    "isActive": false,
+    "skillType": 14,
+    "param": null
+  },
+  "24": {
+    "id": "24",
+    "name": "净化",
+    "dec": "被动技能，解除队友身上的负面效果",
+    "bgName": "nature",
+    "cool": 0,
+    "isActive": false,
+    "skillType": 17,
+    "param": {
+      "cold": 10
+    }
+  },
+  "25": {
+    "id": "25",
+    "name": "BOSS杀手",
+    "dec": "被动技能，对boss的伤害随着星星的提升而提升",
+    "bgName": "death",
+    "cool": 0,
+    "isActive": false,
+    "skillType": 18,
+    "param": {
+      "num": 100
+    }
+  },
+  "26": {
+    "id": "26",
+    "name": "超威蓝猫",
+    "dec": "被动技能，击杀敌人都会给全体吴克增加攻击力",
+    "bgName": "death",
+    "cool": 0,
+    "isActive": false,
+    "skillType": 19,
+    "param": {
+      "num": 3
+    }
+  },
+  "27": {
+    "id": "27",
+    "name": "偷窃",
+    "dec": "被动技能，击杀敌人时获得更多的名誉",
+    "bgName": "death",
+    "cool": 0,
+    "isActive": false,
+    "skillType": 20,
+    "param": {
+      "num": 50,
+      "add": 10
+    }
+  },
+  "28": {
+    "id": "28",
+    "name": "暴击",
+    "dec": "被动技能，暴击伤害增加，暴击概率增加",
+    "bgName": "death",
+    "cool": 0,
+    "isActive": false,
+    "skillType": 21,
+    "param": {
+      "damage": 300,
+      "num": 10,
+      "add": 5
+    }
+  },
+  "29": {
+    "id": "29",
+    "name": "死亡之眼",
+    "dec": "被动技能，赋予周围角色概率秒杀敌人的能力",
+    "bgName": "death",
+    "cool": 0,
+    "isActive": false,
+    "skillType": 5,
+    "param": {
+      "buff": 7,
+      "targetType": 3,
+      "time": 99999999
+    }
+  },
+  "30": {
+    "id": "30",
+    "name": "命令",
+    "dec": "主动技能，将指定角色替换为指定角色",
+    "bgName": "nature",
+    "cool": 30,
+    "isActive": true,
+    "skillType": 22,
+    "param": null
   }
 }

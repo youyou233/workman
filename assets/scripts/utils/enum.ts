@@ -41,6 +41,7 @@ export enum AtkType {
     chain = 4,//立即释放
     random = 5,
     melee = 6,
+    randomMelee = 7,
 }
 export enum SkillType {
     none = 0,
@@ -57,8 +58,15 @@ export enum SkillType {
     reputation = 11,
     kill = 12,
     sameRoleStar = 13,
-    sameStar = 14,
-    bingo = 15
+    switch = 14,
+    bingo = 15,
+    mergeProduct = 16,//合成时生成阳光
+    purify = 17,
+    bossKill = 18,
+    wuke = 19,
+    killSteal = 20,
+    crit = 21,
+    changeRole = 22
 }
 
 export enum SelfStackType {

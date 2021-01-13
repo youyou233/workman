@@ -201,7 +201,16 @@
             <key type="filename">../assets/main_res/char/icon/role_2.png</key>
             <key type="filename">../assets/main_res/char/icon/role_20.png</key>
             <key type="filename">../assets/main_res/char/icon/role_21.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_22.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_23.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_24.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_25.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_26.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_27.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_28.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_29.png</key>
             <key type="filename">../assets/main_res/char/icon/role_3.png</key>
+            <key type="filename">../assets/main_res/char/icon/role_30.png</key>
             <key type="filename">../assets/main_res/char/icon/role_4.png</key>
             <key type="filename">../assets/main_res/char/icon/role_5.png</key>
             <key type="filename">../assets/main_res/char/icon/role_6.png</key>
@@ -262,6 +271,7 @@
             <key type="filename">../assets/main_res/skill/buff_4.png</key>
             <key type="filename">../assets/main_res/skill/buff_5.png</key>
             <key type="filename">../assets/main_res/skill/buff_6.png</key>
+            <key type="filename">../assets/main_res/skill/buff_7.png</key>
             <key type="filename">../assets/main_res/skill/skill_1.png</key>
             <key type="filename">../assets/main_res/skill/skill_10.png</key>
             <key type="filename">../assets/main_res/skill/skill_11.png</key>
@@ -276,7 +286,16 @@
             <key type="filename">../assets/main_res/skill/skill_2.png</key>
             <key type="filename">../assets/main_res/skill/skill_20.png</key>
             <key type="filename">../assets/main_res/skill/skill_21.png</key>
+            <key type="filename">../assets/main_res/skill/skill_22.png</key>
+            <key type="filename">../assets/main_res/skill/skill_23.png</key>
+            <key type="filename">../assets/main_res/skill/skill_24.png</key>
+            <key type="filename">../assets/main_res/skill/skill_25.png</key>
+            <key type="filename">../assets/main_res/skill/skill_26.png</key>
+            <key type="filename">../assets/main_res/skill/skill_27.png</key>
+            <key type="filename">../assets/main_res/skill/skill_28.png</key>
+            <key type="filename">../assets/main_res/skill/skill_29.png</key>
             <key type="filename">../assets/main_res/skill/skill_3.png</key>
+            <key type="filename">../assets/main_res/skill/skill_30.png</key>
             <key type="filename">../assets/main_res/skill/skill_4.png</key>
             <key type="filename">../assets/main_res/skill/skill_5.png</key>
             <key type="filename">../assets/main_res/skill/skill_6.png</key>
@@ -413,6 +432,24 @@
                 <rect>6,6,13,13</rect>
                 <key>scale9Paddings</key>
                 <rect>6,6,13,13</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../assets/main_res/throw/throw (23).png</key>
+            <key type="filename">../assets/main_res/throw/throw (24).png</key>
+            <key type="filename">../assets/main_res/throw/throw (25).png</key>
+            <key type="filename">../assets/main_res/throw/throw (30).png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,3,7,7</rect>
+                <key>scale9Paddings</key>
+                <rect>4,3,7,7</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
