@@ -42,10 +42,11 @@ export default class LandItem extends cc.Component {
 
     aroundBuffTimer: number = 0
     _stack: number
-    generateTimer: number = null
+    otherSkillTimer: number = null
     _isDiz: boolean = false//是否眩晕
 
     pos: cc.Vec2 = cc.v2(0, 0)
+    skilling: boolean = false
     get isDiz() {
         return this._isDiz
     }
@@ -129,9 +130,9 @@ export default class LandItem extends cc.Component {
         let roleData = JsonManager.instance.getDataByName('role')[this.id]
         this.atkTimer = roleData.atkCD
         this.role = new Role(this.id, this.cardData.lv)
-        if (this.role.isIntervalGenerate()) {
+        if (this.role.haveOtherSkill()) {
             let skillData = JsonManager.instance.getDataByName('skill')[this.id]
-            this.generateTimer = skillData.param.cold
+            this.otherSkillTimer = skillData.param.cold
         }
         this.isDiz = false
         this.addAnimationClip()
@@ -198,6 +199,9 @@ export default class LandItem extends cc.Component {
         }
         if (land.id == 8) {
             BattleManager.instance.onSkillGenerate(this.id, this.stack)
+        }
+        if (this.id == 22) {
+            BattleManager.instance.sun += this.stack * 60
         }
         land.setNull()
         this.showRole()
@@ -268,7 +272,7 @@ export default class LandItem extends cc.Component {
                         } else {
                             let time = this.role.getAtkType() == AtkType.chain ? 0.1 : 0.5
                             BattleUIManager.instance.addThrow(this.id, JSON.parse(JSON.stringify(this.pos)), monster.position, time, this.role.getAtkDamege(this),
-                                DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), param)
+                                this.role.isCri(this), DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), param)
                         }
                     }
                     break
@@ -278,7 +282,7 @@ export default class LandItem extends cc.Component {
                     this.watchMonster = true
                     this.actionCb[RoleActionType.sing] = () => {
                         BattleUIManager.instance.addThrow(this.id, JSON.parse(JSON.stringify(this.pos)), monster.position, 0.1, this.role.getAtkDamege(this),
-                            DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { range: this.role.getAtkRange(this) }
+                            this.role.isCri(this), DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { range: this.role.getAtkRange(this) }
                         )
                     }
                     break
@@ -289,37 +293,54 @@ export default class LandItem extends cc.Component {
                     this.watchMonster = true
                     this.actionCb[RoleActionType.throw] = () => {
                         BattleUIManager.instance.addThrow(this.id, JSON.parse(JSON.stringify(this.pos)), monster.position, 1, this.role.getAtkDamege(this),
-                            DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { range: this.role.getAtkRange(this) }, true)
+                            this.role.isCri(this), DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { range: this.role.getAtkRange(this) }, true)
                     }
                     break
             }
         }
     }
-    onGenerate() {
+    onOtherSkill() {
         if (this.isDiz) return
         this.watchMonster = true
         let name = 'role_' + this.id + '_' + RoleActionType.sing
         this.roleAnima.play(name).speed = 1
-        this.actionCb[RoleActionType.sing] = () => {
-            let num = this.stack * JsonManager.instance.getDataByName('skill')[this.id].param.num
-            BattleManager.instance.sun += num
-            EffectManager.instance.createDamageLabel(num + '', this.pos, false, { color: cc.Color.WHITE, outLineColor: cc.color(121, 0, 147), fontSize: 18 })
+        this.skilling = true
+        switch (this.id) {
+            case 10:
+                this.actionCb[RoleActionType.sing] = () => {
+                    let num = this.stack * JsonManager.instance.getDataByName('skill')[this.id].param.num
+                    BattleManager.instance.sun += num
+                    this.skilling = false
+                    EffectManager.instance.createDamageLabel(num + '', this.pos, false, { color: cc.Color.WHITE, outLineColor: cc.color(121, 0, 147), fontSize: 18 })
+                }
+                break
+            case 24:
+                this.actionCb[RoleActionType.sing] = () => {
+                    this.skilling = false
+                    //TODO: 进行净化
+                    //EffectManager.instance.creatEffect(24, this.pos)
+                }
+                break
         }
 
+
+    }
+    onPure() {
+        EffectManager.instance.creatEffect(24, this.pos)
     }
     onUpdate(dt) {
         if (this.id) {
             this.atkTimer -= dt
-            if (this.atkTimer < 0) {
+            if (this.atkTimer < 0 && !this.skilling) {
                 //   console.log(this.role.getAtkCD(this))
                 this.atkTimer = this.role.getAtkCD(this) /// this.atkSpd
                 this.onAtk()
             }
-            if (this.role.isIntervalGenerate()) {
-                this.generateTimer -= dt
-                if (this.generateTimer < 0) {
-                    this.generateTimer = JsonManager.instance.getDataByName('skill')[this.id].param.cold
-                    this.onGenerate()
+            if (this.role.haveOtherSkill()) {
+                this.otherSkillTimer -= dt
+                if (this.otherSkillTimer < 0) {
+                    this.otherSkillTimer = JsonManager.instance.getDataByName('skill')[this.id].param.cold
+                    this.onOtherSkill()
                 }
             }
             for (let buffId in this.buffMap) {

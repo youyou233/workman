@@ -114,12 +114,15 @@ export default class MonsterItem extends cc.Component {
         this.hp -= count
         let spike = false
         str = count + ''
-        if (param && param.id == 13) {
+        if (param && param.id == 13) {//TODO:增加判断是否有秒杀buff
             spike = Utils.getRandomNumber(1000) < 25 + 3 * param.stack
         }
         if (spike) {
             this.hp = 0
             str = '秒杀'
+        }
+        if (this.hp <= 0) {
+            Emitter.fire('message_' + MessageType.monsterBeKilled, param.id, this.node.position)
         }
         EffectManager.instance.createDamageLabel(str, this.node.position)
 

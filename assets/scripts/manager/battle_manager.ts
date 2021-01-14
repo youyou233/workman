@@ -63,6 +63,7 @@ export default class BattleManager extends cc.Component {
     get hp() {
         return this._hp
     }
+
     isBoss: boolean = false//当前是否在打boss
     _rankTimer: number = 999999
     set rankTimer(val: number) {
@@ -125,6 +126,17 @@ export default class BattleManager extends cc.Component {
     bindEvent() {
         Emitter.register('message_' + MessageType.killBoss, (name) => {
             BattleManager.instance.killBoss()
+        }, this)
+        Emitter.register('message_' + MessageType.monsterBeKilled, (name, data, pos) => {
+            switch (+data) {
+                case 26:
+                    console.log('增加一层吴克')
+                    break
+                case 27:
+                    console.log('偷窃')
+                    break
+            }
+
         }, this)
     }
     initBattle(type?: BattleType) {

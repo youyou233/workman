@@ -15,4 +15,5 @@ export enum MessageType {
     removeRole,
 
     onSkill,
+    monsterBeKilled,
 }

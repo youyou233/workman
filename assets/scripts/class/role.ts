@@ -2,6 +2,7 @@ import { AtkType, SkillType, SelfStackType } from "../utils/enum"
 import JsonManager from "../manager/json_manager"
 import LandItem from "../item/land_item"
 import BattleManager from "../manager/battle_manager"
+import { Utils } from "../utils/utils"
 
 export class Role {
     atkType: AtkType = AtkType.normol
@@ -9,13 +10,14 @@ export class Role {
     atk: number = 0
     id: number = 0
     lv: number = 0
+    roleData: any = null
     constructor(id: number, lv: number) {
-        let roleData = JsonManager.instance.getDataByName('role')[id]
+        this.roleData = JsonManager.instance.getDataByName('role')[id]
         this.id = id
         this.lv = lv
-        this.atkType = roleData.atkType
-        this.atkCD = roleData.atkCD
-        this.atk = roleData.atk
+        this.atkType = this.roleData.atkType
+        this.atkCD = this.roleData.atkCD
+        this.atk = this.roleData.atk
     }
 
     getAtkDamege(land: LandItem) {
@@ -93,20 +95,34 @@ export class Role {
         }
         return 0
     }
+    isCri(land: LandItem) {
+        //暴击率 判断是否能暴击 如果能暴击则判断暴击率 
+        let chance = false
+        switch (this.roleData.typeName) {
+            case '攻击型角色':
+                if (this.id == 28) {
+                    let skillData = JsonManager.instance.getDataByName('skill')[this.id]
+                    chance = Utils.getRandomNumber(1000) < skillData.param.num * 10 + skillData.param.add * land.stack * 10
+                } else {
+                    chance = Utils.getRandomNumber(1000) < 25
+                }
+        }
+        return chance
+    }
     getAtkRange(land: LandItem) {
-        let roleData = JsonManager.instance.getDataByName('role')[this.id]
-        switch (roleData.atkType) {
+        switch (this.roleData.atkType) {
             case AtkType.range:
-                return roleData.param.range
+                return this.roleData.param.range
             case AtkType.randomRange:
                 let skillData = JsonManager.instance.getDataByName('skill')[this.id]
                 return skillData.param.num + (land.stack - 1) * skillData.param.add
         }
     }
-    isIntervalGenerate() {
+    haveOtherSkill() {
         let skillData = JsonManager.instance.getDataByName('skill')[this.id]
         switch (skillData.skillType) {
             case SkillType.intervalGenerate:
+            case SkillType.purify:
                 return true
         }
         return false
@@ -124,7 +140,6 @@ export class Role {
         switch (skillData.skillType) {
             case SkillType.merge:
                 return [skillData.param.stack, skillData.param.id]
-                break
         }
         return [true, true]
     }

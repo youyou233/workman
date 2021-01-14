@@ -19,7 +19,7 @@ export default class ThrowItem extends cc.Component {
     type: AtkType = null
     param: any = null
     id: number = 0
-    init(id: number, start: cc.Vec2, end: cc.Vec2, time: number, damage: number, oid: number, type: AtkType, param?, jump: boolean = false) {
+    init(id: number, start: cc.Vec2, end: cc.Vec2, time: number, damage: number, cri: boolean, oid: number, type: AtkType, param?, jump: boolean = false) {
         this.sp.spriteFrame = ResourceManager.instance.getSprite(ResType.main, `throw (${id})`)
         this.node.stopAllActions()
         this.oid = oid

@@ -100,9 +100,9 @@ export default class BattleUIManager extends cc.Component {
         let boss = PoolManager.instance.createObjectByName('bossItem', this.bossContainer)
         boss.getComponent(BossItem).init(id, this.clearAllMonsters())
     }
-    addThrow(id, start, end, time: number = 1, damage, oid, type, param?, jump: boolean = false) {
+    addThrow(id, start, end, time: number = 1, damage, cri: boolean, oid, type, param?, jump: boolean = false) {
         let node = PoolManager.instance.createObjectByName('throwItem', this.throwContainer)
-        node.getComponent(ThrowItem).init(id, start, end, time, damage, oid, type, param, jump)
+        node.getComponent(ThrowItem).init(id, start, end, time, damage, cri, oid, type, param, jump)
     }
     clearContainer() {
         let containers = [this.monsterContainer, this.throwContainer, this.bossContainer, this.effectContainer, this.damageLabelContainer]
@@ -284,6 +284,8 @@ export default class BattleUIManager extends cc.Component {
         let targetLand = target.getComponent(LandItem)
         if (targetLand.checkMerge(curLand)) {
             targetLand.onMerge(curLand)
+        } else {
+            //TODO: 判断是否可以换位置
         }
     }
 

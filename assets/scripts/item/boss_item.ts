@@ -97,7 +97,15 @@ export default class BossItem extends cc.Component {
         }
         let multDamage = BattleManager.instance.canMultDamage(this.buffMap, param)
         let count = damage * multDamage[0]
+        switch (param.id) {
+            case 25:
+                //TODO: boss杀手
+                break
+        }
         this.hp -= count
+        if (this.hp <= 0) {
+            Emitter.fire('message_' + MessageType.monsterBeKilled, param.id, this.node.position)
+        }
         EffectManager.instance.createDamageLabel(count + '', this.node.position)
     }
     getInCity() {
