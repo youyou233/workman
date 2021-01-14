@@ -1,5 +1,5 @@
 import ResourceManager from "../manager/resources_manager"
-import { RoleActionType, AtkType, SkillType } from "../utils/enum"
+import { RoleActionType, AtkType, SkillType, ResType } from "../utils/enum"
 import { Utils } from "../utils/utils"
 import { Emitter } from "../utils/emmiter"
 import { MessageType } from "../utils/message"
@@ -29,6 +29,7 @@ export default class LandItem extends cc.Component {
     stackContainer: cc.Node = null
     @property(cc.Node)
     buffContainer: cc.Node = null
+    landSp: cc.Sprite = null
     id: number = 0
     cardData: CardData = null
     //对应位置
@@ -56,6 +57,9 @@ export default class LandItem extends cc.Component {
             EffectManager.instance.creatEffect(18, this.pos)
             let name = 'role_' + this.id + '_' + RoleActionType.death
             this.roleAnima.play(name)
+        } else if (!val && this.id) {
+            let name = 'role_' + this.id + '_' + RoleActionType.idle
+            this.roleAnima.play(name)
         }
     }
     set stack(val: number) {
@@ -73,6 +77,7 @@ export default class LandItem extends cc.Component {
     }
 
     onLoad() {
+        this.landSp = this.node.getChildByName('land_1').getComponent(cc.Sprite)
         //       this.roleAnima = this.node.getChildByName('role').getComponent(cc.Animation)
         Emitter.register('MessageType_' + MessageType.addMonster, (name) => {
             if (!this.watchMonster) this.onAtk()
@@ -98,6 +103,8 @@ export default class LandItem extends cc.Component {
         this.curI = i
         this.curJ = j
         //cc.log(i, j)
+        if (!this.landSp) this.landSp = this.node.getChildByName('land_1').getComponent(cc.Sprite)
+        this.landSp.spriteFrame = ResourceManager.instance.getSprite(ResType.main, 'land_s')
         this.setNull()
         this.mergeStatus.active = false
         this.atkTimer = 999
@@ -119,8 +126,20 @@ export default class LandItem extends cc.Component {
         this.isDiz = false
         this.updateBuffContainer()
     }
-    showRole() {
-        this.cardData = BattleManager.instance.team[Utils.getRandomNumber(4)]
+    showRole(id?) {
+        if (id) {
+            let index = 0
+            for (let i = 0; i < 5; i++) {
+                if (BattleManager.instance.team[i].id == id) {
+                    index = i
+                    break
+                }
+            }
+
+            this.cardData = BattleManager.instance.team[index]
+        } else {
+            this.cardData = BattleManager.instance.team[Utils.getRandomNumber(4)]
+        }
         // this.cardData = BattleManager.instance.team[0]
         this.id = this.cardData.id
         if (this.role && this.role.isAroundBuff()) {
@@ -137,7 +156,7 @@ export default class LandItem extends cc.Component {
         this.isDiz = false
         this.addAnimationClip()
         this.updateBuffContainer()
-        console.log(this.curI, this.curJ, '生成')
+        // console.log(this.curI, this.curJ, '生成')
         EffectManager.instance.creatEffect(1, cc.v3(this.pos.x, this.pos.y + 65))
     }
 
@@ -263,7 +282,9 @@ export default class LandItem extends cc.Component {
                     this.actionCb[RoleActionType.atk] = () => {
                         let param = {
                             id: this.id,
-                            stack: this.stack
+                            stack: this.stack,
+                            cri: this.role.isCri(this),
+                            spike: this.role.checkSpike(this)
                         }
                         if (this.role.getAtkType() == AtkType.melee) {
                             let target = DD.instance.getMonsterByNode(monster)
@@ -272,7 +293,7 @@ export default class LandItem extends cc.Component {
                         } else {
                             let time = this.role.getAtkType() == AtkType.chain ? 0.1 : 0.5
                             BattleUIManager.instance.addThrow(this.id, JSON.parse(JSON.stringify(this.pos)), monster.position, time, this.role.getAtkDamege(this),
-                                this.role.isCri(this), DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), param)
+                                DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), param)
                         }
                     }
                     break
@@ -282,7 +303,7 @@ export default class LandItem extends cc.Component {
                     this.watchMonster = true
                     this.actionCb[RoleActionType.sing] = () => {
                         BattleUIManager.instance.addThrow(this.id, JSON.parse(JSON.stringify(this.pos)), monster.position, 0.1, this.role.getAtkDamege(this),
-                            this.role.isCri(this), DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { range: this.role.getAtkRange(this) }
+                            DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { cri: this.role.isCri(this), range: this.role.getAtkRange(this), spike: this.role.checkSpike(this) }
                         )
                     }
                     break
@@ -293,7 +314,7 @@ export default class LandItem extends cc.Component {
                     this.watchMonster = true
                     this.actionCb[RoleActionType.throw] = () => {
                         BattleUIManager.instance.addThrow(this.id, JSON.parse(JSON.stringify(this.pos)), monster.position, 1, this.role.getAtkDamege(this),
-                            this.role.isCri(this), DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { range: this.role.getAtkRange(this) }, true)
+                            DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { cri: this.role.isCri(this), range: this.role.getAtkRange(this), spike: this.role.checkSpike(this) }, true)
                     }
                     break
             }
@@ -317,8 +338,14 @@ export default class LandItem extends cc.Component {
             case 24:
                 this.actionCb[RoleActionType.sing] = () => {
                     this.skilling = false
-                    //TODO: 进行净化
-                    //EffectManager.instance.creatEffect(24, this.pos)
+                    let arrLand = BattleManager.instance.getNeedPure()
+                    if (arrLand.length > 0) {
+                        for (let i = 0; i < this.stack; i++) {
+                            if (arrLand[i]) {
+                                arrLand[i].onPure()
+                            }
+                        }
+                    }
                 }
                 break
         }
@@ -327,6 +354,18 @@ export default class LandItem extends cc.Component {
     }
     onPure() {
         EffectManager.instance.creatEffect(24, this.pos)
+        if (this.isDiz) {
+            this.isDiz = false
+            return
+        }
+        if (this.buffMap[8]) {
+            this.buffMap[8] = { time: 0, lv: 1 }
+            return
+        }
+        if (this.buffMap[9]) {
+            this.buffMap[9] = { time: 0, lv: 1 }
+            return
+        }
     }
     onUpdate(dt) {
         if (this.id) {
@@ -368,6 +407,14 @@ export default class LandItem extends cc.Component {
             this.buffMap[buffId] = buffData
             this.updateBuffContainer()
         }
+    }
+    addWuke() {
+        if (this.buffMap[10]) {
+            this.buffMap[10].lv++
+        } else {
+            this.buffMap[10] = { time: 999999999, lv: 1 }
+        }
+        this.updateBuffContainer()
     }
     removeBuff(buffId) {
         delete this.buffMap[buffId]

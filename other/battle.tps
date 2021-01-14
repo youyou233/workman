@@ -385,7 +385,10 @@
             <key type="filename">../assets/main_res/char/animation/24/24-15.png</key>
             <key type="filename">../assets/main_res/char/animation/24/24-16.png</key>
             <key type="filename">../assets/main_res/char/animation/24/24-17.png</key>
+            <key type="filename">../assets/main_res/char/animation/24/24-18.png</key>
+            <key type="filename">../assets/main_res/char/animation/24/24-19.png</key>
             <key type="filename">../assets/main_res/char/animation/24/24-2.png</key>
+            <key type="filename">../assets/main_res/char/animation/24/24-20.png</key>
             <key type="filename">../assets/main_res/char/animation/24/24-24.png</key>
             <key type="filename">../assets/main_res/char/animation/24/24-3.png</key>
             <key type="filename">../assets/main_res/char/animation/24/24-4.png</key>

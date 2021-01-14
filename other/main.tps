@@ -266,12 +266,15 @@
             <key type="filename">../assets/main_res/icon/icon (8).png</key>
             <key type="filename">../assets/main_res/icon/icon (9).png</key>
             <key type="filename">../assets/main_res/skill/buff_1.png</key>
+            <key type="filename">../assets/main_res/skill/buff_10.png</key>
             <key type="filename">../assets/main_res/skill/buff_2.png</key>
             <key type="filename">../assets/main_res/skill/buff_3.png</key>
             <key type="filename">../assets/main_res/skill/buff_4.png</key>
             <key type="filename">../assets/main_res/skill/buff_5.png</key>
             <key type="filename">../assets/main_res/skill/buff_6.png</key>
             <key type="filename">../assets/main_res/skill/buff_7.png</key>
+            <key type="filename">../assets/main_res/skill/buff_8.png</key>
+            <key type="filename">../assets/main_res/skill/buff_9.png</key>
             <key type="filename">../assets/main_res/skill/skill_1.png</key>
             <key type="filename">../assets/main_res/skill/skill_10.png</key>
             <key type="filename">../assets/main_res/skill/skill_11.png</key>
@@ -997,6 +1000,21 @@
                 <rect>30,30,60,60</rect>
                 <key>scale9Paddings</key>
                 <rect>30,30,60,60</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../assets/main_res/ui/land_s.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>160,291,320,582</rect>
+                <key>scale9Paddings</key>
+                <rect>160,291,320,582</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

@@ -15,6 +15,8 @@ import ResourceManager from "./resources_manager"
 import DamageLabel from "../item/damage_label"
 import PoolManager from "./pool_manager"
 import GridItem from "../item/grid_item"
+import MonsterItem from "../item/monster_item"
+import BossItem from "../item/boss_item"
 
 const { ccclass, property } = cc._decorator
 /**
@@ -33,6 +35,7 @@ export default class BattleManager extends cc.Component {
 
     _sun: number = 0//阳光
     set sun(val: number) {
+        console.log('阳光变化', val - this._sun)
         this._sun = val
         BattleUIManager.instance.sunLabel.string = val.toFixed(0)
     }
@@ -127,13 +130,14 @@ export default class BattleManager extends cc.Component {
         Emitter.register('message_' + MessageType.killBoss, (name) => {
             BattleManager.instance.killBoss()
         }, this)
-        Emitter.register('message_' + MessageType.monsterBeKilled, (name, data, pos) => {
-            switch (+data) {
+        Emitter.register('message_' + MessageType.monsterBeKilled, (name, data, monster) => {
+            switch (+data.id) {
                 case 26:
-                    console.log('增加一层吴克')
+                    this.getAllLandById(26).forEach((item) => { item.addWuke() })
                     break
                 case 27:
-                    console.log('偷窃')
+                    this.sun += this.getMonsterKillSun(monster) * (0.5 + 0.1 * data.stack)
+                    //    console.log('偷窃')
                     break
             }
 
@@ -463,5 +467,46 @@ export default class BattleManager extends cc.Component {
     }
     getGenerateMosnterTimer() {
         return (Utils.getRandomNumber(10) + 1) / 10
+    }
+    getNeedPure(): LandItem[] {
+        let arr = []
+        for (let i = 0; i < this.mapData.length; i++) {
+            for (let j = 0; j < this.mapData[0].length; j++) {
+                let buffMap = Object.keys(this.mapData[i][j].buffMap)
+                if (this.mapData[i][j].isDiz || buffMap.some((item) => {
+                    let needPure = [8, 9]
+                    return needPure.indexOf(+item) != -1
+                })) {
+                    arr.push(this.mapData[i][j])
+                }
+            }
+        }
+        return arr
+    }
+    getAllLandById(id: number) {
+        let arr = []
+        for (let i = 0; i < this.mapData.length; i++) {
+            for (let j = 0; j < this.mapData[0].length; j++) {
+                if (this.mapData[i][j].id == id) {
+                    arr.push(this.mapData[i][j])
+                }
+            }
+        }
+        return arr
+    }
+    getMonsterKillSun(monster: MonsterItem | BossItem) {
+        switch (this.type) {
+            case BattleType.boss:
+            case BattleType.normal:
+                if (monster instanceof MonsterItem) {
+                    return 10 * this.rank
+                } else {
+                    return 100 * this.rank
+                }
+            case BattleType.unlimited:
+                if (monster instanceof MonsterItem) {
+                    return 10
+                }
+        }
     }
 }

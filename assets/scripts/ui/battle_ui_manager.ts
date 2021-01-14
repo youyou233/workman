@@ -12,6 +12,9 @@ import { Utils } from "../utils/utils";
 import DD from "../manager/dynamic_data_manager";
 import GridItem from "../item/grid_item";
 import JsonManager from "../manager/json_manager";
+import UIManager from "../manager/ui_manager";
+import OnskillUIManager from "./onskill_ui_manager";
+import config from "../utils/config";
 
 const { ccclass, property } = cc._decorator
 
@@ -100,9 +103,9 @@ export default class BattleUIManager extends cc.Component {
         let boss = PoolManager.instance.createObjectByName('bossItem', this.bossContainer)
         boss.getComponent(BossItem).init(id, this.clearAllMonsters())
     }
-    addThrow(id, start, end, time: number = 1, damage, cri: boolean, oid, type, param?, jump: boolean = false) {
+    addThrow(id, start, end, time: number = 1, damage, oid, type, param?, jump: boolean = false) {
         let node = PoolManager.instance.createObjectByName('throwItem', this.throwContainer)
-        node.getComponent(ThrowItem).init(id, start, end, time, damage, cri, oid, type, param, jump)
+        node.getComponent(ThrowItem).init(id, start, end, time, damage, oid, type, param, jump)
     }
     clearContainer() {
         let containers = [this.monsterContainer, this.throwContainer, this.bossContainer, this.effectContainer, this.damageLabelContainer]
@@ -285,7 +288,10 @@ export default class BattleUIManager extends cc.Component {
         if (targetLand.checkMerge(curLand)) {
             targetLand.onMerge(curLand)
         } else {
-            //TODO: 判断是否可以换位置
+            if (curLand.id == 23 && targetLand.id) {
+                curLand.showRole(targetLand.id)
+                targetLand.showRole(23)
+            }
         }
     }
 
@@ -352,5 +358,10 @@ export default class BattleUIManager extends cc.Component {
         let way = ways[wayId]
         let target = this.landContainer.children[way[0][0] * 6 + way[0][1]].position
         return cc.v2(target.x, target.y + 64)
+    }
+    //只有公主能发动
+    changeRole(id: number) {
+        this.curTouch.getComponent(LandItem).showRole(id)
+        UIManager.instance.openUI(OnskillUIManager, { name: config.uiName.onskillUI, param: [30] })
     }
 }

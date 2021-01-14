@@ -23,11 +23,11 @@ export default class DamageLabel extends cc.Component {
         } else {
             if (cri) {
                 this.node.color = cc.Color.RED
-                this.outLine.color = cc.Color.YELLOW
+                this.outLine.color = cc.Color.BLACK
                 this.label.fontSize = 26
             } else {
                 this.node.color = cc.Color.WHITE
-                this.outLine.color = cc.Color.RED
+                this.outLine.color = cc.Color.BLACK
                 this.label.fontSize = 18
             }
         }
@@ -35,12 +35,11 @@ export default class DamageLabel extends cc.Component {
         this.showAni()
     }
     showAni() {
-        this.node.x += Utils.getRandomNumber(100) - 50
-        this.node.y += Utils.getRandomNumber(100) - 50
-        this.node.opacity = 255
-        this.node.scale = 0.5
+        // this.node.x += Utils.getRandomNumber(100) - 50
+        this.node.y += 50
+        this.node.opacity = 0
         let tween = new cc.Tween().target(this.node)
-            .to(0.2, { scale: 1.5 }, cc.easeElasticOut(2))
+            .to(0.2, { opacity: 255, y: this.node.y + 50 }, cc.easeElasticOut(2))
             .delay(0.1)
             .call(() => {
                 PoolManager.instance.removeObjectByName('damageLabel', this.node)

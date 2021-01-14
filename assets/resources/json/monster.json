@@ -181,9 +181,9 @@
   },
   "21": {
     "id": "21",
-    "name": "埃及舞者",
+    "name": "渡渡鸟",
     "hp": 2000,
-    "dec": "被做成了木乃伊",
+    "dec": null,
     "spd": 0.8,
     "isBoss": true,
     "skillDec": "召唤小怪"
@@ -271,18 +271,18 @@
   },
   "31": {
     "id": "31",
-    "name": "龙",
+    "name": "千骸",
     "hp": 10000,
-    "dec": "未知",
+    "dec": null,
     "spd": 0.5,
     "isBoss": true,
     "skillDec": "陆地最强"
   },
   "32": {
     "id": "32",
-    "name": "幽灵长老",
+    "name": "史莱姆",
     "hp": 5000,
-    "dec": "一个大幽灵",
+    "dec": null,
     "spd": 0.6,
     "isBoss": true,
     "skillDec": "随机将角色升星或者降星并变换"

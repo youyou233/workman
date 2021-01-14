@@ -42,8 +42,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 35.03,
-      "height": 60.4
+      "width": 27.03,
+      "height": 52.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -122,12 +122,12 @@
     "_enabled": true,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
+      "r": 0,
       "g": 0,
       "b": 0,
       "a": 255
     },
-    "_width": 5,
+    "_width": 1,
     "_id": ""
   },
   {

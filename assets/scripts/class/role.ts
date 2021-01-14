@@ -143,4 +143,13 @@ export class Role {
         }
         return [true, true]
     }
+    checkSpike(land: LandItem) {
+        if (this.id == 13) {
+            return Utils.getRandomNumber(1000) < 15 + 4 * land.stack
+        }
+        if (land.buffMap[7]) {
+            return Utils.getRandomNumber(1000) < 15 + 4 * land.buffMap[7].lv
+        }
+        return false
+    }
 }

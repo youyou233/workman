@@ -99,14 +99,21 @@ export default class BossItem extends cc.Component {
         let count = damage * multDamage[0]
         switch (param.id) {
             case 25:
-                //TODO: boss杀手
+                count *= (param.stack + 1)
                 break
+        }
+        if (param.cri) {
+            if (param.id == 28) {
+                count *= 3
+            } else {
+                count *= 2
+            }
         }
         this.hp -= count
         if (this.hp <= 0) {
-            Emitter.fire('message_' + MessageType.monsterBeKilled, param.id, this.node.position)
+            Emitter.fire('message_' + MessageType.monsterBeKilled, param, this)
         }
-        EffectManager.instance.createDamageLabel(count + '', this.node.position)
+        EffectManager.instance.createDamageLabel(count + '', this.node.position, param.cri)
     }
     getInCity() {
         BattleManager.instance.hp -= 2

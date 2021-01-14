@@ -41,15 +41,16 @@ export default class MonsterItem extends cc.Component {
     _hp: number = 0
     monsterSpd: number = 0
     set hp(val: number) {
-        this._hp = val
         this.hpProgress.node.active = this.maxHp > val
         this.hpProgress.progress = val / this.maxHp
-        if (this.hp <= 0) {
+        if (this.hp > 0 && val <= 0) {
             this.onDied()
         }
-        if (this.hp > this.maxHp) {
-            this.hp = this.maxHp
+        this._hp = val
+        if (this._hp > this.maxHp) {
+            this._hp = this.maxHp
         }
+
     }
     get hp() {
         return this._hp
@@ -111,20 +112,24 @@ export default class MonsterItem extends cc.Component {
         if (multDamage[1]) {
             this.explosion = count
         }
-        this.hp -= count
-        let spike = false
-        str = count + ''
-        if (param && param.id == 13) {//TODO:增加判断是否有秒杀buff
-            spike = Utils.getRandomNumber(1000) < 25 + 3 * param.stack
+        if (param.cri) {
+            if (param.id == 28) {
+                count *= 3
+            } else {
+                count *= 2
+            }
         }
-        if (spike) {
+        this.hp -= count
+        str = count + ''
+        if (param.spike) {
             this.hp = 0
             str = '秒杀'
+            console.log('触发了秒杀')
         }
         if (this.hp <= 0) {
-            Emitter.fire('message_' + MessageType.monsterBeKilled, param.id, this.node.position)
+            Emitter.fire('message_' + MessageType.monsterBeKilled, param, this)
         }
-        EffectManager.instance.createDamageLabel(str, this.node.position)
+        EffectManager.instance.createDamageLabel(str, this.node.position, param.cri)
 
     }
     getInCity() {
