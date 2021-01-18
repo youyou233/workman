@@ -81,6 +81,7 @@ export default class DD extends cc.Component {
 
     rankGift: [boolean, boolean][] = []
     vip: number = 0//写明到期时间
+    config: object = null
     getMonsterByNode(monster): MonsterItem | BossItem {
         if (monster.name == 'monsterItem') {
             return monster.getComponent(MonsterItem)
@@ -100,6 +101,7 @@ export default class DD extends cc.Component {
                     this[keys[i]] += rewards[keys[i]]
                     break
                 case 'bag':
+                    console.log(rewards[keys[i]])
                     this.addBag(rewards[keys[i]])
                     break
                 default:

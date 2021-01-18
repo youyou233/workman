@@ -13,7 +13,8 @@ let uiName = {
     rewardUI: 'reward_ui',
     onskillUI: 'onskill_ui',
     vipUI: 'vip_ui',
-    changeRoleUI: 'change_role_ui'
+    changeRoleUI: 'change_role_ui',
+    sysUI: 'sys_ui'
 
 }
 

@@ -73,6 +73,13 @@ export default class BattleUIManager extends cc.Component {
         this.touchGround.on(cc.Node.EventType.TOUCH_MOVE, this.moveTouch, this)
         this.touchGround.on(cc.Node.EventType.TOUCH_END, this.endTouch, this)
         this.touchGround.on(cc.Node.EventType.TOUCH_CANCEL, this.endTouch, this)
+        this.exitBtn.node.on('click', () => {
+            UIManager.instance.LoadMessageBox('确认退出', '是否放弃这次战役?', (isOK) => {
+                if (isOK) {
+                    BattleManager.instance.gameFail()
+                }
+            })
+        }, this)
     }
     initBattle() {
         this.clearContainer()
@@ -322,8 +329,6 @@ export default class BattleUIManager extends cc.Component {
                     break
                 }
             }
-            // left = BattleManager.instance.mapData[i - 1][j]
-            // if (left.id) list.push(left)
         }
         if (i <= BattleManager.instance.mapData.length - 2) {
             for (let m = 0; m < BattleManager.instance.mapData[i + 1].length; m++) {
@@ -334,8 +339,6 @@ export default class BattleUIManager extends cc.Component {
                     break
                 }
             }
-            // right = BattleManager.instance.mapData[i + 1][j]
-            // if (right.id) list.push(right)
         }
         if (j >= 1) {
             down = BattleManager.instance.mapData[i][j - 1]

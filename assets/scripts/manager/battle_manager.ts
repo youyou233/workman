@@ -215,7 +215,6 @@ export default class BattleManager extends cc.Component {
         let bag = DD.instance.areaSuccessBag(this.curLv)
         if (bag) {
             reward['bag'] = bag
-            console.log(bag)
         }
         DD.instance.rankSuccess(this.curLv)
         DD.instance.getReward(reward)
@@ -252,7 +251,6 @@ export default class BattleManager extends cc.Component {
         UIManager.instance.openUI(RewardUIManager, {
             name: config.uiName.rewardUI, param: [reward, '防御失败', () => {
                 BattleUIManager.instance.content.active = false
-
             }]
         }, 300)
     }

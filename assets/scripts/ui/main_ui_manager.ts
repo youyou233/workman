@@ -9,6 +9,7 @@ import { BattleType, ResType } from "../utils/enum"
 import GroupUIManager from "./group_ui_manager"
 import RankUIManager from "./rank_ui_manager"
 import ShopUIManager from "./shop_ui_manager"
+import SysUIManager from "./sys_ui_manager"
 import VipUIManager from "./vip_ui_manager"
 
 const { ccclass, property } = cc._decorator
@@ -59,6 +60,8 @@ export default class MainUIManager extends cc.Component {
     bossNumLabel: cc.Label = null
     @property(cc.Button)
     vipBtn: cc.Button = null
+    @property(cc.Button)
+    sysBtn: cc.Button = null
     onLoad() {
         MainUIManager.instance = this
         this.groupBtn.node.on('click', () => {
@@ -86,6 +89,9 @@ export default class MainUIManager extends cc.Component {
         })
         this.vipBtn.node.on('click', () => {
             UIManager.instance.openUI(VipUIManager, { name: config.uiName.vipUI })
+        })
+        this.sysBtn.node.on('click', () => {
+            UIManager.instance.openUI(SysUIManager, { name: config.uiName.sysUI })
         })
         this.unlimitedBtn.node.on('click', () => {
             if (DD.instance.changeTime['2'] <= 0) {

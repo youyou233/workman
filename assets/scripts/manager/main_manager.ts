@@ -40,6 +40,10 @@ export default class MainManager extends cc.Component {
                 { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true },
                 { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true }
             ]
+            DD.instance.config = {
+                1: true, 2: true, 3: true, 4: true
+            }
+            StorageManager.instance.saveDataByKey('config', DD.instance.config)
             MainUIManager.instance.switchUI(1)
             DD.instance.money = 0
             DD.instance.ticket = 0

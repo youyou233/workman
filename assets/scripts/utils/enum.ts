@@ -92,3 +92,9 @@ export enum ArrType {
     left = 3,
     right = 4
 }
+export enum SysType {
+    bgm = 1,
+    fx = 2,
+    damageLabel = 3,
+    effect = 4//特效
+}
