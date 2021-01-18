@@ -25,7 +25,8 @@ export default class BattleUIManager extends cc.Component {
     content: cc.Node = null
     @property(cc.Node)
     landContainer: cc.Node = null
-
+    @property(cc.Sprite)
+    bg: cc.Sprite = null
     @property(cc.Node)
     monsterContainer: cc.Node = null
     @property(cc.Node)
@@ -74,6 +75,8 @@ export default class BattleUIManager extends cc.Component {
     initBattle() {
         this.clearContainer()
         this.content.active = true
+        let areaData = JsonManager.instance.getDataByName('area')[DD.instance.area]
+        this.bg.spriteFrame = ResourceManager.instance.getSprite(ResType.bg, 'bg_' + areaData.bg)
         // for (let i = 0; i < BattleManager.instance.mapData.length; i++) {
         //     for (let j = 0; j < BattleManager.instance.mapData[i].length; j++) {
         //         let land = PoolManager.instance.createObjectByName('landItem', this.landContainer)
@@ -87,8 +90,9 @@ export default class BattleUIManager extends cc.Component {
         });
     }
     addMosnter(id) {
+        let waysLength = JsonManager.instance.getDataByName('area')[DD.instance.area].way.length
         let monster = PoolManager.instance.createObjectByName('monsterItem', this.monsterContainer)
-        monster.getComponent(MonsterItem).init(id)
+        monster.getComponent(MonsterItem).init(id, Utils.getRandomNumber(waysLength - 1))
     }
     clearAllMonsters() {
         let addHp = 0

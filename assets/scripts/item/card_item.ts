@@ -18,18 +18,17 @@ const { ccclass, property } = cc._decorator
 @ccclass
 export default class CardItem extends cc.Component {
     index: number = 0
-    @property(cc.Sprite)
-    skillSp: cc.Sprite = null
+
     @property(cc.Sprite)
     roleIcon: cc.Sprite = null
     @property(cc.Sprite)
-    cardBG: cc.Sprite = null
+    qualitySp: cc.Sprite = null
     @property(cc.ProgressBar)
     coolProgress: cc.ProgressBar = null
-    @property(cc.Node)
-    passiveNode: cc.Node = null
-    @property(cc.Label)
-    passiveLabel: cc.Label = null
+    @property(cc.Sprite)
+    passiveSp: cc.Sprite = null
+    // @property(cc.Label)
+    // passiveLabel: cc.Label = null
     @property(cc.Node)
     costNode: cc.Node = null
     @property(cc.Label)
@@ -51,25 +50,32 @@ export default class CardItem extends cc.Component {
 
         this.coolProgress.node.active = false
         this.data = JsonManager.instance.getDataByName('skill')[roleId]
-        this.skillSp.spriteFrame = ResourceManager.instance.getSprite(
-            ResType.main, `skill_${roleId}`
+        // this.skillSp.spriteFrame = ResourceManager.instance.getSprite(
+        //     ResType.main, `skill_${roleId}`
+        // )
+        // this.cardBG.spriteFrame = ResourceManager.instance.getSprite(
+        //     ResType.main, 'card_' + this.data.bgName
+        // )
+        this.passiveSp.spriteFrame = ResourceManager.instance.getSprite(
+            ResType.main, this.data.isActive ? 'skill_active' : 'skill_unactive'
         )
-        this.cardBG.spriteFrame = ResourceManager.instance.getSprite(
-            ResType.main, 'card_' + this.data.bgName
+        let roleData = JsonManager.instance.getDataByName('role')[roleId]
+        this.qualitySp.spriteFrame = ResourceManager.instance.getSprite(
+            ResType.main, 'rare_' + roleData.quality
         )
-        this.passiveNode.active = !this.data.isActive
         this.costNode.active = this.data.isActive
         this.coolTimer = 0
         if (this.data.isActive) {
-            this.node.y = 105
+            this.qualitySp.node.y = 105
         } else {
-            this.node.y = 90
+            this.qualitySp.node.y = 60
         }
         // this.node.on('click', () => {
         //     UIManager.instance.LoadMessageBox(this.data.name, this.data.dec, null, null, false)
         // }, this)
     }
     onSkill() {
+        if (!this.data.isActive && this.qualitySp.node.y == 60) return
         if (BattleManager.instance.sun < 30 * Math.pow(BattleManager.instance.skillTimes, 2)) {
             UIManager.instance.LoadTipsByStr('阳光不足')
             return
@@ -105,17 +111,17 @@ export default class CardItem extends cc.Component {
                 break
         }
         BattleManager.instance.sun -= 30 * Math.pow(BattleManager.instance.skillTimes, 2)
-        this.node.y = 90
+        this.qualitySp.node.y = 60
         this.coolTimer = this.data.cool
         this.coolProgress.node.active = true
-        this.passiveNode.active = true
-        this.passiveLabel.string = '冷却中'
+        // this.passiveNode.active = true
+        // this.passiveLabel.string = '冷却中'
         BattleManager.instance.skillTimes++
     }
     coolDown() {
-        this.node.y = 105
+        this.qualitySp.node.y = 105
         this.coolProgress.node.active = false
-        this.passiveNode.active = false
+        // this.passiveNode.active = false
     }
     onUpdate(dt) {
         if (this.data.isActive) {
@@ -123,7 +129,7 @@ export default class CardItem extends cc.Component {
                 this.coolTimer -= dt
                 this.coolProgress.progress = this.coolTimer / this.data.cool
             } else {
-                if (this.node.y == 90) {
+                if (this.qualitySp.node.y == 60) {
                     this.coolTimer = 0
                     this.coolDown()
                 }

@@ -10,6 +10,7 @@ import JsonManager from "../manager/json_manager"
 import EffectManager from "../manager/effect_manager"
 import { Utils } from "../utils/utils"
 import LandItem from "./land_item"
+import BattleUIManager from "../ui/battle_ui_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -65,7 +66,7 @@ export default class BossItem extends cc.Component {
         let monsterData = JsonManager.instance.getDataByName('monster')[id]
         this.monsterSpd = Math.sqrt(monsterData.spd)
         this.id = id
-        let startPos = cc.v2(-250, -225)
+        let startPos = BattleUIManager.instance.getStartPos(0)
         this.bossStatus = BossStatusType.move
         this.spd = cc.v2(0, 100)
         this.node.setPosition(startPos)
@@ -79,15 +80,11 @@ export default class BossItem extends cc.Component {
         Emitter.fire('message_' + MessageType.addMonster)
     }
     checkNearPos() {
-        if (this.node.position.sub(this.randomPos[0]).mag() < 5) {
-            this.spd = cc.v2(100, 0)
-        } else if (this.node.position.sub(this.randomPos[1]).mag() < 5) {
-            this.spd = cc.v2(0, -100)
-        } else {
-            let endPos = cc.v3(250, -225)
-            if (this.node.position.sub(endPos).mag() < 5) {
-                this.getInCity()
-            }
+        let result = BattleUIManager.instance.checkWayPoint(cc.v2(this.node.x, this.node.y - 64), 0)
+        if (result == true) {
+            this.getInCity()
+        } else if (result) {
+            this.spd = result
         }
     }
     beAtk(damage, param) {
@@ -162,8 +159,8 @@ export default class BossItem extends cc.Component {
                 break
             case 12:
                 for (let i = 0; i < 3; i++) {
-                    let x = Utils.getRandomNumber(2)
-                    let y = Utils.getRandomNumber(4)
+                    let x = Utils.getRandomNumber(BattleManager.instance.mapData.length - 1)
+                    let y = Utils.getRandomNumber(BattleManager.instance.mapData.length[x] - 1)
                     BattleManager.instance.mapData[x][y].isDiz = true
                 }
                 break

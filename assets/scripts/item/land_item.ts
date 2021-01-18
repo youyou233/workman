@@ -103,8 +103,9 @@ export default class LandItem extends cc.Component {
         this.curI = i
         this.curJ = j
         //cc.log(i, j)
+        let areaData = JsonManager.instance.getDataByName('area')[DD.instance.area]
         if (!this.landSp) this.landSp = this.node.getChildByName('land_1').getComponent(cc.Sprite)
-        this.landSp.spriteFrame = ResourceManager.instance.getSprite(ResType.main, 'land_s')
+        this.landSp.spriteFrame = ResourceManager.instance.getSprite(ResType.main, 'land_' + areaData.land)
         this.setNull()
         this.mergeStatus.active = false
         this.atkTimer = 999
@@ -267,7 +268,7 @@ export default class LandItem extends cc.Component {
         if (!monster) {
             this.watchMonster = false
         } else {
-            this.roleAnima.node.scaleX = monster.x < this.node.x ? 2.5 : -2.5
+            this.roleAnima.node.scaleX = monster.x < this.pos.x ? 2.5 : -2.5
             switch (this.role.getAtkType()) {
                 case AtkType.normol:
                 case AtkType.random:

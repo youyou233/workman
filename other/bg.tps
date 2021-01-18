@@ -108,7 +108,7 @@
             <key>sizeConstraints</key>
             <enum type="AlgorithmSettings::SizeConstraints">AnySize</enum>
             <key>forceSquared</key>
-            <false/>
+            <true/>
             <key>maxRects</key>
             <struct type="AlgorithmMaxRectsSettings">
                 <key>heuristic</key>
@@ -221,29 +221,78 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../assets/main_res/bg/bg_1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>60,109,120,218</rect>
+                <key>scale9Paddings</key>
+                <rect>60,109,120,218</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../assets/main_res/bg/bg_10.png</key>
+            <key type="filename">../assets/main_res/bg/bg_6.png</key>
+            <key type="filename">../assets/main_res/bg/bg_8.png</key>
+            <key type="filename">../assets/main_res/bg/bg_9.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>30,54,60,108</rect>
+                <key>scale9Paddings</key>
+                <rect>30,54,60,108</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../assets/main_res/bg/bg_11.png</key>
+            <key type="filename">../assets/main_res/bg/bg_2.png</key>
+            <key type="filename">../assets/main_res/bg/bg_3.png</key>
+            <key type="filename">../assets/main_res/bg/bg_4.png</key>
+            <key type="filename">../assets/main_res/bg/bg_5.png</key>
+            <key type="filename">../assets/main_res/bg/bg_7.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>60,108,120,216</rect>
+                <key>scale9Paddings</key>
+                <rect>60,108,120,216</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../assets/main_res/bg/bg_12.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>160,288,320,576</rect>
+                <key>scale9Paddings</key>
+                <rect>160,288,320,576</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>../assets/main_res/bg/1.png</filename>
-            <filename>../assets/main_res/bg/10.png</filename>
-            <filename>../assets/main_res/bg/11.png</filename>
-            <filename>../assets/main_res/bg/12.png</filename>
-            <filename>../assets/main_res/bg/13.png</filename>
-            <filename>../assets/main_res/bg/14.png</filename>
-            <filename>../assets/main_res/bg/15.png</filename>
-            <filename>../assets/main_res/bg/16.png</filename>
-            <filename>../assets/main_res/bg/17.png</filename>
-            <filename>../assets/main_res/bg/18.png</filename>
-            <filename>../assets/main_res/bg/19.png</filename>
-            <filename>../assets/main_res/bg/2.png</filename>
-            <filename>../assets/main_res/bg/20.png</filename>
-            <filename>../assets/main_res/bg/3.png</filename>
-            <filename>../assets/main_res/bg/4.png</filename>
-            <filename>../assets/main_res/bg/5.png</filename>
-            <filename>../assets/main_res/bg/6.png</filename>
-            <filename>../assets/main_res/bg/7.png</filename>
-            <filename>../assets/main_res/bg/8.png</filename>
-            <filename>../assets/main_res/bg/9.png</filename>
+            <filename>../assets/main_res/bg</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

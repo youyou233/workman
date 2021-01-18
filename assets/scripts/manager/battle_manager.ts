@@ -86,6 +86,7 @@ export default class BattleManager extends cc.Component {
     status: BattleStatusType = BattleStatusType.before
     team: RoleTeamData[] = []
     mapData: LandItem[][] = []
+    //TODO: 修改地图数据的bug
     areaData: any[][] = []
     curLv: number = 1
     _skillTimes: number = 0
