@@ -35,7 +35,8 @@ export default class LandItem extends cc.Component {
     //对应位置
     curI: number = 0
     curJ: number = 0
-
+    posI: number = 0
+    posJ: number = 0
     atkTimer: number = 0
     role: Role = null
     watchMonster: boolean = false
@@ -97,11 +98,13 @@ export default class LandItem extends cc.Component {
             this.roleAnima.play(fail)
         }, this)
     }
-    init(i, j) {
+    init(i, j, posi, posj) {
         //  this.addAnimationClip()
         this.id = null
         this.curI = i
         this.curJ = j
+        this.posI = posi
+        this.posJ = posj
         //cc.log(i, j)
         let areaData = JsonManager.instance.getDataByName('area')[DD.instance.area]
         if (!this.landSp) this.landSp = this.node.getChildByName('land_1').getComponent(cc.Sprite)
@@ -394,7 +397,7 @@ export default class LandItem extends cc.Component {
                 if (this.aroundBuffTimer < 0) {
                     this.aroundBuffTimer = 1
                     let buffData = this.role.isAroundBuff(this.stack)
-                    BattleUIManager.instance.getRoundLand(this.curI, this.curJ).forEach((item) => {
+                    BattleUIManager.instance.getRoundLand(this.curI, this.curJ, this.posI, this.posJ).forEach((item) => {
                         item.addBuff(buffData[0], Utils.deepCopy(buffData[1]) as any)
                     })
                 }

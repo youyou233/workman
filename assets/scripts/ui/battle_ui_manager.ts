@@ -55,6 +55,8 @@ export default class BattleUIManager extends cc.Component {
     touchStatus: TouchStatusType = TouchStatusType.unTouch
     @property(cc.Node)
     touchNode: cc.Node = null
+    @property(cc.Button)
+    exitBtn: cc.Button = null
     onLoad() {
         BattleUIManager.instance = this
         this.bindEvent()
@@ -308,28 +310,44 @@ export default class BattleUIManager extends cc.Component {
         }
         return null
     }
-    getRoundLand(i: number, j: number): LandItem[] {
+    getRoundLand(i: number, j: number, posI: number, posJ: number): LandItem[] {
         let list = []
         let [left, right, up, down] = [null, null, null, null]
         if (i >= 1) {
-            left = BattleManager.instance.mapData[i - 1][j]
-            if (left.id) list.push(left)
+            for (let m = 0; m < BattleManager.instance.mapData[i - 1].length; m++) {
+                let land = BattleManager.instance.mapData[i - 1][m]
+                if (land.posI == posI && land.posJ == posJ - 1) {
+                    left = land
+                    if (left.id) list.push(left)
+                    break
+                }
+            }
+            // left = BattleManager.instance.mapData[i - 1][j]
+            // if (left.id) list.push(left)
         }
         if (i <= BattleManager.instance.mapData.length - 2) {
-            right = BattleManager.instance.mapData[i + 1][j]
-            if (right.id) list.push(right)
+            for (let m = 0; m < BattleManager.instance.mapData[i + 1].length; m++) {
+                let land = BattleManager.instance.mapData[i + 1][m]
+                if (land.posI == posI && land.posJ == posJ + 1) {
+                    right = land
+                    if (right.id) list.push(right)
+                    break
+                }
+            }
+            // right = BattleManager.instance.mapData[i + 1][j]
+            // if (right.id) list.push(right)
         }
         if (j >= 1) {
             down = BattleManager.instance.mapData[i][j - 1]
-            if (down.id) list.push(down)
+            if (down.id && down.posI == posI - 1) list.push(down)
         }
-        if (j < BattleManager.instance.mapData[0].length - 2) {
+        if (j <= BattleManager.instance.mapData[0].length - 2) {
             up = BattleManager.instance.mapData[i][j + 1]
-            if (up.id) list.push(up)
+            if (up.id && up.posI == posI + 1) list.push(up)
         }
         return list
     }
-    checkWayPoint(pos, wayId): boolean | cc.Vec2 {
+    checkWayPoint(pos: cc.Vec3, wayId): [cc.Vec2, cc.Vec3] | boolean {
         let ways = JsonManager.instance.getDataByName('area')[DD.instance.area].way
         let way = ways[wayId]
         for (let i = 0; i < way.length; i++) {
@@ -352,7 +370,7 @@ export default class BattleUIManager extends cc.Component {
                     case 0:
                         return true//抵达终点
                 }
-                return spd
+                return [spd, pos.sub(target).normalizeSelf()]
             }
         }
         return null

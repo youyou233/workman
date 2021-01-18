@@ -79,7 +79,7 @@ export class Role {
                     return add
                 }
             case SkillType.bingo:
-                switch (skillData.param.type) {
+                switch (type) {
                     case SelfStackType.atk:
                         if (BattleManager.instance.checkBingo(land)[0]) {
                             return skillData.param.row

@@ -80,11 +80,17 @@ export default class BossItem extends cc.Component {
         Emitter.fire('message_' + MessageType.addMonster)
     }
     checkNearPos() {
-        let result = BattleUIManager.instance.checkWayPoint(cc.v2(this.node.x, this.node.y - 64), 0)
+        let result = BattleUIManager.instance.checkWayPoint(cc.v3(this.node.x, this.node.y - 64), 0)
+
         if (result == true) {
             this.getInCity()
         } else if (result) {
-            this.spd = result
+            if (this.spd != result[0]) {
+                this.node.x -= result[1].x
+                this.node.y -= result[1].y
+            }
+
+            this.spd = result[0]
         }
     }
     beAtk(damage, param) {
@@ -161,7 +167,10 @@ export default class BossItem extends cc.Component {
                 for (let i = 0; i < 3; i++) {
                     let x = Utils.getRandomNumber(BattleManager.instance.mapData.length - 1)
                     let y = Utils.getRandomNumber(BattleManager.instance.mapData.length[x] - 1)
-                    BattleManager.instance.mapData[x][y].isDiz = true
+                    let land = BattleManager.instance.mapData[x][y]
+                    if (land && land.id) {
+                        land.isDiz = true
+                    }
                 }
                 break
             case 18:

@@ -83,11 +83,18 @@ export default class MonsterItem extends cc.Component {
         Emitter.fire('message_' + MessageType.addMonster)
     }
     checkNearPos() {
-        let result = BattleUIManager.instance.checkWayPoint(cc.v2(this.node.x, this.node.y - 64), this.wayId)
+        let result = BattleUIManager.instance.checkWayPoint(cc.v3(this.node.x, this.node.y - 64), this.wayId)
+
         if (result == true) {
             this.getInCity()
         } else if (result) {
-            this.spd = result
+            if (this.spd != result[0]) {
+                this.node.x -= result[1].x
+                this.node.y -= result[1].y
+            }
+
+            this.spd = result[0]
+
         }
         // if (this.node.position.sub(this.randomPos[0]).mag() < 5) {
         //     this.spd = cc.v2(100, 0)

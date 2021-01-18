@@ -35,7 +35,7 @@ export default class BattleManager extends cc.Component {
 
     _sun: number = 0//阳光
     set sun(val: number) {
-        console.log('阳光变化', val - this._sun)
+        //  console.log('阳光变化', val - this._sun)
         this._sun = val
         BattleUIManager.instance.sunLabel.string = val.toFixed(0)
     }
@@ -197,7 +197,7 @@ export default class BattleManager extends cc.Component {
                     if (!this.mapData[k]) this.mapData[k] = []
                     let landItem = gridItem.land
                     this.mapData[k].push(landItem)
-                    landItem.init(k, this.mapData[k].length - 1)
+                    landItem.init(k, this.mapData[k].length - 1, i, j)
                 }
             }
         }
@@ -438,16 +438,30 @@ export default class BattleManager extends cc.Component {
     checkBingo(land: LandItem) {
         let row = true
         let col = true
-        for (let i = 0; i < 3; i++) {
-            if (this.mapData[i][land.curJ].id != land.id) {
-                row = false
+        var isRow = (land, targetLand) => {
+            if (land != targetLand) {
+                return land.posI == targetLand.posI
+            }
+            return false
+        }
+        var isCol = (land, targetLand) => {
+            if (land != targetLand) {
+                return land.posJ == targetLand.posJ
+            }
+            return false
+        }
+        for (let i = 0; i < this.mapData.length; i++) {
+
+            for (let j = 0; j < this.mapData[i].length; j++) {
+                if (isRow(land, this.mapData[i][j]) && this.mapData[i][j].id != land.id) {
+                    row = false
+                }
+                if (isCol(land, this.mapData[i][j]) && this.mapData[i][j].id != land.id) {
+                    col = false
+                }
             }
         }
-        for (let j = 0; j < 5; j++) {
-            if (this.mapData[land.curI][j].id != land.id) {
-                col = false
-            }
-        }
+
         return [row, col]
     }
     getHpmult() {

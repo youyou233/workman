@@ -181,10 +181,10 @@ export default class RoleInfoUIManager extends cc.Component {
                     labels[3].string = skill.param.num + skill.param.add * (card.lv - 1) + '%'
                     break
                 case 21:
-                    labels[0].string = '横向bingo攻速增加'
+                    labels[0].string = '纵向bingo攻速增加'
                     labels[1].string = (skill.param.row * 100).toFixed(0) + "%"
                     node4.active = true
-                    labels[2].string = '纵向bingo攻击增加'
+                    labels[2].string = '横向bingo攻击增加'
                     labels[3].string = (skill.param.col * 100).toFixed(0) + "%"
                     break
                 case 22:
