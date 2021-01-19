@@ -17,6 +17,7 @@ import PoolManager from "./pool_manager"
 import GridItem from "../item/grid_item"
 import MonsterItem from "../item/monster_item"
 import BossItem from "../item/boss_item"
+import GuideUIManager from "../ui/guide_ui_manager"
 
 const { ccclass, property } = cc._decorator
 /**
@@ -86,7 +87,6 @@ export default class BattleManager extends cc.Component {
     status: BattleStatusType = BattleStatusType.before
     team: RoleTeamData[] = []
     mapData: LandItem[][] = []
-    //TODO: 修改地图数据的bug
     areaData: any[][] = []
     curLv: number = 1
     _skillTimes: number = 0
@@ -127,6 +127,7 @@ export default class BattleManager extends cc.Component {
     get btnAddTimes() {
         return this._btnAddTimes
     }
+    landNum: number = 0
     bindEvent() {
         Emitter.register('message_' + MessageType.killBoss, (name) => {
             BattleManager.instance.killBoss()
@@ -147,12 +148,13 @@ export default class BattleManager extends cc.Component {
     initBattle(type?: BattleType) {
         if (type) this.type = type
         this.btnAddTimes = 0
-        this.monsterTimer = this.getGenerateMosnterTimer()
+        this.monsterTimer = 3
         this.sun = 500
         this.hp = 3
         this.rank = 1
         this.skillTimes = 0
         this.team = DD.instance.group
+        this.landNum = 0
         //3*5
         this.isBoss = false
 
@@ -198,13 +200,19 @@ export default class BattleManager extends cc.Component {
                     let landItem = gridItem.land
                     this.mapData[k].push(landItem)
                     landItem.init(k, this.mapData[k].length - 1, i, j)
+                    this.landNum++
                 }
             }
         }
         console.log('地图数据', this.mapData)
         BattleUIManager.instance.initBattle()
+
         this.status = BattleStatusType.play
+        if (!DD.instance.guide[1]) {
+            UIManager.instance.openUI(GuideUIManager, { name: config.uiName.guideUI })
+        }
     }
+
     gameSuccess() {
         this.status = BattleStatusType.end
         Emitter.fire('Message_' + MessageType.gameSuccess)
@@ -216,6 +224,7 @@ export default class BattleManager extends cc.Component {
         if (bag) {
             reward['bag'] = bag
         }
+        reward['exp'] = DD.instance.area + areaData.diff
         DD.instance.rankSuccess(this.curLv)
         DD.instance.getReward(reward)
         UIManager.instance.openUI(RewardUIManager, {
@@ -239,11 +248,13 @@ export default class BattleManager extends cc.Component {
                         quality = Math.floor((this.rank - 7) / 42 * 4.99) + 1
                     }
                     reward['bag'] = { isHave: true, isStart: false, startTime: 1608082541, needTime: this.rank * 60, quality }
+                    reward['exp'] = this.rank
                 }
                 DD.instance.changeTime['1']--
                 break
             case BattleType.unlimited:
                 reward['money'] = this.rank * 30
+                reward['exp'] = this.rank
                 DD.instance.changeTime['2']--
                 break
         }
@@ -479,7 +490,7 @@ export default class BattleManager extends cc.Component {
 
     }
     getGenerateMosnterTimer() {
-        return (Utils.getRandomNumber(10) + 1) / 10
+        return (Utils.getRandomNumber(5) + 1) / 5 * this.landNum / 15
     }
     getNeedPure(): LandItem[] {
         let arr = []

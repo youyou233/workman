@@ -1,0 +1,483 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "guide1",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.2,
+  "sample": 10,
+  "speed": 0.5,
+  "wrapMode": 2,
+  "curveData": {
+    "paths": {
+      "1/hand": {
+        "props": {
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.5,
+                "y": 1.5
+              }
+            },
+            {
+              "frame": 0.4,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.5,
+                "y": 1.5
+              }
+            },
+            {
+              "frame": 0.5,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.2,
+                "y": 1.2
+              }
+            },
+            {
+              "frame": 0.6,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.5,
+                "y": 1.5
+              }
+            },
+            {
+              "frame": 0.9,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.5,
+                "y": 1.5
+              }
+            },
+            {
+              "frame": 1,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.25,
+                "y": 1.25
+              }
+            },
+            {
+              "frame": 1.1,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.5,
+                "y": 1.5
+              }
+            }
+          ]
+        }
+      },
+      "1/landItem/role": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0.4,
+              "value": 0
+            },
+            {
+              "frame": 0.5,
+              "value": 255
+            }
+          ]
+        }
+      },
+      "1/landItem/stack/icon (28)": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0.4,
+              "value": 0
+            },
+            {
+              "frame": 0.5,
+              "value": 255
+            }
+          ]
+        }
+      },
+      "2/hand": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                162.385,
+                -58.499,
+                0
+              ]
+            },
+            {
+              "frame": 0.4,
+              "value": [
+                100.135,
+                -58.499,
+                0
+              ]
+            },
+            {
+              "frame": 0.6,
+              "value": [
+                100.135,
+                -58.499,
+                0
+              ]
+            },
+            {
+              "frame": 1.1,
+              "value": [
+                -22.659,
+                -58.499,
+                0
+              ]
+            }
+          ],
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.5,
+                "y": 1.5
+              }
+            },
+            {
+              "frame": 0.4,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.5,
+                "y": 1.5
+              }
+            },
+            {
+              "frame": 0.5,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.25,
+                "y": 1.25
+              }
+            },
+            {
+              "frame": 0.6,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.25,
+                "y": 1.25
+              }
+            },
+            {
+              "frame": 1.1,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.25,
+                "y": 1.25
+              }
+            },
+            {
+              "frame": 1.2,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.5,
+                "y": 1.5
+              }
+            }
+          ]
+        }
+      },
+      "2/role3": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                74.619,
+                -31.062,
+                0
+              ]
+            },
+            {
+              "frame": 0.6,
+              "value": [
+                74.619,
+                -31.062,
+                0
+              ]
+            },
+            {
+              "frame": 1.1,
+              "value": [
+                -49.881,
+                -31.062,
+                0
+              ]
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.4,
+              "value": 0
+            },
+            {
+              "frame": 0.5,
+              "value": 155
+            },
+            {
+              "frame": 1,
+              "value": 155
+            },
+            {
+              "frame": 1.1,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "2/role1": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            },
+            {
+              "frame": 1,
+              "value": 255
+            },
+            {
+              "frame": 1.1,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "2/star2": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            },
+            {
+              "frame": 1,
+              "value": 255
+            },
+            {
+              "frame": 1.1,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "2/star0": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 1,
+              "value": 0
+            },
+            {
+              "frame": 1.1,
+              "value": 255
+            }
+          ]
+        }
+      },
+      "2/role2": {
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": [
+              {
+                "frame": 0,
+                "value": {
+                  "__uuid__": "eaaf29cb-8185-40bc-86d4-1d31b9244451"
+                }
+              },
+              {
+                "frame": 1,
+                "value": {
+                  "__uuid__": "eaaf29cb-8185-40bc-86d4-1d31b9244451"
+                }
+              },
+              {
+                "frame": 1.1,
+                "value": {
+                  "__uuid__": "d7c3ca6c-fd4f-4c14-88b8-0dfdf9f0808e"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "1/label": {
+        "comps": {
+          "cc.Label": {
+            "string": [
+              {
+                "frame": 0,
+                "value": "100"
+              },
+              {
+                "frame": 0.5,
+                "value": "110"
+              },
+              {
+                "frame": 1,
+                "value": "120"
+              }
+            ]
+          }
+        }
+      },
+      "1/landItem2/role": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.9,
+              "value": 0
+            },
+            {
+              "frame": 1,
+              "value": 255
+            }
+          ]
+        }
+      },
+      "1/landItem2/stack/icon (28)": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.9,
+              "value": 0
+            },
+            {
+              "frame": 1,
+              "value": 255
+            }
+          ]
+        }
+      },
+      "3/hand": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -36.996,
+                -153.25667,
+                0
+              ]
+            },
+            {
+              "frame": 0.5,
+              "value": [
+                -36.996,
+                -153.25667,
+                0
+              ]
+            },
+            {
+              "frame": 0.9,
+              "value": [
+                -36.996,
+                -188.937,
+                0
+              ]
+            }
+          ],
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 0.4,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 0.5,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0.8,
+                "y": 0.8
+              }
+            },
+            {
+              "frame": 0.9,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0.8,
+                "y": 0.8
+              }
+            },
+            {
+              "frame": 1,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ]
+        }
+      },
+      "3/cardItem/icon": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                0,
+                102.721,
+                0
+              ]
+            },
+            {
+              "frame": 0.5,
+              "value": [
+                0,
+                102.721,
+                0
+              ]
+            },
+            {
+              "frame": 1,
+              "value": [
+                0,
+                59.923,
+                0
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

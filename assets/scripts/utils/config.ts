@@ -14,8 +14,8 @@ let uiName = {
     onskillUI: 'onskill_ui',
     vipUI: 'vip_ui',
     changeRoleUI: 'change_role_ui',
-    sysUI: 'sys_ui'
-
+    sysUI: 'sys_ui',
+    guideUI: 'guide_ui',
 }
 
 let aniConfig = {

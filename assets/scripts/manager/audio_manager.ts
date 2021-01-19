@@ -37,14 +37,14 @@ export default class AudioManager extends cc.Component {
         })
     }
 
-    loadBGMClip(name: string, volume: number = this.BGM_VOLUME) {
-        cc.loader.loadRes("bgm/" + name, (err, audioClip) => {
-            // console.log('bgm', name, err)
-            this.sourceMaps[name] = audioClip
-            cc.audioEngine.setMusicVolume(volume)
-            cc.audioEngine.playMusic(audioClip, true)
-        })
-    }
+    // loadBGMClip(name: string, volume: number = this.BGM_VOLUME) {
+    //     cc.loader.loadRes("bgm/" + name, (err, audioClip) => {
+    //         // console.log('bgm', name, err)
+    //         this.sourceMaps[name] = audioClip
+    //         cc.audioEngine.setMusicVolume(volume)
+    //         cc.audioEngine.playMusic(audioClip, true)
+    //     })
+    // }
 
     /**
      * 播放音频
@@ -69,7 +69,7 @@ export default class AudioManager extends cc.Component {
             this.loadAudioClip(name, volume)
         }
     }
-    playBGMByID(id: number, volume: number = this.BGM_VOLUME) {
+    playBGMByID(id?: number, volume: number = this.BGM_VOLUME) {
         // let name = 'bgm_' + id
         // if (this.sourceMaps[name]) {
         //     let music = this.sourceMaps[name]

@@ -5,6 +5,8 @@ import BattleManager from "./battle_manager";
 import MainUIManager from "../ui/main_ui_manager";
 import DD from "./dynamic_data_manager";
 import StorageManager from "./storage_manager";
+import { SysType } from "../utils/enum";
+import AudioManager from "./audio_manager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,14 +34,14 @@ export default class MainManager extends cc.Component {
     checkUserData() {
         let newb = StorageManager.instance.isFristPlay()
         if (newb) {
-            // DD.instance.group = [
-            //     { id: 1, lv: 1, group: true }, { id: 2, lv: 1, group: true }, { id: 3, lv: 1, group: true },
-            //     { id: 9, lv: 1, group: true }, { id: 10, lv: 1, group: true }
-            // ]
             DD.instance.group = [
-                { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true },
-                { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true }
+                { id: 1, lv: 1, group: true }, { id: 2, lv: 1, group: true }, { id: 3, lv: 1, group: true },
+                { id: 9, lv: 1, group: true }, { id: 10, lv: 1, group: true }
             ]
+            // DD.instance.group = [
+            //     { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true },
+            //     { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true }
+            // ]
             DD.instance.config = {
                 1: true, 2: true, 3: true, 4: true
             }
@@ -48,25 +50,32 @@ export default class MainManager extends cc.Component {
             DD.instance.money = 0
             DD.instance.ticket = 0
             StorageManager.instance.savePlayerData()
+            this.loadConfigSuccess()
         } else {
             this.loadConfig()
             StorageManager.instance.loadPlayerData()
         }
-        this.loadConfigSuccess()
+
     }
     loadConfig() {
         let data = StorageManager.instance.loadDataByKey('config')
-        console.log('获取data', data)
+        // console.log('获取data', data)
         if (!data) {
             DD.instance.config = {
                 1: true, 2: true, 3: true, 4: true
             }
             StorageManager.instance.saveDataByKey('config', DD.instance.config)
+        } else {
+            DD.instance.config = data
         }
-        this.loadConfig()
+        this.loadConfigSuccess()
     }
     loadConfigSuccess() {
         //打开背景音乐等等
+        console.log(DD.instance.config)
+        if (DD.instance.config[SysType.bgm]) {
+            AudioManager.instance.playBGMByID()
+        }
     }
     //数据加载
     dataLoaded() {

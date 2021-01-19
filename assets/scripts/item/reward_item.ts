@@ -45,6 +45,13 @@ export default class RewardItem extends cc.Component {
                 )
                 this.label.string = '获得新的背包'
                 break
+            case 'exp':
+                this.currencyNode.active = true
+                this.currencySp.spriteFrame = ResourceManager.instance.getSprite(
+                    ResType.main, 'icon (33)'
+                )
+                this.label.string = '获得经验*' + data[key]
+                break
             default:
                 this.icon.node.active = true
                 let card: CardData = {

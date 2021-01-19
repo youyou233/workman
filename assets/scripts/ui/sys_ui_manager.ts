@@ -44,13 +44,13 @@ export default class SysUIManager extends cc.Component {
     }
     switchConfig(type: SysType) {
         //AudioManager.instance.playAudio('click')
-        // if (type == SysType.bgm) {
-        //     if (DD.instance.config[type]) {
-        //         AudioManager.instance.stopBGM()
-        //     } else {
-        //         AudioManager.instance.playBGMByID(1)
-        //     }
-        // }
+        if (type == SysType.bgm) {
+            if (DD.instance.config[type]) {
+                AudioManager.instance.stopBGM()
+            } else {
+                AudioManager.instance.playBGMByID(1)
+            }
+        }
         DD.instance.config[type] = !DD.instance.config[type]
         this.frashUI()
         StorageManager.instance.saveDataByKey('config', DD.instance.config)

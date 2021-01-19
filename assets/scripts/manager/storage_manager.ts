@@ -65,6 +65,7 @@ export default class StorageManager extends cc.Component {
             DD.instance.rankGift = data['RG']
             DD.instance.checkDailyFrash(data['LL'])
             DD.instance.vip = data['V']
+            DD.instance.exp = data['exp'] || 0
             MainManager.instance.dataLoaded()
             resolve(data)
         })
@@ -87,6 +88,7 @@ export default class StorageManager extends cc.Component {
         data['LL'] = DD.instance.lastLogin
         data['RG'] = DD.instance.rankGift || []
         data['V'] = DD.instance.vip || 0
+        data['E'] = DD.instance.exp || 0
         cc.sys.localStorage.setItem('userdata', JSON.stringify(data))
         cc.log('数据保存成功')
     }

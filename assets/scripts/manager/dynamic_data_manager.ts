@@ -46,13 +46,18 @@ export default class DD extends cc.Component {
     }
     _rank: number = 1
     set rank(val: number) {
-        if (val > 20) val = 20
-        this._rank = val
-        MainUIManager.instance.rankLabel.string = config.lvString[val - 1]
+        return
     }
     get rank() {
-        return this._rank
+        for (let i = 1; i <= 20; i++) {
+            if (this.exp < 10 + (i - 1) * i * 10) {
+                return i
+            }
+        }
+        return 20
+        //   return Math.floor(this.exp)
     }
+    exp: number = 0
     cards: CardData[] = []
     group: CardData[] = []
     giftData: GiftData[] = [
@@ -103,6 +108,10 @@ export default class DD extends cc.Component {
                 case 'bag':
                     console.log(rewards[keys[i]])
                     this.addBag(rewards[keys[i]])
+                    break
+                case 'exp':
+                    this.exp += rewards[keys[i]]
+                    MainUIManager.instance.rankLabel.string = config.lvString[this.rank - 1]
                     break
                 default:
                     let card: CardData = {
@@ -220,8 +229,8 @@ export default class DD extends cc.Component {
         return roles
     }
     rankSuccess(lv) {
-        DD.instance.rank++
         let data = this.areaData[this.area]
+        // DD.instance.exp += this.area + data.diff
         if (lv == data.rank[data.diff - 1]) {
             this.areaData[this.area].rank[data.diff - 1]++
             UIManager.instance.LoadTipsByStr('新地图已解锁')
