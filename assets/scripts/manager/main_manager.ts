@@ -49,8 +49,24 @@ export default class MainManager extends cc.Component {
             DD.instance.ticket = 0
             StorageManager.instance.savePlayerData()
         } else {
+            this.loadConfig()
             StorageManager.instance.loadPlayerData()
         }
+        this.loadConfigSuccess()
+    }
+    loadConfig() {
+        let data = StorageManager.instance.loadDataByKey('config')
+        console.log('获取data', data)
+        if (!data) {
+            DD.instance.config = {
+                1: true, 2: true, 3: true, 4: true
+            }
+            StorageManager.instance.saveDataByKey('config', DD.instance.config)
+        }
+        this.loadConfig()
+    }
+    loadConfigSuccess() {
+        //打开背景音乐等等
     }
     //数据加载
     dataLoaded() {

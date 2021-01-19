@@ -61,6 +61,9 @@ export default class RankUIManager extends cc.Component {
         })
         this.moreMapBtn.node.on('click', () => {
             this.mapNode.active = true
+            for (let i = 0; i < 20; i++) {
+                this.mapAreaContainer.children[i].active = DD.instance.rank > i
+            }
         }, this)
         this.mapMaskNode.node.on('click', () => {
             this.mapNode.active = false
@@ -71,6 +74,8 @@ export default class RankUIManager extends cc.Component {
                 let area = JsonManager.instance.getDataByName('area')[i]
                 let node = PoolManager.instance.createObjectByName('areaItem', this.mapAreaContainer)
                 node.getChildByName('label').getComponent(cc.Label).string = area.name
+                node.getChildByName('icon').getComponent(cc.Sprite).spriteFrame =
+                    ResourceManager.instance.getSprite(ResType.bg, i + '')
                 node.on('click', () => {
                     this.chooseArea(i)
                 }, this)

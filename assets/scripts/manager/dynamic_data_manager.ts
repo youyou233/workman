@@ -80,7 +80,7 @@ export default class DD extends cc.Component {
     lastLogin: number = 0
 
     rankGift: [boolean, boolean][] = []
-    vip: number = 0//写明到期时间
+    vip: number = 0//写到期时间
     config: object = null
     getMonsterByNode(monster): MonsterItem | BossItem {
         if (monster.name == 'monsterItem') {
