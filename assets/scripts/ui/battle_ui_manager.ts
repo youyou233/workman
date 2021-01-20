@@ -15,6 +15,7 @@ import JsonManager from "../manager/json_manager";
 import UIManager from "../manager/ui_manager";
 import OnskillUIManager from "./onskill_ui_manager";
 import config from "../utils/config";
+import GuideUIManager from "./guide_ui_manager";
 
 const { ccclass, property } = cc._decorator
 
@@ -37,6 +38,8 @@ export default class BattleUIManager extends cc.Component {
     effectContainer: cc.Node = null
     @property(cc.Node)
     damageLabelContainer: cc.Node = null
+    @property(cc.Node)
+    particalContaiher: cc.Node = null
     //数据显示
     @property(cc.Label)
     sunLabel: cc.Label = null
@@ -57,6 +60,8 @@ export default class BattleUIManager extends cc.Component {
     touchNode: cc.Node = null
     @property(cc.Button)
     exitBtn: cc.Button = null
+    @property(cc.Button)
+    guideBtn: cc.Button = null
     onLoad() {
         BattleUIManager.instance = this
         this.bindEvent()
@@ -73,6 +78,9 @@ export default class BattleUIManager extends cc.Component {
         this.touchGround.on(cc.Node.EventType.TOUCH_MOVE, this.moveTouch, this)
         this.touchGround.on(cc.Node.EventType.TOUCH_END, this.endTouch, this)
         this.touchGround.on(cc.Node.EventType.TOUCH_CANCEL, this.endTouch, this)
+        this.guideBtn.node.on('click', () => {
+            UIManager.instance.openUI(GuideUIManager, { name: config.uiName.guideUI })
+        }, this)
         this.exitBtn.node.on('click', () => {
             UIManager.instance.LoadMessageBox('确认退出', '是否放弃这次战役?', (isOK) => {
                 if (isOK) {
@@ -105,24 +113,28 @@ export default class BattleUIManager extends cc.Component {
     }
     clearAllMonsters() {
         let addHp = 0
+        let list = []
         for (let i = this.monsterContainer.children.length - 1; i >= 0; i--) {
             let monster = this.monsterContainer.children[i].getComponent(MonsterItem)
             addHp += monster.hp
+            list.push(monster.node.position)
             PoolManager.instance.removeObjectByName('monsterItem', monster.node)
         }
-        return addHp
+        return [addHp, list]
     }
     addBoss(id) {
         let boss = PoolManager.instance.createObjectByName('bossItem', this.bossContainer)
-        boss.getComponent(BossItem).init(id, this.clearAllMonsters())
+        let clearData = this.clearAllMonsters()
+        boss.getComponent(BossItem).init(id, clearData[0])
+        boss.getComponent(BossItem).onGetHp(clearData[1])
     }
     addThrow(id, start, end, time: number = 1, damage, oid, type, param?, jump: boolean = false) {
         let node = PoolManager.instance.createObjectByName('throwItem', this.throwContainer)
         node.getComponent(ThrowItem).init(id, start, end, time, damage, oid, type, param, jump)
     }
     clearContainer() {
-        let containers = [this.monsterContainer, this.throwContainer, this.bossContainer, this.effectContainer, this.damageLabelContainer]
-        let itemName = ['monsterItem', 'throwItem', 'bossItem', 'effectItem', 'damageLabel']
+        let containers = [this.monsterContainer, this.throwContainer, this.bossContainer, this.effectContainer, this.damageLabelContainer, this.particalContaiher]
+        let itemName = ['monsterItem', 'throwItem', 'bossItem', 'effectItem', 'damageLabel', 'particalItem']
         for (let i = 0; i < containers.length; i++) {
             for (let j = containers[i].children.length - 1; j >= 0; j--) {
                 PoolManager.instance.removeObjectByName(itemName[i], containers[i].children[j])

@@ -181,7 +181,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 960,
-      "height": 282
+      "height": 296
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -193,7 +193,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        215,
+        208,
         0,
         0,
         0,
@@ -708,7 +708,6 @@
     "skillLabel": {
       "__id__": 14
     },
-    "cardBg": null,
     "_id": ""
   },
   {

@@ -231,6 +231,57 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../assets/main_res/effect/p1.png</key>
+            <key type="filename">../assets/main_res/icon/icon (14).png</key>
+            <key type="filename">../assets/main_res/icon/icon (15).png</key>
+            <key type="filename">../assets/main_res/icon/icon (16).png</key>
+            <key type="filename">../assets/main_res/icon/icon (17).png</key>
+            <key type="filename">../assets/main_res/icon/icon (18).png</key>
+            <key type="filename">../assets/main_res/icon/icon (19).png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../assets/main_res/effect/p2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>14,16,27,31</rect>
+                <key>scale9Paddings</key>
+                <rect>14,16,27,31</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../assets/main_res/effect/p3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>14,12,27,24</rect>
+                <key>scale9Paddings</key>
+                <rect>14,12,27,24</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../assets/main_res/icon/icon (1).png</key>
             <key type="filename">../assets/main_res/icon/icon (10).png</key>
             <key type="filename">../assets/main_res/icon/icon (11).png</key>
@@ -331,26 +382,6 @@
                 <rect>6,6,11,11</rect>
                 <key>scale9Paddings</key>
                 <rect>6,6,11,11</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../assets/main_res/icon/icon (14).png</key>
-            <key type="filename">../assets/main_res/icon/icon (15).png</key>
-            <key type="filename">../assets/main_res/icon/icon (16).png</key>
-            <key type="filename">../assets/main_res/icon/icon (17).png</key>
-            <key type="filename">../assets/main_res/icon/icon (18).png</key>
-            <key type="filename">../assets/main_res/icon/icon (19).png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>8,8,16,16</rect>
-                <key>scale9Paddings</key>
-                <rect>8,8,16,16</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -1311,6 +1342,7 @@
             <filename>../assets/main_res/skill</filename>
             <filename>../assets/main_res/icon</filename>
             <filename>../assets/main_res/char/icon</filename>
+            <filename>../assets/main_res/effect</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -309,6 +309,7 @@ export default class LandItem extends cc.Component {
                         BattleUIManager.instance.addThrow(this.id, JSON.parse(JSON.stringify(this.pos)), monster.position, 0.1, this.role.getAtkDamege(this),
                             DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { cri: this.role.isCri(this), range: this.role.getAtkRange(this), spike: this.role.checkSpike(this) }
                         )
+                        EffectManager.instance.createPartical(3, cc.v2(monster.x, monster.y))
                     }
                     break
                 case AtkType.randomRange:

@@ -21,8 +21,8 @@ export default class OnskillUIManager extends cc.Component {
     roleIcon: cc.Sprite = null
     @property(cc.Label)
     skillLabel: cc.Label = null
-    @property(cc.Sprite)
-    cardBg: cc.Sprite = null
+    // @property(cc.Sprite)
+    // cardBg: cc.Sprite = null
     onLoad() {
         OnskillUIManager.instance = this
         // this.mask.on('click', this.hideUI, this)
@@ -33,9 +33,9 @@ export default class OnskillUIManager extends cc.Component {
             ResType.main, 'role_' + id
         )
         this.skillLabel.string = skillData.name
-        this.cardBg.spriteFrame = ResourceManager.instance.getSprite(
-            ResType.main, 'card_' + id
-        )
+        // this.cardBg.spriteFrame = ResourceManager.instance.getSprite(
+        //     ResType.main, 'card_' + id
+        // )
         this.content.active = true
         setTimeout(() => {
             this.hideUI()

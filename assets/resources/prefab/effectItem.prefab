@@ -80,6 +80,19 @@
     "_id": ""
   },
   {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_defaultClip": null,
+    "_clips": [],
+    "playOnLoad": false,
+    "_id": ""
+  },
+  {
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
@@ -110,19 +123,6 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Animation",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "_defaultClip": null,
-    "_clips": [],
-    "playOnLoad": false,
-    "_id": ""
-  },
-  {
     "__type__": "db178g1iylP7a7JoOKLD844",
     "_name": "",
     "_objFlags": 0,
@@ -138,7 +138,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "74edc86e-af73-4e62-a79c-c9dbf5f5d32f"
+      "__uuid__": "ce903450-0493-45ad-99bf-62978f032f46"
     },
     "fileId": "",
     "sync": false

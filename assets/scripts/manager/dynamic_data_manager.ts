@@ -57,7 +57,14 @@ export default class DD extends cc.Component {
         return 20
         //   return Math.floor(this.exp)
     }
-    exp: number = 0
+    _exp: number = 0
+    set exp(val) {
+        this._exp = val
+        MainUIManager.instance.rankLabel.string = config.lvString[this.rank - 1]
+    }
+    get exp() {
+        return this._exp
+    }
     cards: CardData[] = []
     group: CardData[] = []
     giftData: GiftData[] = [
@@ -111,7 +118,6 @@ export default class DD extends cc.Component {
                     break
                 case 'exp':
                     this.exp += rewards[keys[i]]
-                    MainUIManager.instance.rankLabel.string = config.lvString[this.rank - 1]
                     break
                 default:
                     let card: CardData = {
@@ -238,6 +244,7 @@ export default class DD extends cc.Component {
     }
     checkDailyFrash(lastLogin) {
         if (new Date(lastLogin).toDateString() !== new Date().toDateString()) {
+            debugger
             this.changeTime = {
                 1: 3, 2: 3
             }

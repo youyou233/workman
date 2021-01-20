@@ -22,6 +22,7 @@ export default class ResourceManager extends cc.Component {
     _Json: cc.JsonAsset[] = []
     _Prefab: cc.Prefab[] = []
     _Animation: { [key: string]: cc.AnimationClip } = {}
+    _Partical: cc.ParticleAsset[] = []
     loading: number = 0
     init() {
         console.log("ResourceManager loading ...");
@@ -158,6 +159,24 @@ export default class ResourceManager extends cc.Component {
                 resolve(clip)
             }
 
+        })
+    }
+    getPartical(id: number) {
+        return new Promise((resolve, reject) => {
+            if (this._Partical[id]) {
+                resolve(this._Partical[id])
+            } else {
+                let url = 'partical/' + id + '/particle_texture'
+                cc.loader.loadRes(url, cc.ParticleAsset, (err, partical) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    } else {
+                        this._Partical[id] = partical
+                        resolve(partical)
+                    }
+                })
+            }
         })
     }
     // getWalkAniamtion(staff: boolean, arr: WalkArrType, id: number) {

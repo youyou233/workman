@@ -23,7 +23,8 @@ export default class MonsterItem extends cc.Component {
 
     @property(cc.ProgressBar)
     hpProgress: cc.ProgressBar = null
-
+    @property(cc.Node)
+    particalNode: cc.Node = null
     _spd: cc.Vec2 = cc.v2(0, 0)
     set spd(val: cc.Vec2) {
         this._spd = val
@@ -80,6 +81,8 @@ export default class MonsterItem extends cc.Component {
         this.hp = this.maxHp
         this.path = 0
         this.explosion = 0
+        this.particalNode.children.forEach((item) => { item.active = false })
+
         Emitter.fire('message_' + MessageType.addMonster)
     }
     checkNearPos() {
@@ -88,13 +91,11 @@ export default class MonsterItem extends cc.Component {
         if (result == true) {
             this.getInCity()
         } else if (result) {
-            if (this.spd != result[0]) {
+            if (this.spd.x != result[0].x || this.spd.y != result[0].y) {
                 this.node.x -= result[1].x
                 this.node.y -= result[1].y
             }
-
             this.spd = result[0]
-
         }
         // if (this.node.position.sub(this.randomPos[0]).mag() < 5) {
         //     this.spd = cc.v2(100, 0)
@@ -186,12 +187,14 @@ export default class MonsterItem extends cc.Component {
         this.showBuffEffect()
     }
     showBuffEffect() {
-        this.sp.node.color = cc.Color.WHITE
+        //this.sp.node.color = cc.Color.WHITE
+        this.particalNode.children.forEach((item) => { item.active = false })
         for (let buffId in this.buffMap) {
-            if (buffId && this.buffMap[buffId]) {
-                this.sp.node.color = cc.Color.BLUE
-                return
-            }
+            this.particalNode.getChildByName(buffId + '').active = true
+            // if (buffId && this.buffMap[buffId]) {
+            //     this.sp.node.color = cc.Color.BLUE
+            //     return
+            // }
         }
     }
 }

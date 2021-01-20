@@ -49,6 +49,7 @@ export default class MainManager extends cc.Component {
             MainUIManager.instance.switchUI(1)
             DD.instance.money = 0
             DD.instance.ticket = 0
+            DD.instance.lastLogin = new Date().getTime()
             StorageManager.instance.savePlayerData()
             this.loadConfigSuccess()
         } else {
@@ -72,7 +73,7 @@ export default class MainManager extends cc.Component {
     }
     loadConfigSuccess() {
         //打开背景音乐等等
-        console.log(DD.instance.config)
+        // console.log(DD.instance.config)
         if (DD.instance.config[SysType.bgm]) {
             AudioManager.instance.playBGMByID()
         }

@@ -87,14 +87,14 @@ export default class MixUIManager extends cc.Component {
             PoolManager.instance.removeObjectByName('iconItem', this.container.children[j])
         }
     }
-    //TODO: 自动将高级的替换到队伍
     onAdd(card: CardData) {
         let index = DD.instance.cards.indexOf(card)
-
         if (card.lv > this.card.lv) {
             let oriIndex = DD.instance.group.indexOf(this.card)
             let swtichCard = Utils.deepCopy(card) as any
             let groupCard = Utils.deepCopy(DD.instance.group[oriIndex]) as any
+            swtichCard.group = true
+            groupCard.group = false
             DD.instance.group[oriIndex] = swtichCard
             this.card = DD.instance.group[oriIndex]
             this.choosedCards = this.choosedCards.concat(groupCard)

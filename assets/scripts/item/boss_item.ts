@@ -22,7 +22,8 @@ export default class BossItem extends cc.Component {
     @property(cc.ProgressBar)
     hpProgress: cc.ProgressBar = null
     monsterSpd: number = 0
-
+    @property(cc.Node)
+    particalNode: cc.Node = null
     _spd: cc.Vec2 = cc.v2(0, 0)
     set spd(val: cc.Vec2) {
         this._spd = val
@@ -67,8 +68,7 @@ export default class BossItem extends cc.Component {
         this.monsterSpd = Math.sqrt(monsterData.spd)
         this.id = id
         let startPos = BattleUIManager.instance.getStartPos(0)
-        this.bossStatus = BossStatusType.move
-        this.spd = cc.v2(0, 100)
+        this.bossStatus = BossStatusType.skill
         this.node.setPosition(startPos)
         this.randomPos[0] = cc.v3(-250, 400)
         this.sp.node.color = cc.Color.WHITE
@@ -77,7 +77,20 @@ export default class BossItem extends cc.Component {
         this.randomPos[1] = cc.v3(250, 400)
         this.maxHp = this.hp = monsterData.hp * BattleManager.instance.getHpmult() + addHp
         this.path = 0
+        this.particalNode.children.forEach((item) => { item.active = false })
+
         Emitter.fire('message_' + MessageType.addMonster)
+    }
+    onGetHp(arr) {
+        //TODO:增加一个吸收魂的特效
+        for (let i = 0; i < arr.length; i++) {
+            let partical = EffectManager.instance.createPartical(4, arr[i])
+            let tween = new cc.Tween(partical).to(1, { x: this.node.x, y: this.node.y })
+                .call(() => { this.bossStatus = BossStatusType.move }).start()
+        }
+        if (arr = 0) {
+            this.bossStatus = BossStatusType.move
+        }
     }
     checkNearPos() {
         let result = BattleUIManager.instance.checkWayPoint(cc.v3(this.node.x, this.node.y - 64), 0)
@@ -85,12 +98,12 @@ export default class BossItem extends cc.Component {
         if (result == true) {
             this.getInCity()
         } else if (result) {
-            if (this.spd != result[0]) {
+            if (this.spd.x != result[0].x || this.spd.y != result[0].y) {
                 this.node.x -= result[1].x
                 this.node.y -= result[1].y
             }
 
-            this.spd = result[0]
+            this.spd = Utils.deepCopy(result[0]) as cc.Vec2
         }
     }
     beAtk(damage, param) {
@@ -122,7 +135,6 @@ export default class BossItem extends cc.Component {
         BattleManager.instance.hp -= 2
         BattleManager.instance.bossInCity()
         this.removeSelf()
-
     }
     removeSelf() {
         if (this.onSkillTimer) clearTimeout(this.onSkillTimer)
@@ -213,12 +225,14 @@ export default class BossItem extends cc.Component {
         this.showBuffEffect()
     }
     showBuffEffect() {
-        this.sp.node.color = cc.Color.WHITE
+        //this.sp.node.color = cc.Color.WHITE
+        this.particalNode.children.forEach((item) => { item.active = false })
         for (let buffId in this.buffMap) {
-            if (buffId && this.buffMap[buffId]) {
-                this.sp.node.color = cc.Color.BLUE
-                return
-            }
+            this.particalNode.getChildByName(buffId + '').active = true
+            // if (buffId && this.buffMap[buffId]) {
+            //     this.sp.node.color = cc.Color.BLUE
+            //     return
+            // }
         }
     }
 }

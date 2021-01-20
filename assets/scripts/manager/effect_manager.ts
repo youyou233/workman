@@ -7,6 +7,7 @@ import { Utils } from "../utils/utils";
 import BattleManager from "./battle_manager";
 import BattleUIManager from "../ui/battle_ui_manager";
 import DamageLabel from "../item/damage_label";
+import ResourceManager from "./resources_manager";
 
 const { ccclass, property } = cc._decorator;
 /**
@@ -32,6 +33,7 @@ export default class EffectManager extends cc.Component {
     }
 
     creatEffect(id: number, pos: cc.Vec3 | cc.Vec2, node: cc.Node = BattleUIManager.instance.effectContainer) {
+        if (id == 0) return
         let effect = PoolManager.instance.createObjectByName('effectItem', node)
         effect.getComponent(EffectItem).init(id, pos, true)
     }
@@ -55,5 +57,21 @@ export default class EffectManager extends cc.Component {
         // if (!DD.instance.config[SysType.damageLabel]) return
         let label = PoolManager.instance.createObjectByName('damageLabel', BattleUIManager.instance.damageLabelContainer)
         label.getComponent(DamageLabel).init(str, pos, cri, param)
+    }
+
+    createPartical(id: number, pos: cc.Vec2, node: cc.Node = BattleUIManager.instance.particalContaiher) {
+        if (id == 0) return
+        let partical = PoolManager.instance.createObjectByName('particalItem', node)
+        partical.setPosition(pos)
+        ResourceManager.instance.getPartical(id).then((res: cc.ParticleAsset) => {
+            let par = partical.getComponent(cc.ParticleSystem)
+            par.stopSystem()
+            par.file = res
+            par.custom = true
+            par.custom = false
+            par.resetSystem()
+        })
+        return partical
+        //  console.log(BattleUIManager.instance.particalContaiher.children.length)
     }
 }
