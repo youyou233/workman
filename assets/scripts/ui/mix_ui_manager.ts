@@ -109,8 +109,6 @@ export default class MixUIManager extends cc.Component {
             DD.instance.cards.splice(index, 1)
             this.frashContainer()
         }
-
-
     }
     onMix() {
         let level = 0

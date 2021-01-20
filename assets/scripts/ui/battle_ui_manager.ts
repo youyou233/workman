@@ -62,6 +62,8 @@ export default class BattleUIManager extends cc.Component {
     exitBtn: cc.Button = null
     @property(cc.Button)
     guideBtn: cc.Button = null
+    @property(cc.Label)
+    tipsLabel: cc.Label = null
     onLoad() {
         BattleUIManager.instance = this
         this.bindEvent()
@@ -111,7 +113,7 @@ export default class BattleUIManager extends cc.Component {
         let monster = PoolManager.instance.createObjectByName('monsterItem', this.monsterContainer)
         monster.getComponent(MonsterItem).init(id, Utils.getRandomNumber(waysLength - 1))
     }
-    clearAllMonsters() {
+    clearAllMonsters(): [number, any[]] {
         let addHp = 0
         let list = []
         for (let i = this.monsterContainer.children.length - 1; i >= 0; i--) {
@@ -313,9 +315,9 @@ export default class BattleUIManager extends cc.Component {
         if (targetLand.checkMerge(curLand)) {
             targetLand.onMerge(curLand)
         } else {
-            if (curLand.id == 23 && targetLand.id) {
-                curLand.showRole(targetLand.id)
-                targetLand.showRole(23)
+            if (curLand.id == 23 && targetLand.id && curLand.stack == targetLand.stack) {
+                curLand.showRole(targetLand.id, 6)
+                targetLand.showRole(23, 6)
             }
         }
     }
@@ -398,7 +400,14 @@ export default class BattleUIManager extends cc.Component {
     }
     //只有公主能发动
     changeRole(id: number) {
-        this.curTouch.getComponent(LandItem).showRole(id)
+        this.curTouch.getComponent(LandItem).showRole(id, 6)
         UIManager.instance.openUI(OnskillUIManager, { name: config.uiName.onskillUI, param: [30] })
+    }
+    showTip(str) {
+        this.tipsLabel.string = str
+        this.tipsLabel.node.scale = 0.5
+        let tween = new cc.Tween(this.tipsLabel.node)
+            .to(0.5, { scale: 1 }, cc.easeElasticOut(2))
+            .delay(1.2).to(0.5, { scale: 0 }).start()
     }
 }

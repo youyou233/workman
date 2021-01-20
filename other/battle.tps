@@ -297,13 +297,13 @@
             <key type="filename">../assets/main_res/char/animation/17/17-51.png</key>
             <key type="filename">../assets/main_res/char/animation/18/18-0.png</key>
             <key type="filename">../assets/main_res/char/animation/18/18-1.png</key>
+            <key type="filename">../assets/main_res/char/animation/18/18-12.png</key>
             <key type="filename">../assets/main_res/char/animation/18/18-13.png</key>
             <key type="filename">../assets/main_res/char/animation/18/18-15.png</key>
             <key type="filename">../assets/main_res/char/animation/18/18-16.png</key>
             <key type="filename">../assets/main_res/char/animation/18/18-17.png</key>
             <key type="filename">../assets/main_res/char/animation/18/18-2.png</key>
             <key type="filename">../assets/main_res/char/animation/18/18-24.png</key>
-            <key type="filename">../assets/main_res/char/animation/18/18-3.png</key>
             <key type="filename">../assets/main_res/char/animation/18/18-44.png</key>
             <key type="filename">../assets/main_res/char/animation/18/18-48.png</key>
             <key type="filename">../assets/main_res/char/animation/18/18-49.png</key>

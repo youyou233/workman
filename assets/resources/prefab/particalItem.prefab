@@ -88,28 +88,30 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 1,
-    "_custom": true,
+    "_custom": {
+      "custom": false
+    },
     "_file": {
-      "__uuid__": "c0d71109-3cde-4d1c-9bb0-3ff32bc0e6b0"
+      "__uuid__": "ec67d496-d66e-42e4-ab2d-cc1a86df491f"
     },
     "_spriteFrame": {
-      "__uuid__": "5ca5e5d3-9bde-4d69-8270-8582b2834604"
+      "__uuid__": "8817d587-1266-4e79-87b5-8844cf4568fa"
     },
     "_texture": null,
     "_stopped": false,
     "playOnLoad": true,
     "autoRemoveOnFinish": true,
-    "totalParticles": 52,
-    "duration": 1,
-    "emissionRate": 260,
-    "life": 0.2,
-    "lifeVar": 0.4,
+    "totalParticles": 7,
+    "duration": -1,
+    "emissionRate": 23.333333333333336,
+    "life": 0.3,
+    "lifeVar": 0,
     "_startColor": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 153,
-      "b": 51,
-      "a": 255
+      "r": 204,
+      "g": 51,
+      "b": 204,
+      "a": 140
     },
     "_startColorVar": {
       "__type__": "cc.Color",
@@ -123,7 +125,7 @@
       "r": 0,
       "g": 0,
       "b": 0,
-      "a": 255
+      "a": 112
     },
     "_endColorVar": {
       "__type__": "cc.Color",
@@ -132,13 +134,13 @@
       "b": 0,
       "a": 0
     },
-    "angle": 146,
-    "angleVar": 50,
-    "startSize": 20,
-    "startSizeVar": 10,
-    "endSize": 10,
+    "angle": -177,
+    "angleVar": 0,
+    "startSize": 60,
+    "startSizeVar": 26,
+    "endSize": 16,
     "endSizeVar": 0,
-    "startSpin": 720,
+    "startSpin": 0,
     "startSpinVar": 0,
     "endSpin": 0,
     "endSpinVar": 0,
@@ -149,30 +151,30 @@
     },
     "posVar": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": -10,
+      "y": 15
     },
-    "_positionType": 0,
-    "positionType": 0,
-    "emitterMode": 0,
+    "_positionType": 1,
+    "positionType": 1,
+    "emitterMode": 1,
     "gravity": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": 30,
+      "y": 30
     },
-    "speed": 0,
+    "speed": 100,
     "speedVar": 0,
     "tangentialAccel": 0,
     "tangentialAccelVar": 0,
-    "radialAccel": 0,
-    "radialAccelVar": 0,
+    "radialAccel": 50,
+    "radialAccelVar": 50,
     "rotationIsDir": false,
-    "startRadius": 100,
+    "startRadius": 0,
     "startRadiusVar": 0,
-    "endRadius": 100,
+    "endRadius": 0,
     "endRadiusVar": 0,
-    "rotatePerS": 100,
-    "rotatePerSVar": 150,
+    "rotatePerS": 0,
+    "rotatePerSVar": 0,
     "_N$preview": true,
     "_id": ""
   },

@@ -123,7 +123,7 @@
   "10": {
     "id": "10",
     "name": "生产",
-    "dec": "被动技能，间隔一段时间产出阳光,升星星可以增加产出",
+    "dec": "被动技能，间隔一段时间产出打工魂,升星星可以增加产出",
     "bgName": "life",
     "cool": 0,
     "isActive": false,
@@ -140,7 +140,7 @@
     "bgName": "wind",
     "cool": 40,
     "isActive": true,
-    "skillType": 3,
+    "skillType": 2,
     "param": {
       "targetType": 2,
       "buff": 6,
@@ -150,7 +150,7 @@
   "12": {
     "id": "12",
     "name": "深藏功与名",
-    "dec": "被动技能，当前名声越大，攻击力越高！",
+    "dec": "被动技能，当前打工魂越大，攻击力越高！",
     "bgName": "death",
     "cool": 0,
     "isActive": false,
@@ -280,7 +280,7 @@
   "22": {
     "id": "22",
     "name": "黄金梦想",
-    "dec": "被动技能，合成时生成名誉，随星星的提升而提升",
+    "dec": "被动技能，合成时生成打工魂，随星星的提升而提升",
     "bgName": "life",
     "cool": 0,
     "isActive": false,
@@ -292,7 +292,7 @@
   "23": {
     "id": "23",
     "name": "RUSH",
-    "dec": "被动技能，可以与他人交换位置",
+    "dec": "被动技能，可以与星星相同的人交换位置",
     "bgName": "nature",
     "cool": 0,
     "isActive": false,

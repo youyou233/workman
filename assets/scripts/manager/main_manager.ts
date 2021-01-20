@@ -34,14 +34,14 @@ export default class MainManager extends cc.Component {
     checkUserData() {
         let newb = StorageManager.instance.isFristPlay()
         if (newb) {
-            DD.instance.group = [
-                { id: 1, lv: 1, group: true }, { id: 2, lv: 1, group: true }, { id: 3, lv: 1, group: true },
-                { id: 9, lv: 1, group: true }, { id: 10, lv: 1, group: true }
-            ]
             // DD.instance.group = [
-            //     { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true },
-            //     { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true }
+            //     { id: 9, lv: 1, group: true }, { id: 9, lv: 1, group: true }, { id: 14, lv: 1, group: true },
+            //     { id: 14, lv: 1, group: true }, { id: 14, lv: 1, group: true }
             // ]
+            DD.instance.group = [
+                { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true },
+                { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true }
+            ]
             DD.instance.config = {
                 1: true, 2: true, 3: true, 4: true
             }

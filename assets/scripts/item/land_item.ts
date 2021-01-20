@@ -130,7 +130,7 @@ export default class LandItem extends cc.Component {
         this.isDiz = false
         this.updateBuffContainer()
     }
-    showRole(id?) {
+    showRole(id?, effect: number = 0) {
         if (id) {
             let index = 0
             for (let i = 0; i < 5; i++) {
@@ -161,7 +161,11 @@ export default class LandItem extends cc.Component {
         this.addAnimationClip()
         this.updateBuffContainer()
         // console.log(this.curI, this.curJ, '生成')
-        EffectManager.instance.creatEffect(1, cc.v3(this.pos.x, this.pos.y + 65))
+        if (effect) {
+            EffectManager.instance.createPartical(effect, cc.v2(this.pos.x, this.pos.y + 65))
+        } else {
+            EffectManager.instance.creatEffect(1, cc.v3(this.pos.x, this.pos.y + 65))
+        }
     }
 
     addAnimationClip() {
@@ -215,19 +219,25 @@ export default class LandItem extends cc.Component {
     }
 
     onMerge(land: LandItem) {
+        let effect = 0
         if (land.id == 17) {
             this.stack = Math.ceil((land.stack + this.stack + 1) / 2)
+            effect = 7
         } else {
             this.stack++
         }
-        if (land.id == 8) {
+        if (land.id == 5) {
+            effect = 6
+        }
+        if (this.id == 8) {
             BattleManager.instance.onSkillGenerate(this.id, this.stack)
         }
         if (this.id == 22) {
             BattleManager.instance.sun += this.stack * 60
+            EffectManager.instance.createDamageLabel(this.stack * 60 + '', this.pos, false, { color: cc.Color.WHITE, outLineColor: cc.color(121, 0, 147), fontSize: 18 })
         }
         land.setNull()
-        this.showRole()
+        this.showRole(null, effect)
     }
     updateMergeStatus(close: boolean, landItem?: LandItem) {
         if (close) {
@@ -277,6 +287,7 @@ export default class LandItem extends cc.Component {
                 case AtkType.random:
                 case AtkType.melee:
                 case AtkType.chain:
+                case AtkType.randomMelee:
                     if (this.role.getAtkType() == AtkType.random || this.role.getAtkType() == AtkType.randomMelee) {
                         monster = BattleUIManager.instance.findRandomMonster()
                     }
@@ -290,7 +301,7 @@ export default class LandItem extends cc.Component {
                             cri: this.role.isCri(this),
                             spike: this.role.checkSpike(this)
                         }
-                        if (this.role.getAtkType() == AtkType.melee) {
+                        if (this.role.getAtkType() == AtkType.melee || this.role.getAtkType() == AtkType.randomMelee) {
                             let target = DD.instance.getMonsterByNode(monster)
                             target.beAtk(this.role.getAtkDamege(this), param)
                             EffectManager.instance.creatEffect(DD.instance.getRoleEffect(this.id, 0), monster.position)
@@ -309,7 +320,7 @@ export default class LandItem extends cc.Component {
                         BattleUIManager.instance.addThrow(this.id, JSON.parse(JSON.stringify(this.pos)), monster.position, 0.1, this.role.getAtkDamege(this),
                             DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), { cri: this.role.isCri(this), range: this.role.getAtkRange(this), spike: this.role.checkSpike(this) }
                         )
-                        EffectManager.instance.createPartical(3, cc.v2(monster.x, monster.y))
+                        EffectManager.instance.createPartical(this.role.roleData.effect[2], cc.v2(monster.x, monster.y))
                     }
                     break
                 case AtkType.randomRange:
@@ -338,6 +349,7 @@ export default class LandItem extends cc.Component {
                     BattleManager.instance.sun += num
                     this.skilling = false
                     EffectManager.instance.createDamageLabel(num + '', this.pos, false, { color: cc.Color.WHITE, outLineColor: cc.color(121, 0, 147), fontSize: 18 })
+                    EffectManager.instance.createPartical(this.role.roleData.effect[1], this.pos)
                 }
                 break
             case 24:
@@ -348,6 +360,7 @@ export default class LandItem extends cc.Component {
                         for (let i = 0; i < this.stack; i++) {
                             if (arrLand[i]) {
                                 arrLand[i].onPure()
+                                EffectManager.instance.createPartical(this.role.roleData.effect[1], arrLand[i].pos)
                             }
                         }
                     }

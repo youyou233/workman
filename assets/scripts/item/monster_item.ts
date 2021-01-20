@@ -120,7 +120,8 @@ export default class MonsterItem extends cc.Component {
         if (multDamage[1]) {
             this.explosion = count
         }
-        if (param.cri) {
+        let cri = param && param.cri
+        if (cri) {
             if (param.id == 28) {
                 count *= 3
             } else {
@@ -129,7 +130,7 @@ export default class MonsterItem extends cc.Component {
         }
         this.hp -= count
         str = count + ''
-        if (param.spike) {
+        if (param && param.spike) {
             this.hp = 0
             str = '秒杀'
             console.log('触发了秒杀')
@@ -137,7 +138,7 @@ export default class MonsterItem extends cc.Component {
         if (this.hp <= 0) {
             Emitter.fire('message_' + MessageType.monsterBeKilled, param, this)
         }
-        EffectManager.instance.createDamageLabel(str, this.node.position, param.cri)
+        EffectManager.instance.createDamageLabel(str, this.node.position, cri)
 
     }
     getInCity() {
@@ -152,8 +153,8 @@ export default class MonsterItem extends cc.Component {
         }
         if (this.explosion) {
             //发射爆炸
-            EffectManager.instance.creatEffect(27, this.node.position)
-            let monsters = BattleUIManager.instance.getRangeMonsters(this.node.position, 200)
+            EffectManager.instance.createPartical(8, cc.v2(this.node.x, this.node.y))
+            let monsters = BattleUIManager.instance.getRangeMonsters(this.node.position, 100)
             monsters.forEach((item) => {
                 DD.instance.getMonsterByNode(item).beAtk(this.explosion, null)
             })

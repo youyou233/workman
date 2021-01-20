@@ -188,7 +188,7 @@ export default class RoleInfoUIManager extends cc.Component {
                     labels[3].string = (skill.param.col * 100).toFixed(0) + "%"
                     break
                 case 22:
-                    labels[0].string = '获得名誉'
+                    labels[0].string = '获得魂'
                     labels[1].string = `60*⭐`
                     break
                 case 24:

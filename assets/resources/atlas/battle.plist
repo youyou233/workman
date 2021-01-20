@@ -1654,7 +1654,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>18-13.png</key>
+            <key>18-12.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -1669,7 +1669,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>18-15.png</key>
+            <key>18-13.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -1684,7 +1684,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>18-16.png</key>
+            <key>18-15.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -1699,7 +1699,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>18-17.png</key>
+            <key>18-16.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -1714,7 +1714,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>18-2.png</key>
+            <key>18-17.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -1729,7 +1729,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>18-24.png</key>
+            <key>18-2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -1744,7 +1744,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>18-3.png</key>
+            <key>18-24.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -5583,7 +5583,7 @@
             <key>size</key>
             <string>{1254,1254}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:e8dd54624f88bb6cdbf5c3ada242f24b:b79f893165bbe0ca35780d6b2e93faaa:aefc46271a528250973e047b84db9856$</string>
+            <string>$TexturePacker:SmartUpdate:7d191d54bd69e89cc66c167231dc7e4c:cbca3ae7753d4aef2f95aeb049d5b76b:aefc46271a528250973e047b84db9856$</string>
             <key>textureFileName</key>
             <string>battle.png</string>
         </dict>

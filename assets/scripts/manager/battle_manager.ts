@@ -18,6 +18,7 @@ import GridItem from "../item/grid_item"
 import MonsterItem from "../item/monster_item"
 import BossItem from "../item/boss_item"
 import GuideUIManager from "../ui/guide_ui_manager"
+import EffectManager from "./effect_manager"
 
 const { ccclass, property } = cc._decorator
 /**
@@ -106,11 +107,17 @@ export default class BattleManager extends cc.Component {
                 if (val == 4) {
                     this.gameSuccess()
                 } else {
+                    if (val != 1) {
+                        BattleUIManager.instance.showTip('下一轮，怪物已加强')
+                    }
                     BattleUIManager.instance.rankLabel.string = '当前波数:' + val + '/3'
                 }
                 break
             case BattleType.boss:
             case BattleType.unlimited:
+                if (val != 1) {
+                    BattleUIManager.instance.showTip('下一轮，怪物已加强')
+                }
                 BattleUIManager.instance.rankLabel.string = '当前波数:' + val
                 break
 
@@ -133,13 +140,15 @@ export default class BattleManager extends cc.Component {
             BattleManager.instance.killBoss()
         }, this)
         Emitter.register('message_' + MessageType.monsterBeKilled, (name, data, monster) => {
+            if (!data) return
             switch (+data.id) {
                 case 26:
                     this.getAllLandById(26).forEach((item) => { item.addWuke() })
                     break
                 case 27:
-                    this.sun += this.getMonsterKillSun(monster) * (0.5 + 0.1 * data.stack)
-                    //    console.log('偷窃')
+                    let num = this.getMonsterKillSun(monster) * (0.5 + 0.1 * data.stack)
+                    this.sun += num
+                    EffectManager.instance.createDamageLabel(num + '', monster.node.position, false, { color: cc.Color.WHITE, outLineColor: cc.color(121, 0, 147), fontSize: 18 })
                     break
             }
 
@@ -211,6 +220,8 @@ export default class BattleManager extends cc.Component {
         if (!DD.instance.guide[1]) {
             UIManager.instance.openUI(GuideUIManager, { name: config.uiName.guideUI })
         }
+        BattleUIManager.instance.showTip('游戏开始')
+
     }
 
     gameSuccess() {
@@ -279,6 +290,7 @@ export default class BattleManager extends cc.Component {
         }
     }
     nextRank() {
+
         switch (this.type) {
             case BattleType.normal:
             case BattleType.boss:
@@ -308,6 +320,7 @@ export default class BattleManager extends cc.Component {
         this.isBoss = true
         let areaMonsterList = JsonManager.instance.getDataByName('area')[DD.instance.area].monsters
         BattleUIManager.instance.bossLabel.string = 'boss进场中'
+        BattleUIManager.instance.showTip('boss出现！')
         let id = 0
         if (this.type == BattleType.boss) {
             let list = [6, 12, 21, 18, 32, 31]
@@ -324,6 +337,8 @@ export default class BattleManager extends cc.Component {
     killBoss() {
         if (this.isBoss) {
             this.isBoss = false
+            // BattleUIManager.instance.showTip('boss出现！')
+
             this.rank++
             if (this.type == BattleType.boss) {
                 this.sun += Math.floor(100 * Math.sqrt(this.rank))
@@ -337,15 +352,15 @@ export default class BattleManager extends cc.Component {
     bossInCity() {
         this.gameFail()
     }
-    addRole(free: boolean = false) {
+    addRole(free: boolean = false, effect: number = 0) {
         let arr = this.findFree()
         if (arr.length == 0) {
-            UIManager.instance.LoadTipsByStr('战场已满')
+            BattleUIManager.instance.showTip('战场已满')
             return
         }
         if (free) {
             let pos = arr[Utils.getRandomNumber(arr.length - 1)]
-            this.mapData[pos[0]][pos[1]].showRole()
+            this.mapData[pos[0]][pos[1]].showRole(null, effect)
         } else {
             if (this.sun >= this.btnAddTimes * 10 + 10) {
                 let pos = arr[Utils.getRandomNumber(arr.length - 1)]
@@ -353,7 +368,7 @@ export default class BattleManager extends cc.Component {
                 this.sun -= (this.btnAddTimes * 10 + 10)
                 this.btnAddTimes++
             } else {
-                UIManager.instance.LoadTipsByStr('阳光不足')
+                BattleUIManager.instance.showTip('阳光不足')
             }
         }
 
@@ -429,7 +444,7 @@ export default class BattleManager extends cc.Component {
         }
         setTimeout(() => {
             for (let i = 0; i < length; i++) {
-                this.addRole(true)
+                this.addRole(true, 5)
             }
         }, 100);
     }
