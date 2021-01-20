@@ -34,13 +34,9 @@ export default class MainManager extends cc.Component {
     checkUserData() {
         let newb = StorageManager.instance.isFristPlay()
         if (newb) {
-            // DD.instance.group = [
-            //     { id: 9, lv: 1, group: true }, { id: 9, lv: 1, group: true }, { id: 14, lv: 1, group: true },
-            //     { id: 14, lv: 1, group: true }, { id: 14, lv: 1, group: true }
-            // ]
             DD.instance.group = [
-                { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true },
-                { id: 4, lv: 1, group: true }, { id: 4, lv: 1, group: true }
+                { id: 1, lv: 1, group: true }, { id: 2, lv: 1, group: true }, { id: 3, lv: 1, group: true },
+                { id: 9, lv: 1, group: true }, { id: 10, lv: 1, group: true }
             ]
             DD.instance.config = {
                 1: true, 2: true, 3: true, 4: true
@@ -49,9 +45,17 @@ export default class MainManager extends cc.Component {
             MainUIManager.instance.switchUI(1)
             DD.instance.money = 0
             DD.instance.ticket = 0
+            DD.instance.exp = 0
             DD.instance.lastLogin = new Date().getTime()
             StorageManager.instance.savePlayerData()
             this.loadConfigSuccess()
+
+            UIManager.instance.LoadMessageBox('欢迎', '测试奖励发放', () => {
+                DD.instance.ticket = 1000
+                DD.instance.exp = 4000
+                DD.instance.vip = new Date(9999999999999).getTime()
+                StorageManager.instance.savePlayerData()
+            })
         } else {
             this.loadConfig()
             StorageManager.instance.loadPlayerData()

@@ -36,8 +36,10 @@ export default class IconItem extends cc.Component {
         this.sp.spriteFrame = ResourceManager.instance.getSprite(
             ResType.main, 'role_' + data.id
         )
+        let level = +Math.sqrt(data.lv).toFixed(0)
+        if (level > 10) level = 10
         this.lvSp.spriteFrame = ResourceManager.instance.getSprite(
-            ResType.main, 'level_' + Math.sqrt(data.lv).toFixed(0)
+            ResType.main, 'level_' + level
         )
         let roleData = JsonManager.instance.getDataByName('role')[data.id]
         this.qualitySp.spriteFrame = ResourceManager.instance.getSprite(

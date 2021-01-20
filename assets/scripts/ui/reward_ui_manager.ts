@@ -2,6 +2,8 @@ import { CardData } from "../interface/card_data"
 import IconItem from "../item/icon_item"
 import RewardItem from "../item/reward_item"
 import ShopItem from "../item/shop_item"
+import ActionManager from "../manager/action_manager"
+import AudioManager from "../manager/audio_manager"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
 
@@ -27,8 +29,9 @@ export default class RewardUIManager extends cc.Component {
         this.mask.on('click', this.hideUI, this)
     }
     showUI(rewards, label: string, cb?: Function) {
+        AudioManager.instance.playAudio('openDialog')
+        ActionManager.instance.showDialog(this.content, this.mask)
         this.cb = cb
-        this.content.active = true
         this.label.string = label
         this.clearContainers()
         let keys = Object.keys(rewards)
@@ -40,6 +43,8 @@ export default class RewardUIManager extends cc.Component {
         }
     }
     hideUI() {
+        AudioManager.instance.playAudio('closeDialog')
+
         if (this.cb) this.cb()
         this.content.active = false
     }

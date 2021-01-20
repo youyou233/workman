@@ -1,3 +1,4 @@
+import AudioManager from "../manager/audio_manager"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
 import ResourceManager from "../manager/resources_manager"
@@ -74,6 +75,7 @@ export default class LvItem extends cc.Component {
         }
     }
     getGift(index: number) {
+        AudioManager.instance.playAudio('click')
         if (index == 0) {
             if (DD.instance.isVip()) {
                 DD.instance.getRankGift(this.lv, index)

@@ -1,5 +1,8 @@
 //import CostItem from "../controller/ui/cost_items"
 
+import ActionManager from "../manager/action_manager"
+import AudioManager from "../manager/audio_manager"
+
 // import UIAnimaManager from "../manager/action_manager"
 
 const { ccclass, property } = cc._decorator
@@ -59,10 +62,10 @@ export default class MessageBoxUIManager extends cc.Component {
 
     showUI(title: string, desc: string, callback: OkCalBack = null, param: {} = null, isNormal: boolean = true, labels: string[] = null) {
         if (!this.uiNode.active) {
-            this.uiNode.active = true
-            //  UIAnimaManager.instance.showDialog(this.uiNode, this.maskNode)
+            // this.uiNode.active = true
+            ActionManager.instance.showDialog(this.uiNode, this.maskNode)
         }
-        //  AudioManager.instance.playAudio('ui_open')
+        AudioManager.instance.playAudio('openDialog')
         if (labels) {
             this.labelCancel.string = labels[1]
             this.labelConfirm.string = labels[2]
@@ -92,6 +95,8 @@ export default class MessageBoxUIManager extends cc.Component {
 
     cancel() {
         //console.log("取消")
+        AudioManager.instance.playAudio('click')
+
         if (this.curCallBack != null) {
             this.curCallBack(false, this.curParam)
         }
@@ -100,6 +105,7 @@ export default class MessageBoxUIManager extends cc.Component {
 
     confirm() {
         //console.log("确定")
+        AudioManager.instance.playAudio('click')
         if (this._isClick) {
             return
         }
@@ -115,7 +121,7 @@ export default class MessageBoxUIManager extends cc.Component {
     }
     hideUI() {
         this.uiNode.active = false
-        //  AudioManager.instance.playAudio('ui_close')
+        AudioManager.instance.playAudio('closeDialog')
 
     }
 }

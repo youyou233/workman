@@ -3,8 +3,11 @@ import IconItem from "../item/icon_item"
 import LvItem from "../item/lv_item"
 import RewardItem from "../item/reward_item"
 import ShopItem from "../item/shop_item"
+import ActionManager from "../manager/action_manager"
+import AudioManager from "../manager/audio_manager"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
+import MainUIManager from "./main_ui_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -24,7 +27,8 @@ export default class VipUIManager extends cc.Component {
         this.mask.on('click', this.hideUI, this)
     }
     showUI() {
-        this.content.active = true
+        AudioManager.instance.playAudio('openDialog')
+        ActionManager.instance.showDialog(this.content, this.mask)
         this.clearContainers()
         for (let i = 1; i <= DD.instance.rank; i++) {
             let node = PoolManager.instance.createObjectByName('lvItem', this.container)
@@ -36,7 +40,10 @@ export default class VipUIManager extends cc.Component {
     }
     hideUI() {
         // if (this.cb) this.cb()
+        AudioManager.instance.playAudio('closeDialog')
         this.content.active = false
+        MainUIManager.instance.haveGiftNode.active = DD.instance.haveGift()
+
     }
     clearContainers() {
         for (let j = this.container.children.length - 1; j >= 0; j--) {

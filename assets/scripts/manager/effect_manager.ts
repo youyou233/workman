@@ -8,6 +8,7 @@ import BattleManager from "./battle_manager";
 import BattleUIManager from "../ui/battle_ui_manager";
 import DamageLabel from "../item/damage_label";
 import ResourceManager from "./resources_manager";
+import { SysType } from "../utils/enum";
 
 const { ccclass, property } = cc._decorator;
 /**
@@ -33,6 +34,7 @@ export default class EffectManager extends cc.Component {
     }
 
     creatEffect(id: number, pos: cc.Vec3 | cc.Vec2, node: cc.Node = BattleUIManager.instance.effectContainer) {
+        if (!DD.instance.config[SysType.effect]) return
         if (id == 0) return
         let effect = PoolManager.instance.createObjectByName('effectItem', node)
         effect.getComponent(EffectItem).init(id, pos, true)
@@ -54,13 +56,15 @@ export default class EffectManager extends cc.Component {
     // }
 
     createDamageLabel(str: string, pos: cc.Vec3 | cc.Vec2, cri: boolean = false, param?: any) {
-        // if (!DD.instance.config[SysType.damageLabel]) return
+        if (!DD.instance.config[SysType.damageLabel]) return
+
         let label = PoolManager.instance.createObjectByName('damageLabel', BattleUIManager.instance.damageLabelContainer)
         label.getComponent(DamageLabel).init(str, pos, cri, param)
     }
 
     createPartical(id: number, pos: cc.Vec2, node: cc.Node = BattleUIManager.instance.particalContaiher) {
         if (id == 0) return
+        if (!DD.instance.config[SysType.effect]) return
         let partical = PoolManager.instance.createObjectByName('particalItem', node)
         partical.setPosition(pos)
         ResourceManager.instance.getPartical(id).then((res: cc.ParticleAsset) => {

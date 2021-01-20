@@ -1,5 +1,6 @@
 import { CardData } from "../interface/card_data"
 import IconItem from "../item/icon_item"
+import AudioManager from "../manager/audio_manager"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
 import StorageManager from "../manager/storage_manager"
@@ -28,9 +29,9 @@ export default class GroupUIManager extends cc.Component {
         this.maskNode.on('click', this.touchMask, this)
     }
     showUI() {
-        this.content.active = true
         this.touchMask()
         this.clearContainers()
+        this.content.active = true
         DD.instance.group.forEach((item) => {
             let icon = PoolManager.instance.createObjectByName('iconItem', this.curGroupNode)
             icon.y = 0
@@ -60,8 +61,10 @@ export default class GroupUIManager extends cc.Component {
         this.isChange = true
         this.maskNode.active = true
         this.change = changeData
+        AudioManager.instance.playAudio('click')
     }
     onChoose(data: CardData) {
+        AudioManager.instance.playAudio('click')
         if (this.isChange) {
             let groupIndex = DD.instance.group.indexOf(data)
             let index = DD.instance.cards.indexOf(this.change)
@@ -82,5 +85,7 @@ export default class GroupUIManager extends cc.Component {
     touchMask() {
         this.isChange = false
         this.maskNode.active = false
+        AudioManager.instance.playAudio('closeDialog')
+
     }
 }

@@ -2,6 +2,7 @@ import { CardData } from "../interface/card_data"
 import IconItem from "../item/icon_item"
 import RewardItem from "../item/reward_item"
 import ShopItem from "../item/shop_item"
+import ActionManager from "../manager/action_manager"
 import DD from "../manager/dynamic_data_manager"
 import JsonManager from "../manager/json_manager"
 import PoolManager from "../manager/pool_manager"
@@ -28,6 +29,7 @@ export default class OnskillUIManager extends cc.Component {
         // this.mask.on('click', this.hideUI, this)
     }
     showUI(id: number) {
+        ActionManager.instance.showFullPage(this.content)
         let skillData = JsonManager.instance.getDataByName('skill')[id]
         this.roleIcon.spriteFrame = ResourceManager.instance.getSprite(
             ResType.main, 'role_' + id

@@ -1,6 +1,7 @@
 import { CardData } from "../interface/card_data"
 import { GiftData } from "../interface/gift_data"
 import { ShopData } from "../interface/shop_data"
+import AudioManager from "../manager/audio_manager"
 import DD from "../manager/dynamic_data_manager"
 import JsonManager from "../manager/json_manager"
 import ResourceManager from "../manager/resources_manager"
@@ -43,6 +44,7 @@ export default class ShopItem extends cc.Component {
         this.nameLabel.string = 'Lv' + data.cardData.lv + role.name
     }
     onBuy() {
+        AudioManager.instance.playAudio('click')
         if (DD.instance.money >= this.data.price) {
             DD.instance.money -= this.data.price
             DD.instance.cards.push(this.data.cardData)

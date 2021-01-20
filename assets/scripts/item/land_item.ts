@@ -226,6 +226,10 @@ export default class LandItem extends cc.Component {
         } else {
             this.stack++
         }
+        if (this.stack > 7) {
+            this.stack = 7
+            UIManager.instance.LoadTipsByStr('七星已经是最高星了')
+        }
         if (land.id == 5) {
             effect = 6
         }

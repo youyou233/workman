@@ -1,6 +1,8 @@
 import { CardData } from "../interface/card_data"
 import IconItem from "../item/icon_item"
 import ShopItem from "../item/shop_item"
+import ActionManager from "../manager/action_manager"
+import AudioManager from "../manager/audio_manager"
 import DD from "../manager/dynamic_data_manager"
 import JsonManager from "../manager/json_manager"
 import PoolManager from "../manager/pool_manager"
@@ -47,7 +49,8 @@ export default class RoleInfoUIManager extends cc.Component {
         this.addGroupBtn.node.on('click', this.onAddGroup, this)
     }
     showUI(cardData: CardData, opa: boolean = true) {
-        this.content.active = true
+        AudioManager.instance.playAudio('openDialog')
+        ActionManager.instance.showDialog(this.content, this.mask)
         this.addGroupBtn.node.active = opa && !cardData.group && !DD.instance.group.some((item) => { return item.id == cardData.id })
         this.mixBtn.node.active = opa && cardData.group
         this.cardData = cardData
@@ -63,6 +66,7 @@ export default class RoleInfoUIManager extends cc.Component {
         this.bindLabels(cardData, roleData)
     }
     hideUI() {
+        AudioManager.instance.playAudio('closeDialog')
         this.content.active = false
     }
     bindLabels(card: CardData, role) {
@@ -231,6 +235,7 @@ export default class RoleInfoUIManager extends cc.Component {
 
     }
     onMix() {
+
         UIManager.instance.openUI(MixUIManager, { name: config.uiName.mixUI, param: [this.cardData] }, 300)
     }
     onAddGroup() {

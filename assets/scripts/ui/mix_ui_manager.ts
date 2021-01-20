@@ -1,6 +1,8 @@
 import { CardData } from "../interface/card_data"
 import IconItem from "../item/icon_item"
 import ShopItem from "../item/shop_item"
+import ActionManager from "../manager/action_manager"
+import AudioManager from "../manager/audio_manager"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
 import StorageManager from "../manager/storage_manager"
@@ -61,7 +63,8 @@ export default class MixUIManager extends cc.Component {
         this.mixBtn.node.on('click', this.onMix, this)
     }
     showUI(card: CardData) {
-        this.content.active = true
+        AudioManager.instance.playAudio('openDialog')
+        ActionManager.instance.showDialog(this.content, this.mask)
         this.curIcon.init(card, null)
         this.card = card
         this.mixIcon.init(null, null)
@@ -77,6 +80,7 @@ export default class MixUIManager extends cc.Component {
         }
     }
     hideUI() {
+        AudioManager.instance.playAudio('closeDialog')
         DD.instance.cards.push(...this._choosedCards)
         GroupUIManager.instance.showUI()
         RoleInfoUIManager.instance.showUI(this.card)
@@ -89,6 +93,7 @@ export default class MixUIManager extends cc.Component {
     }
     onAdd(card: CardData) {
         let index = DD.instance.cards.indexOf(card)
+        AudioManager.instance.playAudio('click_2')
         if (card.lv > this.card.lv) {
             let oriIndex = DD.instance.group.indexOf(this.card)
             let swtichCard = Utils.deepCopy(card) as any
@@ -111,6 +116,7 @@ export default class MixUIManager extends cc.Component {
         }
     }
     onMix() {
+        AudioManager.instance.playAudio('click')
         let level = 0
         this.choosedCards.forEach((item) => {
             level += item.lv

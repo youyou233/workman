@@ -30,7 +30,7 @@ export class Role {
         }
 
         //  console.log(this.atk * land.stack * rate)
-        return ((this.atk + add) * land.stack * rate).toFixed(0)
+        return ((this.atk * Math.pow(1.2, this.lv - 1) + add) * land.stack * rate).toFixed(0)
     }
 
     getAtkCD(land: LandItem) {

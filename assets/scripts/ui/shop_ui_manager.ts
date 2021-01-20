@@ -1,6 +1,7 @@
 import { CardData } from "../interface/card_data"
 import IconItem from "../item/icon_item"
 import ShopItem from "../item/shop_item"
+import AudioManager from "../manager/audio_manager"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
 import UIManager from "../manager/ui_manager"
@@ -58,6 +59,8 @@ export default class ShopUIManager extends cc.Component {
         }
     }
     freash() {
+        AudioManager.instance.playAudio('click')
+
         if (DD.instance.ticket >= 10) {
             UIManager.instance.LoadMessageBox('刷新', '是否花费10张招待券立即刷新', (isOK) => {
                 if (isOK) {

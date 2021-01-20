@@ -1,6 +1,8 @@
 import { CardData } from "../interface/card_data"
 import IconItem from "../item/icon_item"
 import ShopItem from "../item/shop_item"
+import ActionManager from "../manager/action_manager"
+import AudioManager from "../manager/audio_manager"
 import BattleManager from "../manager/battle_manager"
 import DD from "../manager/dynamic_data_manager"
 import JsonManager from "../manager/json_manager"
@@ -61,6 +63,7 @@ export default class RankUIManager extends cc.Component {
         })
         this.moreMapBtn.node.on('click', () => {
             this.mapNode.active = true
+            AudioManager.instance.playAudio('click')
             for (let i = 0; i < 20; i++) {
                 this.mapAreaContainer.children[i].active = DD.instance.rank > i
             }
@@ -83,7 +86,8 @@ export default class RankUIManager extends cc.Component {
         })
     }
     showUI() {
-        this.content.active = true
+        AudioManager.instance.playAudio('openDialog')
+        ActionManager.instance.showDialog(this.content, this.mask)
         this.mapNode.active = false
         let data = DD.instance.areaData[DD.instance.area]
         let areaData = JsonManager.instance.getDataByName('area')[DD.instance.area]
@@ -105,6 +109,7 @@ export default class RankUIManager extends cc.Component {
         this.giftNode.active = list == 7 && data.gift[data.diff]
     }
     getGift() {
+        AudioManager.instance.playAudio('click')
         this.giftNode.active = false
         UIManager.instance.LoadTipsByStr('获得一个背包')
         DD.instance.addBag({
@@ -117,14 +122,17 @@ export default class RankUIManager extends cc.Component {
         data.gift[data.diff] = false
     }
     hideUI() {
+        AudioManager.instance.playAudio('closeDialog')
         this.content.active = false
     }
     chooseDiff(index) {
+        AudioManager.instance.playAudio('click')
         this.certainNode.setPosition(this.difficultyBtns[index].node.position)
         DD.instance.areaData[DD.instance.area].diff = index + 1
         this.frashLevelNode()
     }
     chooseArea(id) {
+        AudioManager.instance.playAudio('click')
         if (!DD.instance.areaData[id]) {
             DD.instance.areaData[id] = {
                 diff: 1,

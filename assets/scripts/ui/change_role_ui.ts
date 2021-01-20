@@ -3,6 +3,8 @@ import IconItem from "../item/icon_item"
 import LvItem from "../item/lv_item"
 import RewardItem from "../item/reward_item"
 import ShopItem from "../item/shop_item"
+import ActionManager from "../manager/action_manager"
+import AudioManager from "../manager/audio_manager"
 import BattleManager from "../manager/battle_manager"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
@@ -25,8 +27,10 @@ export default class ChangeRoleUI extends cc.Component {
         // this.mask.on('click', this.hideUI, this)
     }
     showUI(id: number) {
-        this.content.active = true
         let index = 0
+        AudioManager.instance.playAudio('openDialog')
+        ActionManager.instance.showDialog(this.content, this.mask)
+
         for (let i = 0; i < 5; i++) {
             let card = BattleManager.instance.team[i]
             if (card.id != id) {
@@ -38,6 +42,7 @@ export default class ChangeRoleUI extends cc.Component {
     }
     onChoose(data) {
         BattleUIManager.instance.changeRole(data.id)
+        AudioManager.instance.playAudio('click_2')
         this.hideUI()
     }
     hideUI() {

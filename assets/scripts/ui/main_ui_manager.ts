@@ -1,4 +1,5 @@
 import GiftItem from "../item/gift_item"
+import AudioManager from "../manager/audio_manager"
 import BattleManager from "../manager/battle_manager"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
@@ -62,6 +63,8 @@ export default class MainUIManager extends cc.Component {
     vipBtn: cc.Button = null
     @property(cc.Button)
     sysBtn: cc.Button = null
+    @property(cc.Node)
+    haveGiftNode: cc.Node = null
     onLoad() {
         MainUIManager.instance = this
         this.groupBtn.node.on('click', () => {
@@ -78,13 +81,16 @@ export default class MainUIManager extends cc.Component {
         }, this)
         this.moreBtn.on('click', () => {
             this.moreTypePage.active = true
+            AudioManager.instance.playAudio('openDialog')
             this.bossNumLabel.string = 'Boss Rush(' + DD.instance.changeTime['1'] + '/3)'
             this.unlimitedNumLabel.string = '无尽模式(' + DD.instance.changeTime['2'] + '/3)'
         })
         this.morePageMask.on('click', () => {
             this.moreTypePage.active = false
+            AudioManager.instance.playAudio('closeDialog')
         })
         this.moreCloseBtn.on('click', () => {
+            AudioManager.instance.playAudio('closeDialog')
             this.moreTypePage.active = false
         })
         this.vipBtn.node.on('click', () => {
@@ -94,6 +100,7 @@ export default class MainUIManager extends cc.Component {
             UIManager.instance.openUI(SysUIManager, { name: config.uiName.sysUI })
         })
         this.unlimitedBtn.node.on('click', () => {
+            AudioManager.instance.playAudio('click')
             if (DD.instance.changeTime['2'] <= 0) {
                 UIManager.instance.LoadTipsByStr('今天没有次数了')
                 return
@@ -102,6 +109,7 @@ export default class MainUIManager extends cc.Component {
             this.moreTypePage.active = false
         }, this)
         this.bossBtn.node.on('click', () => {
+            AudioManager.instance.playAudio('click')
             if (DD.instance.changeTime['1'] <= 0) {
                 UIManager.instance.LoadTipsByStr('今天没有次数了')
                 return
@@ -133,6 +141,7 @@ export default class MainUIManager extends cc.Component {
      * @param type 1主界面 2 队伍 3商店
      */
     switchUI(type: number) {
+        AudioManager.instance.playAudio('openDialog')
         if (type == 1) MainUIManager.instance.showUI()
         if (type != 1 && MainUIManager.instance.content.active) {
             MainUIManager.instance.hideUI()

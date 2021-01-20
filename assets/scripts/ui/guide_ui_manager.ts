@@ -1,3 +1,5 @@
+import ActionManager from "../manager/action_manager"
+import AudioManager from "../manager/audio_manager"
 import BattleManager from "../manager/battle_manager"
 import DD from "../manager/dynamic_data_manager"
 import { BattleStatusType } from "../utils/enum"
@@ -20,10 +22,12 @@ export default class GuideUIManager extends cc.Component {
         this.certainBtn.node.on('click', this.hideUI, this)
     }
     showUI() {
-        this.content.active = true
+        AudioManager.instance.playAudio('openDialog')
+        ActionManager.instance.showDialog(this.content, this.mask)
         BattleManager.instance.status = BattleStatusType.pause
     }
     hideUI() {
+        AudioManager.instance.playAudio('closeDialog')
         DD.instance.guide[1] = true
         BattleManager.instance.status = BattleStatusType.play
         // if (this.cb) this.cb()

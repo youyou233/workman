@@ -7,6 +7,7 @@ import { ResType, SysType } from "../utils/enum"
 import StorageManager from "../manager/storage_manager"
 import AudioManager from "../manager/audio_manager"
 import ResourceManager from "../manager/resources_manager"
+import ActionManager from "../manager/action_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -43,7 +44,7 @@ export default class SysUIManager extends cc.Component {
         this.damageLabelBtn.node.on('click', () => { this.switchConfig(SysType.damageLabel) }, this)
     }
     switchConfig(type: SysType) {
-        //AudioManager.instance.playAudio('click')
+        AudioManager.instance.playAudio('click')
         if (type == SysType.bgm) {
             if (DD.instance.config[type]) {
                 AudioManager.instance.stopBGM()
@@ -56,8 +57,8 @@ export default class SysUIManager extends cc.Component {
         StorageManager.instance.saveDataByKey('config', DD.instance.config)
     }
     showUI() {
-        //.instance.showDialog(this.content, this.mask.node)
-        // AudioManager.instance.playAudio('ui_open')
+        ActionManager.instance.showDialog(this.content, this.mask.node)
+        AudioManager.instance.playAudio('openDialog')
         this.content.active = true
         this.frashUI()
     }
@@ -69,7 +70,7 @@ export default class SysUIManager extends cc.Component {
     }
     hideUI() {
         this.content.active = false
-        // AudioManager.instance.playAudio('ui_close')
+        AudioManager.instance.playAudio('closeDialog')
     }
 
 }

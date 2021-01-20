@@ -61,6 +61,7 @@ export default class DD extends cc.Component {
     set exp(val) {
         this._exp = val
         MainUIManager.instance.rankLabel.string = config.lvString[this.rank - 1]
+        MainUIManager.instance.haveGiftNode.active = this.haveGift()
     }
     get exp() {
         return this._exp
@@ -280,10 +281,32 @@ export default class DD extends cc.Component {
         this.rankGift[lv - 1][index] = true
         let reward = { 'money': lv * 100 }
         if (index == 0) {
-            let card = this.getRandomCard(lv)
-            reward[card.id] = card.lv
+            for (let i = 0; i < lv; i++) {
+                let card = this.getRandomCard(lv)
+                if (reward[card.id]) {
+                    reward[card.id] += card.lv
+                    if (reward[card.id] > 100) reward[card.id] = 100
+                } else {
+                    reward[card.id] = card.lv
+                }
+            }
         }
         this.getReward(reward)
         UIManager.instance.openUI(RewardUIManager, { name: config.uiName.rewardUI, param: [reward, '等级奖励'] }, 300)
+    }
+    haveGift() {
+        if (this.rankGift.length == 0) return true
+        for (let i = 0; i < this.rankGift.length; i++) {
+            if ([1, 5, 9, 13, 16].indexOf((i + 1)) != -1) {
+                continue
+            }
+            if (!this.rankGift[i][0]) {
+                return true
+            }
+            if (!this.rankGift[i][i] && this.isVip()) {
+                return true
+            }
+        }
+        return false
     }
 }
