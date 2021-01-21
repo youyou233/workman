@@ -59,7 +59,7 @@ export default class BattleSkillUIManager extends cc.Component {
             if (new Date().getTime() - this.touchStart < 100) {
                 let data = this.curCard.getComponent(CardItem).data
                 UIManager.instance.LoadMessageBox(data.name, data.dec, null, null, false)
-            } else if (cardSp.y < 80) {
+            } else if (cardSp.y < 75) {
                 this.curCard.getComponent(CardItem).onSkill()
             }
         }

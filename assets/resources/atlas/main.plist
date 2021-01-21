@@ -1909,6 +1909,21 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
+            <key>p8.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{32,32}</string>
+                <key>spriteSourceSize</key>
+                <string>{32,32}</string>
+                <key>textureRect</key>
+                <string>{{1237,1077},{32,32}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
             <key>rare_1.png</key>
             <dict>
                 <key>aliases</key>
@@ -2934,7 +2949,7 @@
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
-                <string>{-1,1}</string>
+                <string>{-2,2}</string>
                 <key>spriteSize</key>
                 <string>{34,32}</string>
                 <key>spriteSourceSize</key>
@@ -3603,7 +3618,7 @@
             <key>size</key>
             <string>{1319,1319}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:2bb995c385335a5707b96dbced14d40c:f15b80d386d05a6dfe9354a15e875fb7:693584bbba79ecadf35d6b2cf3a849c9$</string>
+            <string>$TexturePacker:SmartUpdate:521dc5030d996b1454bd1bed680f3e7f:991a56b8d81579e4a83a697d18dd8a40:693584bbba79ecadf35d6b2cf3a849c9$</string>
             <key>textureFileName</key>
             <string>main.png</string>
         </dict>

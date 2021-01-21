@@ -22,7 +22,12 @@ export default class GroupUIManager extends cc.Component {
     allGroupNode: cc.Node = null
     @property(cc.Node)
     maskNode: cc.Node = null
-
+    @property(cc.Button)
+    autoBetterBtn: cc.Button = null
+    @property(cc.Button)
+    sortBtn: cc.Button = null
+    @property(cc.Button)
+    allBtn: cc.Button = null
     isChange: boolean = false
     onLoad() {
         GroupUIManager.instance = this

@@ -91,7 +91,8 @@ export default class MonsterItem extends cc.Component {
         if (result == true) {
             this.getInCity()
         } else if (result) {
-            if (this.spd.x != result[0].x || this.spd.y != result[0].y) {
+            if (((this.spd.x != 0 && (this.spd.x * result[0].x < 0)) || (this.spd.x == 0 && result[0].x == 0)) &&
+                ((this.spd.y != 0 && (this.spd.y * result[0].y < 0)) || (this.spd.y == 0 && result[0].y == 0))) {
                 this.node.x -= result[1].x
                 this.node.y -= result[1].y
             }

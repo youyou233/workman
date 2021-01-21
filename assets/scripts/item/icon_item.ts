@@ -45,6 +45,9 @@ export default class IconItem extends cc.Component {
         this.qualitySp.spriteFrame = ResourceManager.instance.getSprite(
             ResType.main, 'rare_' + roleData['quality']
         )
+        let colors = [cc.Color.WHITE, cc.Color.WHITE, cc.Color.WHITE, cc.color(14, 30, 0), cc.color(14, 30, 0),
+        cc.Color.WHITE, cc.Color.WHITE, cc.Color.WHITE, cc.Color.WHITE, cc.color(72, 42, 0), cc.Color.WHITE]
+        this.lvLabel.node.color = colors[level - 1]
         this.data = data
         this.cb = cb
         this.lvLabel.string = data.lv + ''

@@ -97,5 +97,15 @@ export default class MainManager extends cc.Component {
             canvas.fitWidth = true
             canvas.fitHeight = false
         }
+
+        if (winSize.height / winSize.width > 2) {
+            //TODO:将贴上边的UI设置成固定位置
+            setTimeout(() => {
+                MainUIManager.instance.mainHeader.getComponent(cc.Widget).enabled = false
+                MainUIManager.instance.mainHeader.y = 640
+                MainUIManager.instance.battleHeader.getComponent(cc.Widget).enabled = false
+                MainUIManager.instance.battleHeader.y = 640
+            });
+        }
     }
 }

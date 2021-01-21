@@ -303,7 +303,7 @@ export default class DD extends cc.Component {
             if (!this.rankGift[i][0]) {
                 return true
             }
-            if (!this.rankGift[i][i] && this.isVip()) {
+            if (!this.rankGift[i][1] && this.isVip()) {
                 return true
             }
         }

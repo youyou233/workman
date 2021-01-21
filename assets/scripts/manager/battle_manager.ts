@@ -495,7 +495,7 @@ export default class BattleManager extends cc.Component {
         } else if (this.type == BattleType.unlimited) {
             return this.rank
         } else {
-            return this.rank
+            return Math.pow(1.3, this.rank)
             // if (this.rank <= 6) {
             //     return 1
             // } else {

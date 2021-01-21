@@ -47,9 +47,19 @@ export default class MixUIManager extends cc.Component {
             this.chanceLabel.string = '0%'
         } else {
             if (this.card.lv - level >= 10) {
-                this.chanceLabel.string = '1%'
+                this.chanceLabel.string = '0%'
             } else {
-                this.chanceLabel.string = 100 - (this.card.lv - level) * 10 + '%'
+                if (this.card.lv - level < 0) {
+                    let count = Math.floor(level / this.card.lv)
+                    let left = level % this.card.lv
+                    let add = this.card.lv - left
+                    if (add > 10) {
+                        add = 10
+                    }
+                    this.chanceLabel.string = 100 * count + (10 - add) * 10 + '%'
+                } else {
+                    this.chanceLabel.string = 100 - (this.card.lv - level) * 10 + '%'
+                }
             }
         }
     }
@@ -126,12 +136,22 @@ export default class MixUIManager extends cc.Component {
             return
         }
         let chance = Utils.getRandomNumber(100)
-        let target = 100 - (this.card.lv - level) * 10
-        if (target <= 0) target = 0
-        if (chance <= target) {
-            UIManager.instance.LoadTipsByStr('强化成功')
+        let num = 0
+        if (this.card.lv - level < 0) {
+            let count = Math.floor(level / this.card.lv)
+            let left = level % this.card.lv
+            let add = this.card.lv - left
+            if (add > 10) {
+                add = 10
+            }
+            num = count + (chance < (10 - add) * 10 ? 1 : 0)
+        } else {
+            num = chance < (this.card.lv - level) * 10 ? 1 : 0
+        }
+        if (num > 0) {
+            UIManager.instance.LoadTipsByStr('强化成功,增加了' + num + '级')
             let index = DD.instance.group.indexOf(this.card)
-            DD.instance.group[index].lv++
+            DD.instance.group[index].lv += num
             this.curIcon.init(DD.instance.group[index], null)
         } else {
             UIManager.instance.LoadTipsByStr('强化失败')

@@ -65,6 +65,10 @@ export default class MainUIManager extends cc.Component {
     sysBtn: cc.Button = null
     @property(cc.Node)
     haveGiftNode: cc.Node = null
+    @property(cc.Node)
+    mainHeader: cc.Node = null
+    @property(cc.Node)
+    battleHeader: cc.Node = null
     onLoad() {
         MainUIManager.instance = this
         this.groupBtn.node.on('click', () => {

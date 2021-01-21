@@ -232,6 +232,7 @@
                 <false/>
             </struct>
             <key type="filename">../assets/main_res/effect/p1.png</key>
+            <key type="filename">../assets/main_res/effect/p8.png</key>
             <key type="filename">../assets/main_res/icon/icon (14).png</key>
             <key type="filename">../assets/main_res/icon/icon (15).png</key>
             <key type="filename">../assets/main_res/icon/icon (16).png</key>

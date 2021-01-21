@@ -222,13 +222,16 @@ export default class LandItem extends cc.Component {
         let effect = 0
         if (land.id == 17) {
             this.stack = Math.ceil((land.stack + this.stack + 1) / 2)
+
             effect = 7
         } else {
             this.stack++
+            if (this.stack == 7) {
+                UIManager.instance.LoadTipsByStr('七星是最高星了')
+            }
         }
         if (this.stack > 7) {
             this.stack = 7
-            UIManager.instance.LoadTipsByStr('七星已经是最高星了')
         }
         if (land.id == 5) {
             effect = 6
@@ -353,7 +356,7 @@ export default class LandItem extends cc.Component {
                     BattleManager.instance.sun += num
                     this.skilling = false
                     EffectManager.instance.createDamageLabel(num + '', this.pos, false, { color: cc.Color.WHITE, outLineColor: cc.color(121, 0, 147), fontSize: 18 })
-                    EffectManager.instance.createPartical(this.role.roleData.effect[1], this.pos)
+                    EffectManager.instance.creatEffect(this.role.roleData.effect[1], cc.v2(this.pos.x, this.pos.y + 65))
                 }
                 break
             case 24:

@@ -42,7 +42,7 @@
     "name": "勇者",
     "atk": 100,
     "atkCD": 1,
-    "dec": "<color=#412900>明明很普通却那么自信\r\n在一定时间向全体赋予<color=#3AFFF3>攻击力增益</color>。</c>",
+    "dec": "<color=#412900>中二少年欢乐多！\r\n在一定时间向全体赋予<color=#3AFFF3>攻击力增益</color>。</c>",
     "param": null,
     "effect": [
       12,

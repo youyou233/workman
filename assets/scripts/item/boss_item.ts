@@ -88,7 +88,7 @@ export default class BossItem extends cc.Component {
             let tween = new cc.Tween(partical).to(1, { x: this.node.x, y: this.node.y })
                 .call(() => { this.bossStatus = BossStatusType.move }).start()
         }
-        if (arr = 0) {
+        if (arr.length == 0) {
             this.bossStatus = BossStatusType.move
         }
     }
@@ -98,12 +98,18 @@ export default class BossItem extends cc.Component {
         if (result == true) {
             this.getInCity()
         } else if (result) {
-            if (this.spd.x != result[0].x || this.spd.y != result[0].y) {
+            //判断方向与之前是否相同
+            if (((this.spd.x != 0 && (this.spd.x * result[0].x < 0)) || (this.spd.x == 0 && result[0].x == 0)) &&
+                ((this.spd.y != 0 && (this.spd.y * result[0].y < 0)) || (this.spd.y == 0 && result[0].y == 0))) {
                 this.node.x -= result[1].x
                 this.node.y -= result[1].y
             }
+            // if (this.spd.x != result[0].x || this.spd.y != result[0].y) {
+            //     this.node.x -= result[1].x
+            //     this.node.y -= result[1].y
+            // }
 
-            this.spd = Utils.deepCopy(result[0]) as cc.Vec2
+            this.spd = cc.v2(result[0].x, result[0].y)
         }
     }
     beAtk(damage, param) {

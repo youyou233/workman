@@ -28,9 +28,7 @@ export class Role {
         if (this.id == 12) {
             add = BattleManager.instance.sun * (2.5 + land.stack * 0.3) / 100
         }
-
-        //  console.log(this.atk * land.stack * rate)
-        return ((this.atk * Math.pow(1.2, this.lv - 1) + add) * land.stack * rate).toFixed(0)
+        return ((this.atk * Math.sqrt(this.lv) + add) * land.stack * rate).toFixed(0)
     }
 
     getAtkCD(land: LandItem) {

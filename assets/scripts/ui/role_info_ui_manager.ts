@@ -86,7 +86,7 @@ export default class RoleInfoUIManager extends cc.Component {
             node2.getChildByName('2').getComponent(cc.Label).string = `⭐*${skill.param.num}`
         } else {
             node1.getChildByName('1').getComponent(cc.Label).string = '攻击力'
-            node1.getChildByName('2').getComponent(cc.Label).string = (role.atk * Math.pow(1.2, card.lv - 1)).toFixed(0)
+            node1.getChildByName('2').getComponent(cc.Label).string = (role.atk * Math.sqrt(card.lv)).toFixed(0)
             node2.getChildByName('1').getComponent(cc.Label).string = '攻击间隔'
             node2.getChildByName('2').getComponent(cc.Label).string = role.atkCD + 's'
             let node3 = this.otherLabelContainer.children[2]
