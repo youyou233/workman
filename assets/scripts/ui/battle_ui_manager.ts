@@ -16,6 +16,7 @@ import UIManager from "../manager/ui_manager";
 import OnskillUIManager from "./onskill_ui_manager";
 import config from "../utils/config";
 import GuideUIManager from "./guide_ui_manager";
+import AudioManager from "../manager/audio_manager";
 
 const { ccclass, property } = cc._decorator
 
@@ -279,6 +280,7 @@ export default class BattleUIManager extends cc.Component {
                 this.touchStatus = TouchStatusType.clicked
                 this.showMergeStatus()
                 //展示能合成的节点
+                AudioManager.instance.playAudio('click_2')
             } else {
                 this.checkMerge(target)
                 this.curTouch = null

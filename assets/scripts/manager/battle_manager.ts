@@ -19,6 +19,7 @@ import MonsterItem from "../item/monster_item"
 import BossItem from "../item/boss_item"
 import GuideUIManager from "../ui/guide_ui_manager"
 import EffectManager from "./effect_manager"
+import AudioManager from "./audio_manager"
 
 const { ccclass, property } = cc._decorator
 /**
@@ -227,6 +228,8 @@ export default class BattleManager extends cc.Component {
     gameSuccess() {
         this.status = BattleStatusType.end
         Emitter.fire('Message_' + MessageType.gameSuccess)
+        AudioManager.instance.playAudio('success')
+
         let areaData = JsonManager.instance.getDataByName('area')[DD.instance.area]
         let reward = {
             'money': areaData.diff * DD.instance.getCurAreaDiff() * 10 * this.curLv
@@ -248,6 +251,7 @@ export default class BattleManager extends cc.Component {
         this.status = BattleStatusType.end
         Emitter.fire('Message_' + MessageType.gameFail)
         let reward = {}
+        AudioManager.instance.playAudio('fail')
         // BattleUIManager.instance.content.active = false
         switch (this.type) {
             case BattleType.boss:
@@ -356,19 +360,23 @@ export default class BattleManager extends cc.Component {
         let arr = this.findFree()
         if (arr.length == 0) {
             BattleUIManager.instance.showTip('战场已满')
+            AudioManager.instance.playAudio('error')
             return
         }
         if (free) {
             let pos = arr[Utils.getRandomNumber(arr.length - 1)]
             this.mapData[pos[0]][pos[1]].showRole(null, effect)
+            AudioManager.instance.playAudio('magic')
         } else {
             if (this.sun >= this.btnAddTimes * 10 + 10) {
                 let pos = arr[Utils.getRandomNumber(arr.length - 1)]
                 this.mapData[pos[0]][pos[1]].showRole()
                 this.sun -= (this.btnAddTimes * 10 + 10)
                 this.btnAddTimes++
+                AudioManager.instance.playAudio('generate')
             } else {
                 BattleUIManager.instance.showTip('打工魂不足')
+                AudioManager.instance.playAudio('error')
             }
         }
 

@@ -12,6 +12,7 @@ import config from "../utils/config"
 import BattleUIManager from "../ui/battle_ui_manager"
 import ChangeRoleUI from "../ui/change_role_ui"
 import LandItem from "./land_item"
+import AudioManager from "../manager/audio_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -110,6 +111,8 @@ export default class CardItem extends cc.Component {
                 }
                 break
         }
+        AudioManager.instance.playAudio('mix')
+
         BattleManager.instance.sun -= 30 * Math.pow(BattleManager.instance.skillTimes, 2)
         this.qualitySp.node.y = 60
         this.coolTimer = this.data.cool

@@ -16,6 +16,7 @@ import EffectManager from "../manager/effect_manager"
 import DD from "../manager/dynamic_data_manager"
 import { CardData } from "../interface/card_data"
 import UIManager from "../manager/ui_manager"
+import AudioManager from "../manager/audio_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -244,6 +245,7 @@ export default class LandItem extends cc.Component {
             EffectManager.instance.createDamageLabel(this.stack * 60 + '', this.pos, false, { color: cc.Color.WHITE, outLineColor: cc.color(121, 0, 147), fontSize: 18 })
         }
         land.setNull()
+        AudioManager.instance.playAudio('level_up')
         this.showRole(null, effect)
     }
     updateMergeStatus(close: boolean, landItem?: LandItem) {
@@ -312,10 +314,12 @@ export default class LandItem extends cc.Component {
                             let target = DD.instance.getMonsterByNode(monster)
                             target.beAtk(this.role.getAtkDamege(this), param)
                             EffectManager.instance.creatEffect(DD.instance.getRoleEffect(this.id, 0), monster.position)
+                            AudioManager.instance.playAudio('attack (' + (Utils.getRandomNumber(2) + 1) + ')')
                         } else {
                             let time = this.role.getAtkType() == AtkType.chain ? 0.1 : 0.5
                             BattleUIManager.instance.addThrow(this.id, JSON.parse(JSON.stringify(this.pos)), monster.position, time, this.role.getAtkDamege(this),
                                 DD.instance.getMonsterByNode(monster).oid, this.role.getAtkType(), param)
+                            AudioManager.instance.playAudio('swish-' + (Utils.getRandomNumber(3) + 1))
                         }
                     }
                     break
@@ -349,6 +353,7 @@ export default class LandItem extends cc.Component {
         let name = 'role_' + this.id + '_' + RoleActionType.sing
         this.roleAnima.play(name).speed = 1
         this.skilling = true
+        AudioManager.instance.playAudio('magic')
         switch (this.id) {
             case 10:
                 this.actionCb[RoleActionType.sing] = () => {
