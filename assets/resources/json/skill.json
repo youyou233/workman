@@ -237,8 +237,8 @@
     "skillType": 1,
     "param": {
       "type": 3,
-      "num": 30,
-      "add": 10
+      "num": 100,
+      "add": 50
     }
   },
   "19": {

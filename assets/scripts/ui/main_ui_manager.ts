@@ -69,8 +69,14 @@ export default class MainUIManager extends cc.Component {
     mainHeader: cc.Node = null
     @property(cc.Node)
     battleHeader: cc.Node = null
+    @property(cc.Node)
+    spNode: cc.Node = null
+    @property(cc.Node)
+    UINode: cc.Node = null
     onLoad() {
         MainUIManager.instance = this
+        this.UINode.active = false
+        this.spNode.active = true
         this.groupBtn.node.on('click', () => {
             this.switchUI(2)
         }, this)
@@ -126,6 +132,7 @@ export default class MainUIManager extends cc.Component {
         this.content.active = true
         // this.clearContainer()
         this.frashGitfs()
+
     }
     frashGitfs() {
         this.giftContainer.children.forEach((item: cc.Node, index) => {

@@ -368,7 +368,7 @@ export default class BattleManager extends cc.Component {
                 this.sun -= (this.btnAddTimes * 10 + 10)
                 this.btnAddTimes++
             } else {
-                BattleUIManager.instance.showTip('阳光不足')
+                BattleUIManager.instance.showTip('打工魂不足')
             }
         }
 

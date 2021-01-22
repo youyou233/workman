@@ -309,4 +309,22 @@ export default class DD extends cc.Component {
         }
         return false
     }
+
+    getCardsBySort(sortType: number = 0, lv: number = 0, qua: number = 0, roleType: number[] = []) {
+        let list: CardData[] = []
+        list = this.cards.filter((item, index) => {
+            let data = JsonManager.instance.getDataByName('role')[item.id]
+            return item.lv >= lv && (qua == 0 || data.quality >= qua) && (roleType.indexOf(+data.roleType) != -1)
+        })
+        if (sortType) {
+            list.sort((a, b) => {
+                if (sortType == 1) {
+                    return a.lv - b.lv
+                } else {
+                    return b.lv - a.lv
+                }
+            })
+        }
+        return list
+    }
 }

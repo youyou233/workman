@@ -77,7 +77,7 @@ export default class CardItem extends cc.Component {
     onSkill() {
         if (!this.data.isActive && this.qualitySp.node.y == 60) return
         if (BattleManager.instance.sun < 30 * Math.pow(BattleManager.instance.skillTimes, 2)) {
-            UIManager.instance.LoadTipsByStr('阳光不足')
+            UIManager.instance.LoadTipsByStr('打工魂不足')
             return
         }
         switch (this.data.skillType) {

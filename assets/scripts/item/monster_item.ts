@@ -148,9 +148,9 @@ export default class MonsterItem extends cc.Component {
     }
     onDied() {
         if (BattleManager.instance.type == BattleType.unlimited) {
-            BattleManager.instance.sun += 10
+            EffectManager.instance.creatSunEffect(10, this.node.position)
         } else {
-            BattleManager.instance.sun += 10 * BattleManager.instance.rank
+            EffectManager.instance.creatSunEffect(10 * BattleManager.instance.rank, this.node.position)
         }
         if (this.explosion) {
             //发射爆炸

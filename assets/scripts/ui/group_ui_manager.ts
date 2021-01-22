@@ -8,6 +8,7 @@ import UIManager from "../manager/ui_manager"
 import config from "../utils/config"
 import { Utils } from "../utils/utils"
 import RoleInfoUIManager from "./role_info_ui_manager"
+import SortUIManager from "./sort_ui_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -29,11 +30,17 @@ export default class GroupUIManager extends cc.Component {
     @property(cc.Button)
     allBtn: cc.Button = null
     isChange: boolean = false
+    @property(cc.ScrollView)
+    scroll: cc.ScrollView = null
+
     onLoad() {
         GroupUIManager.instance = this
         this.maskNode.on('click', this.touchMask, this)
+        this.autoBetterBtn.node.on('click', this.changeBetter, this)
+        this.allBtn.node.on('click', this.resetSort, this)
+        this.sortBtn.node.on('click', this.openSortUI, this)
     }
-    showUI() {
+    showUI(list?) {
         this.touchMask()
         this.clearContainers()
         this.content.active = true
@@ -42,10 +49,30 @@ export default class GroupUIManager extends cc.Component {
             icon.y = 0
             icon.getComponent(IconItem).init(item, this.onChoose.bind(this))
         })
-        DD.instance.cards.forEach((item) => {
-            let icon = PoolManager.instance.createObjectByName('iconItem', this.allGroupNode)
-            icon.getComponent(IconItem).init(item, this.onChoose.bind(this))
-        })
+        if (SortUIManager.instance) {
+            list = SortUIManager.instance.getList()
+        }
+        if (list) {
+            list.forEach((item, index) => {
+                if (index < 25) {
+                    let icon = PoolManager.instance.createObjectByName('iconItem', this.allGroupNode)
+                    icon.getComponent(IconItem).init(item, this.onChoose.bind(this))
+                }
+            })
+            if (list.length > 25) {
+                //  UIManager.instance.LoadTipsByStr('最多只展示25个角色')
+            }
+        } else {
+            DD.instance.cards.forEach((item, index) => {
+                if (index < 25) {
+                    let icon = PoolManager.instance.createObjectByName('iconItem', this.allGroupNode)
+                    icon.getComponent(IconItem).init(item, this.onChoose.bind(this))
+                }
+            })
+            if (DD.instance.cards.length > 25) {
+                // UIManager.instance.LoadTipsByStr('最多只展示25个角色')
+            }
+        }
         setTimeout(() => {
             this.maskNode.height = this.allGroupNode.height + 50
         }, 100);
@@ -61,11 +88,35 @@ export default class GroupUIManager extends cc.Component {
             PoolManager.instance.removeObjectByName('iconItem', this.allGroupNode.children[j])
         }
     }
+    changeBetter() {
+        if (this.isChange) return
+        for (let i = 0; i < 5; i++) {
+            let group = Utils.deepCopy(DD.instance.group[i]) as CardData
+            let change = group
+            let changeIndex = -1
+            for (let j = 0; j < DD.instance.cards.length; j++) {
+                let card = DD.instance.cards[j]
+                if (card.id == change.id && card.lv > change.lv) {
+                    change = Utils.deepCopy(card) as CardData
+                    changeIndex = j
+                }
+            }
+            if (changeIndex != -1) {
+                DD.instance.group[i] = change
+                DD.instance.group[i].group = true
+                DD.instance.cards[changeIndex] = group
+                DD.instance.cards[changeIndex].group = false
+            }
+        }
+        UIManager.instance.LoadTipsByStr('更新最强成功')
+        this.showUI()
+    }
     change: CardData = null
     onChange(changeData: CardData) {
         this.isChange = true
         this.maskNode.active = true
         this.change = changeData
+        this.scroll.scrollToTop(0.2)
         AudioManager.instance.playAudio('click')
     }
     onChoose(data: CardData) {
@@ -92,5 +143,16 @@ export default class GroupUIManager extends cc.Component {
         this.maskNode.active = false
         AudioManager.instance.playAudio('closeDialog')
 
+    }
+    openSortUI() {
+        UIManager.instance.openUI(SortUIManager, { name: config.uiName.sortUI })
+    }
+    onSort() {
+        if (this.isChange) return
+
+    }
+    resetSort() {
+        if (this.isChange) return
+        this.showUI()
     }
 }

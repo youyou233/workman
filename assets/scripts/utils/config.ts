@@ -2,7 +2,7 @@ let resConfig = {
     altasArr: ['main', 'battle', 'monster', 'bg'],
     jsonArr: ['role', 'skill', 'buff', 'monster', 'area'],
     prefabArr: ['cardItem', 'landItem', 'monsterItem', 'bossItem', 'throwItem', 'commonItem', 'effectItem', 'damageLabel', 'iconItem', 'giftItem',
-        'shopItem', 'rewardItem', 'areaItem', 'lvItem', 'particalItem']
+        'shopItem', 'rewardItem', 'areaItem', 'lvItem', 'particalItem', 'throwCbItem']
 }
 
 let uiName = {
@@ -16,6 +16,7 @@ let uiName = {
     changeRoleUI: 'change_role_ui',
     sysUI: 'sys_ui',
     guideUI: 'guide_ui',
+    sortUI: 'sort_ui',
 }
 
 let aniConfig = {

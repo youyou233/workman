@@ -8,7 +8,7 @@ import BattleManager from "./battle_manager";
 import BattleUIManager from "../ui/battle_ui_manager";
 import DamageLabel from "../item/damage_label";
 import ResourceManager from "./resources_manager";
-import { SysType } from "../utils/enum";
+import { ResType, SysType } from "../utils/enum";
 
 const { ccclass, property } = cc._decorator;
 /**
@@ -72,10 +72,20 @@ export default class EffectManager extends cc.Component {
             par.stopSystem()
             par.file = res
             par.custom = true
+            let sf = ['', '', 'p3', '2_power', 'p5', 'p6', 'p7', 'p8', 'p7', '2_power']
+            par.spriteFrame = ResourceManager.instance.getSprite(ResType.main, sf[id - 1])
             par.custom = false
             par.resetSystem()
         })
         return partical
         //  console.log(BattleUIManager.instance.particalContaiher.children.length)
+    }
+
+    creatSunEffect(num: number, startPos) {
+        let pos = this.getWorldPos(BattleUIManager.instance.sunLabel.node, null)
+        let parNode = this.createPartical(10, startPos)
+        let tween = new cc.Tween(parNode).to(0.5, { x: pos.x, y: pos.y }, cc.easeIn(2)).call(() => {
+            BattleManager.instance.sun += num
+        }).start()
     }
 }

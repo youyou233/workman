@@ -29,8 +29,12 @@ export default class LvItem extends cc.Component {
     giftLabel: cc.Label[] = []
     @property(cc.Button)
     giftBtn: cc.Button[] = []
+    @property(cc.Label)
+    giftBtnLabel: cc.Label[] = []
     @property(cc.Node)
     unlockContainer: cc.Node = null
+    @property(cc.Label)
+    titleLabel: cc.Label = null
     lv: number = null
     onLoad() {
         this.giftBtn.forEach((item, index) => {
@@ -49,6 +53,7 @@ export default class LvItem extends cc.Component {
             this.giftNode.active = false
             this.unlockNode.active = true
             this.clearContainer()
+            this.titleLabel.string = '解锁'
             let roles = config.unlockRole[levelIndex]
             for (let i = 0; i < roles.length; i++) {
                 let icon = PoolManager.instance.createObjectByName('iconItem', this.unlockContainer)
@@ -60,8 +65,10 @@ export default class LvItem extends cc.Component {
         } else {
             this.giftNode.active = true
             this.unlockNode.active = false
+            this.titleLabel.string = '礼物'
             data.forEach((element, index) => {
                 this.giftBtn[index].node.active = !element
+                this.giftBtnLabel[index].string = !element ? '领取' : ''
             });
             this.giftLabel[1].string = '金币' + 100 * lv
         }

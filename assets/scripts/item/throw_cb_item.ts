@@ -19,13 +19,14 @@ export default class ThrowCbItem extends cc.Component {
         this.sp.spriteFrame = ResourceManager.instance.getSprite(ResType.main, `throw (${id})`)
         this.node.stopAllActions()
         this.node.angle = 0
-        start.y += 65
+        this.cb = cb
+        //  start.y += 65
         this.node.setPosition(start)
         if (jump) {
             let jumpPos = cc.v2((start.x + end.x) / 2, (start.y + end.y) + 200)
             let tween = new cc.Tween().target(this.node)
-                .to(time / 2, { x: jumpPos.x, y: jumpPos.y, angle: 450 }, cc.easeIn(3))
-                .to(time / 2, { x: end.x, y: end.y, angle: 900 }, cc.easeOut(3))
+                .to(time / 2, { x: jumpPos.x, y: jumpPos.y, angle: 450 }, cc.easeOut(3))
+                .to(time / 2, { x: end.x, y: end.y, angle: 900 }, cc.easeIn(3))
                 .call(this.endAni.bind(this)).start()
         } else {
             let tween = new cc.Tween().target(this.node)
@@ -35,7 +36,7 @@ export default class ThrowCbItem extends cc.Component {
     }
     endAni() {
         this.cb()
-        PoolManager.instance.removeObjectByName('throwItem', this.node)
+        PoolManager.instance.removeObjectByName('throwCbItem', this.node)
 
     }
 }

@@ -50,10 +50,10 @@ export default class MainManager extends cc.Component {
             StorageManager.instance.savePlayerData()
             this.loadConfigSuccess()
 
-            UIManager.instance.LoadMessageBox('欢迎', '测试奖励发放', () => {
-                DD.instance.ticket = 1000
-                DD.instance.exp = 4000
-                DD.instance.vip = new Date(9999999999999).getTime()
+            UIManager.instance.LoadMessageBox('欢迎新的打工人', '感谢您对我们支持！在此送上100张招待券！', () => {
+                DD.instance.ticket = 100
+                // DD.instance.exp = 4000
+                // DD.instance.vip = new Date(9999999999999).getTime()
                 StorageManager.instance.savePlayerData()
             })
         } else {
@@ -81,6 +81,8 @@ export default class MainManager extends cc.Component {
         if (DD.instance.config[SysType.bgm]) {
             AudioManager.instance.playBGMByID()
         }
+        MainUIManager.instance.spNode.active = false
+        MainUIManager.instance.UINode.active = true
     }
     //数据加载
     dataLoaded() {

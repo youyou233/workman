@@ -11,6 +11,7 @@ import EffectManager from "../manager/effect_manager"
 import { Utils } from "../utils/utils"
 import LandItem from "./land_item"
 import BattleUIManager from "../ui/battle_ui_manager"
+import ThrowCbItem from "./throw_cb_item"
 
 const { ccclass, property } = cc._decorator
 
@@ -46,6 +47,7 @@ export default class BossItem extends cc.Component {
         this.hpProgress.progress = val / this.maxHp
         if (this.hp <= 0) {
             Emitter.fire('message_' + MessageType.killBoss)
+            EffectManager.instance.creatSunEffect(0, this.node.position)
             this.removeSelf()
         }
     }
@@ -75,7 +77,7 @@ export default class BossItem extends cc.Component {
         this.buffMap = {}
         this.skillTimer = 4
         this.randomPos[1] = cc.v3(250, 400)
-        this.maxHp = this.hp = monsterData.hp * BattleManager.instance.getHpmult() + addHp
+        this.maxHp = this.hp = (monsterData.hp * BattleManager.instance.getHpmult() + addHp)
         this.path = 0
         this.particalNode.children.forEach((item) => { item.active = false })
 
@@ -187,23 +189,29 @@ export default class BossItem extends cc.Component {
             case 12:
                 for (let i = 0; i < 3; i++) {
                     let x = Utils.getRandomNumber(BattleManager.instance.mapData.length - 1)
-                    let y = Utils.getRandomNumber(BattleManager.instance.mapData.length[x] - 1)
+                    let y = Utils.getRandomNumber(BattleManager.instance.mapData[x].length - 1)
                     let land = BattleManager.instance.mapData[x][y]
-                    if (land && land.id) {
-                        land.isDiz = true
-                    }
+                    let tcb = PoolManager.instance.createObjectByName('throwCbItem', BattleUIManager.instance.content)
+                    tcb.getComponent(ThrowCbItem).init(25, cc.v2(this.node.x, this.node.y), cc.v2(land.pos.x, land.pos.y + 65), 0.8, () => {
+                        if (land && land.id) {
+                            land.isDiz = true
+                        }
+                    }, false)
+
                 }
                 break
             case 18:
                 list = BattleManager.instance.findAllLandItem()
                 for (let i = 0; i < list.length; i++) {
-                    list[i].showRole()
+                    list[i].showRole(null, 6)
                 }
+                // EffectManager.instance.createPartical(6, cc.v2(this.node.x, this.node.y))
                 break
             case 21:
                 for (let i = 0; i < 5; i++) {
                     BattleManager.instance.addMonster()
                 }
+                EffectManager.instance.createPartical(5, cc.v2(this.node.x, this.node.y))
                 break
             case 32:
                 //找到一个非空得
@@ -218,7 +226,7 @@ export default class BossItem extends cc.Component {
                     if (list[random].stack > 7) {
                         list[random].stack = 7
                     }
-                    list[random].showRole()
+                    list[random].showRole(null, 7)
                 }
 
                 break

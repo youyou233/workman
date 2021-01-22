@@ -64,7 +64,12 @@ export default class StorageManager extends cc.Component {
             DD.instance.rankGift = data['RG']
             DD.instance.changeTime = data['CT']
             DD.instance.vip = data['V']
-            DD.instance.guide = data['GU']
+            if (data['GU']) {
+                DD.instance.guide = data['GU']
+            } else {
+                DD.instance.guide = { 1: false, 2: false, 3: false, 4: false }
+            }
+
             DD.instance.exp = data['E']
             DD.instance.checkDailyFrash(data['LL'])
             MainManager.instance.dataLoaded()
