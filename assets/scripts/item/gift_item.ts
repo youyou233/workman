@@ -119,6 +119,17 @@ export default class GiftItem extends cc.Component {
                 }
             }
         }
+        //TODO: 新手特别礼包
+        if (this.data.needTime == 10) {
+            for (let i = 0; i < 5; i++) {
+                let card = DD.instance.getRandomCard()
+                if (reward[card.id]) {
+                    reward[card.id]++
+                } else {
+                    reward[card.id] = 1
+                }
+            }
+        }
         return reward
     }
     remove() {

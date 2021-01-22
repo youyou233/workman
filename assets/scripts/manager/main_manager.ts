@@ -7,6 +7,9 @@ import DD from "./dynamic_data_manager";
 import StorageManager from "./storage_manager";
 import { SysType } from "../utils/enum";
 import AudioManager from "./audio_manager";
+import SDKManager from "./sdk_manager";
+import RewardUIManager from "../ui/reward_ui_manager";
+import config from "../utils/config";
 
 const { ccclass, property } = cc._decorator;
 
@@ -24,6 +27,7 @@ export default class MainManager extends cc.Component {
         MainManager.instance = this
         this.setDesignResolution()
         ResourceManager.instance.init()
+        SDKManager.instance.init()
         //加载资源
     }
     //资源加载
@@ -50,8 +54,19 @@ export default class MainManager extends cc.Component {
             StorageManager.instance.savePlayerData()
             this.loadConfigSuccess()
 
-            UIManager.instance.LoadMessageBox('欢迎新的打工人', '感谢您对我们支持！在此送上100张招待券！', () => {
-                DD.instance.ticket = 100
+            UIManager.instance.LoadMessageBox('欢迎新的打工人', '感谢您对我们支持！在此送上新手大礼包，打开可以获得几个随机角色=w=祝您玩的开心！', () => {
+                //DD.instance.ticket = 100
+                let reward = {
+                    ticket: 100,
+                    bag: {
+                        needTime: 10,
+                        quality: 5,
+                        isHave: true
+                    }
+                }
+                DD.instance.getReward(reward)
+                UIManager.instance.openUI(RewardUIManager, { name: config.uiName.rewardUI, param: [reward, '新手大礼包'] }, 300)
+
                 // DD.instance.exp = 4000
                 // DD.instance.vip = new Date(9999999999999).getTime()
                 StorageManager.instance.savePlayerData()
