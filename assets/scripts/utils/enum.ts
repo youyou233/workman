@@ -98,3 +98,10 @@ export enum SysType {
     damageLabel = 3,
     effect = 4//特效
 }
+
+export enum GuideType {
+    battle = 1,
+    group = 2,
+    main = 3,
+    main2 = 4
+}

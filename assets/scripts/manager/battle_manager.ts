@@ -1,4 +1,4 @@
-import { BattleStatusType, BattleType, ResType, SkillType } from "../utils/enum"
+import { BattleStatusType, BattleType, GuideType, ResType, SkillType } from "../utils/enum"
 import BattleUIManager from "../ui/battle_ui_manager"
 import { Emitter } from "../utils/emmiter"
 import { MessageType } from "../utils/message"
@@ -219,12 +219,16 @@ export default class BattleManager extends cc.Component {
 
         this.status = BattleStatusType.play
         if (!DD.instance.guide[1]) {
-            UIManager.instance.openUI(GuideUIManager, { name: config.uiName.guideUI })
+            BattleManager.instance.status = BattleStatusType.pause
+            UIManager.instance.openUI(GuideUIManager, { name: config.uiName.guideUI, param: [this.closeBattleGuide, GuideType.battle] })
         }
         BattleUIManager.instance.showTip('游戏开始')
 
     }
-
+    closeBattleGuide() {
+        DD.instance.guide[1] = true
+        BattleManager.instance.status = BattleStatusType.play
+    }
     gameSuccess() {
         this.status = BattleStatusType.end
         Emitter.fire('Message_' + MessageType.gameSuccess)

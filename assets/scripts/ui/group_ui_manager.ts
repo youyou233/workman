@@ -6,7 +6,9 @@ import PoolManager from "../manager/pool_manager"
 import StorageManager from "../manager/storage_manager"
 import UIManager from "../manager/ui_manager"
 import config from "../utils/config"
+import { GuideType } from "../utils/enum"
 import { Utils } from "../utils/utils"
+import GuideUIManager from "./guide_ui_manager"
 import RoleInfoUIManager from "./role_info_ui_manager"
 import SortUIManager from "./sort_ui_manager"
 
@@ -32,13 +34,15 @@ export default class GroupUIManager extends cc.Component {
     isChange: boolean = false
     @property(cc.ScrollView)
     scroll: cc.ScrollView = null
-
+    @property(cc.Button)
+    guideBtn: cc.Button = null
     onLoad() {
         GroupUIManager.instance = this
         this.maskNode.on('click', this.touchMask, this)
         this.autoBetterBtn.node.on('click', this.changeBetter, this)
         this.allBtn.node.on('click', this.resetSort, this)
         this.sortBtn.node.on('click', this.openSortUI, this)
+        this.guideBtn.node.on('click', this.showGuideNode, this)
     }
     showUI(list?) {
         this.touchMask()
@@ -76,6 +80,16 @@ export default class GroupUIManager extends cc.Component {
         setTimeout(() => {
             this.maskNode.height = this.allGroupNode.height + 50
         }, 100);
+        if (DD.instance.guide[GuideType.main] && !DD.instance.guide[GuideType.group]) {
+            this.showGuideNode()
+        }
+    }
+    showGuideNode() {
+        UIManager.instance.openUI(GuideUIManager, {
+            name: config.uiName.guideUI, param: [() => {
+                DD.instance.guide[GuideType.group] = true
+            }, GuideType.group]
+        })
     }
     hideUI() {
         this.content.active = false

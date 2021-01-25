@@ -6,8 +6,9 @@ import PoolManager from "../manager/pool_manager"
 import ResourceManager from "../manager/resources_manager"
 import UIManager from "../manager/ui_manager"
 import config from "../utils/config"
-import { BattleType, ResType } from "../utils/enum"
+import { BattleType, GuideType, ResType } from "../utils/enum"
 import GroupUIManager from "./group_ui_manager"
+import GuideUIManager from "./guide_ui_manager"
 import RankUIManager from "./rank_ui_manager"
 import ShopUIManager from "./shop_ui_manager"
 import SysUIManager from "./sys_ui_manager"
@@ -52,7 +53,6 @@ export default class MainUIManager extends cc.Component {
     morePageMask: cc.Node = null
     @property(cc.Node)
     moreBtn: cc.Node = null
-
     @property(cc.Node)
     moreCloseBtn: cc.Node = null
     @property(cc.Label)
@@ -73,6 +73,16 @@ export default class MainUIManager extends cc.Component {
     spNode: cc.Node = null
     @property(cc.Node)
     UINode: cc.Node = null
+    @property(cc.ProgressBar)
+    expProgress: cc.ProgressBar = null
+    @property(cc.Label)
+    expLabel: cc.Label = null
+    @property(cc.Button)
+    guideBtn: cc.Button = null
+    @property(cc.Button)
+    openVipBtn: cc.Button = null
+    @property(cc.Node)
+    leftVipNode: cc.Node = null
     onLoad() {
         MainUIManager.instance = this
         this.UINode.active = false
@@ -127,12 +137,48 @@ export default class MainUIManager extends cc.Component {
             BattleManager.instance.initBattle(BattleType.boss)
             this.moreTypePage.active = false
         }, this)
+        this.guideBtn.node.on('click', this.showGuide, this)
+        this.openVipBtn.node.on('click', () => {
+            if (!DD.instance.isVip()) {
+                UIManager.instance.LoadMessageBox('开通精英', '是否花费100张招待券兑换一周精英', (isOK) => {
+                    if (isOK) {
+                        if (DD.instance.ticket > 100) {
+                            DD.instance.openVip()
+                            this.frashVipNode()
+                        } else {
+                            UIManager.instance.LoadTipsByStr('您的招待券不足')
+                        }
+                    }
+                })
+            }
+        }, this)
     }
     showUI() {
         this.content.active = true
         // this.clearContainer()
         this.frashGitfs()
-
+        if (DD.instance.guide[GuideType.battle] && !DD.instance.guide[GuideType.main]) {
+            this.showGuide()
+        }
+        this.frashVipNode()
+    }
+    showGuide() {
+        UIManager.instance.openUI(GuideUIManager, {
+            name: config.uiName.guideUI, param: [() => {
+                DD.instance.guide[GuideType.main] = true
+            }, GuideType.main]
+        })
+    }
+    frashVipNode() {
+        let iconNode = this.leftVipNode.getChildByName('icon')
+        if (DD.instance.isVip()) {
+            let left = Math.ceil((DD.instance.vip - new Date().getTime()) / 1000 / 24 / 60)
+            this.leftVipNode.getComponent(cc.Label).string = '剩余' + left + '天'
+            iconNode.active = false
+        } else {
+            this.leftVipNode.getComponent(cc.Label).string = '100   /周'
+            iconNode.active = true
+        }
     }
     frashGitfs() {
         this.giftContainer.children.forEach((item: cc.Node, index) => {

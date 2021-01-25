@@ -187,7 +187,7 @@ export default class BossItem extends cc.Component {
                 EffectManager.instance.creatEffect(2, this.node.position)
                 break
             case 12:
-                for (let i = 0; i < 3; i++) {
+                for (let i = 0; i < 1; i++) {
                     let x = Utils.getRandomNumber(BattleManager.instance.mapData.length - 1)
                     let y = Utils.getRandomNumber(BattleManager.instance.mapData[x].length - 1)
                     let land = BattleManager.instance.mapData[x][y]

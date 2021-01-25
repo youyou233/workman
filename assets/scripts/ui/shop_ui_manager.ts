@@ -5,7 +5,10 @@ import AudioManager from "../manager/audio_manager"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
 import UIManager from "../manager/ui_manager"
+import config from "../utils/config"
+import { GuideType } from "../utils/enum"
 import { Utils } from "../utils/utils"
+import GuideUIManager from "./guide_ui_manager"
 
 const { ccclass, property } = cc._decorator
 
@@ -21,9 +24,12 @@ export default class ShopUIManager extends cc.Component {
     @property(cc.Label)
     lastFrashLabel: cc.Label = null
     frashTimer: any = null
+    @property(cc.Button)
+    guideBtn: cc.Button = null
     onLoad() {
         ShopUIManager.instance = this
         this.freashBtn.node.on('click', this.freash, this)
+        this.guideBtn.node.on('click', this.showGuide, this)
     }
     showUI() {
         this.content.active = true
@@ -48,7 +54,16 @@ export default class ShopUIManager extends cc.Component {
         } else {
             this.timeFrash()
         }
-
+        if (DD.instance.guide[GuideType.main] && !DD.instance.guide[GuideType.main2]) {
+            this.showGuide()
+        }
+    }
+    showGuide() {
+        UIManager.instance.openUI(GuideUIManager, {
+            name: config.uiName.guideUI, param: [() => {
+                DD.instance.guide[GuideType.main2] = true
+            }, GuideType.main2]
+        })
     }
     hideUI() {
         this.content.active = false

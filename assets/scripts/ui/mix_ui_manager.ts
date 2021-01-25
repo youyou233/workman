@@ -77,7 +77,7 @@ export default class MixUIManager extends cc.Component {
         ActionManager.instance.showDialog(this.content, this.mask)
         this.curIcon.init(card, null)
         this.card = card
-        this.mixIcon.init(null, null)
+        this.mixIcon.init(null, null, false)
         this.choosedCards = []
         this.frashContainer()
     }
@@ -115,11 +115,11 @@ export default class MixUIManager extends cc.Component {
             this.choosedCards = this.choosedCards.concat(groupCard)
             DD.instance.cards.splice(index, 1)
             this.curIcon.init(swtichCard, null)
-            this.mixIcon.init(groupCard, null)
+            this.mixIcon.init(groupCard, null, false)
             UIManager.instance.LoadTipsByStr('自动将高级的替换到队伍了')
             this.frashContainer()
         } else {
-            this.mixIcon.init(card, null)
+            this.mixIcon.init(card, null, false)
             this.choosedCards = this.choosedCards.concat(Utils.deepCopy(DD.instance.cards[index]) as any)
             DD.instance.cards.splice(index, 1)
             this.frashContainer()
@@ -146,7 +146,7 @@ export default class MixUIManager extends cc.Component {
             }
             num = count + (chance < (10 - add) * 10 ? 1 : 0)
         } else {
-            num = chance < (this.card.lv - level) * 10 ? 1 : 0
+            num = chance < (10 - this.card.lv + level) * 10 ? 1 : 0
         }
         if (num > 0) {
             UIManager.instance.LoadTipsByStr('强化成功,增加了' + num + '级')

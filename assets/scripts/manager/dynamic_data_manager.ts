@@ -50,11 +50,19 @@ export default class DD extends cc.Component {
     }
     get rank() {
         for (let i = 1; i <= 20; i++) {
-            if (this.exp < 10 + (i - 1) * i * 10) {
+            if (i == 20 || this.exp > 4000) {
+                return 20
+            }
+            if (this.exp < (10 + (i - 1) * i * 10)) {
                 return i
             }
+            if (this.exp < 0) {
+                console.log('出错了 ')
+                return 1
+            }
         }
-        return 20
+        console.log('出错了 ')
+        //return 20
         //   return Math.floor(this.exp)
     }
     _exp: number = 0
@@ -62,6 +70,14 @@ export default class DD extends cc.Component {
         this._exp = val
         MainUIManager.instance.rankLabel.string = config.lvString[this.rank - 1]
         MainUIManager.instance.haveGiftNode.active = this.haveGift()
+        let rank = this.getRankByExp(val)
+        if (rank[0] == 20) {
+            MainUIManager.instance.expProgress.progress = 1
+            MainUIManager.instance.expLabel.string = `${this.exp}`
+        } else {
+            MainUIManager.instance.expProgress.progress = this.exp / rank[1]
+            MainUIManager.instance.expLabel.string = `${this.exp}/${rank[1]}`
+        }
     }
     get exp() {
         return this._exp
@@ -103,7 +119,16 @@ export default class DD extends cc.Component {
         }
     }
     checkCanUnlockGift() {
-        return !this.giftData.some((item) => { return item.isStart == true })
+        if (!this.isVip()) {
+            return !this.giftData.some((item) => { return item.isStart == true })
+        } else {
+            return true
+        }
+    }
+    openVip() {
+        this.ticket -= 100
+        this.vip = new Date().getTime() + 1000 * 7 * 24 * 60
+        StorageManager.instance.savePlayerData()
     }
     getReward(rewards) {
         let keys = Object.keys(rewards)
@@ -118,6 +143,7 @@ export default class DD extends cc.Component {
                     this.addBag(rewards[keys[i]])
                     break
                 case 'exp':
+                    this.checkCanLevelUp(this.rank, rewards[keys[i]])
                     this.exp += rewards[keys[i]]
                     break
                 default:
@@ -131,6 +157,27 @@ export default class DD extends cc.Component {
             }
         }
         StorageManager.instance.savePlayerData()
+    }
+    checkCanLevelUp(curRank, exp) {
+        if (this.exp == 0) return false
+        let rank = this.getRankByExp(this.exp + exp)[0]
+        if (rank > curRank) {
+            //TODO: 展示升级的弹框
+            UIManager.instance.LoadTipsByStr('等级提升，新的区域解锁！')
+        }
+    }
+    getRankByExp(exp) {
+        if (exp < 10) {
+            return [1, 10]
+        }
+        for (let i = 2; i <= 20; i++) {
+            if (i == 20) {
+                return [20, 0]
+            }
+            if (this.exp < (10 + (i - 1) * i * 10)) {
+                return [i, (10 + (i - 1) * i * 10)]
+            }
+        }
     }
     onCost(data) {
         let keys = Object.keys(data)
@@ -149,7 +196,9 @@ export default class DD extends cc.Component {
      */
     frashShop() {
         this.shopData = []
-        for (let i = 0; i <= Math.floor(this.rank / 20 * 8); i++) {
+        let length = Math.floor(this.rank / 10 * 8)
+        if (length > 8) length = 8
+        for (let i = 0; i <= length; i++) {
             let cardData = this.getRandomCard()
             let qua = JsonManager.instance.getDataByName('role')[cardData.id].quality
             this.shopData.push({
@@ -240,7 +289,7 @@ export default class DD extends cc.Component {
         // DD.instance.exp += this.area + data.diff
         if (lv == data.rank[data.diff - 1]) {
             this.areaData[this.area].rank[data.diff - 1]++
-            UIManager.instance.LoadTipsByStr('新地图已解锁')
+            // UIManager.instance.LoadTipsByStr('新地图已解锁')
         }
     }
     checkDailyFrash(lastLogin) {
@@ -300,10 +349,10 @@ export default class DD extends cc.Component {
             if ([1, 5, 9, 13, 16].indexOf((i + 1)) != -1) {
                 continue
             }
-            if (!this.rankGift[i][0]) {
+            if (!this.rankGift[i][1]) {
                 return true
             }
-            if (!this.rankGift[i][1] && this.isVip()) {
+            if (!this.rankGift[i][0] && this.isVip()) {
                 return true
             }
         }

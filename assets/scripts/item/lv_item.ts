@@ -87,6 +87,7 @@ export default class LvItem extends cc.Component {
             if (DD.instance.isVip()) {
                 DD.instance.getRankGift(this.lv, index)
                 this.giftBtn[index].node.active = false
+                this.giftBtnLabel[index].string = ''
             } else {
                 UIManager.instance.LoadTipsByStr('您还不是精英')
             }

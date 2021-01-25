@@ -1,7 +1,7 @@
 import LandItem from "../item/land_item";
 import PoolManager from "../manager/pool_manager";
 import BattleManager from "../manager/battle_manager";
-import { BattleStatusType, TouchStatusType, ResType, ArrType } from "../utils/enum";
+import { BattleStatusType, TouchStatusType, ResType, ArrType, GuideType } from "../utils/enum";
 import ResourceManager from "../manager/resources_manager";
 import MonsterItem from "../item/monster_item";
 import ThrowItem from "../item/throw_item";
@@ -82,7 +82,10 @@ export default class BattleUIManager extends cc.Component {
         this.touchGround.on(cc.Node.EventType.TOUCH_END, this.endTouch, this)
         this.touchGround.on(cc.Node.EventType.TOUCH_CANCEL, this.endTouch, this)
         this.guideBtn.node.on('click', () => {
-            UIManager.instance.openUI(GuideUIManager, { name: config.uiName.guideUI })
+            BattleManager.instance.status = BattleStatusType.pause
+            UIManager.instance.openUI(GuideUIManager, {
+                name: config.uiName.guideUI, param: [BattleManager.instance.closeBattleGuide, GuideType.battle]
+            })
         }, this)
         this.exitBtn.node.on('click', () => {
             UIManager.instance.LoadMessageBox('确认退出', '是否放弃这次战役?', (isOK) => {
