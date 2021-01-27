@@ -5,7 +5,7 @@ import BattleManager from "./battle_manager";
 import MainUIManager from "../ui/main_ui_manager";
 import DD from "./dynamic_data_manager";
 import StorageManager from "./storage_manager";
-import { SysType } from "../utils/enum";
+import { FristDataType, SysType } from "../utils/enum";
 import AudioManager from "./audio_manager";
 import SDKManager from "./sdk_manager";
 import RewardUIManager from "../ui/reward_ui_manager";
@@ -51,6 +51,7 @@ export default class MainManager extends cc.Component {
             DD.instance.ticket = 0
             DD.instance.exp = 0
             DD.instance.lastLogin = new Date().getTime()
+            DD.instance.fristDate = {}
             StorageManager.instance.savePlayerData()
             this.loadConfigSuccess()
 
@@ -98,6 +99,7 @@ export default class MainManager extends cc.Component {
         }
         MainUIManager.instance.spNode.active = false
         MainUIManager.instance.UINode.active = true
+
     }
     //数据加载
     dataLoaded() {

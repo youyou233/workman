@@ -105,3 +105,7 @@ export enum GuideType {
     main = 3,
     main2 = 4
 }
+
+export enum FristDataType {
+    fristShare = 1,
+}

@@ -1,6 +1,7 @@
 import DD from "./dynamic_data_manager"
 import MainUIManager from "../ui/main_ui_manager"
 import MainManager from "./main_manager"
+import { FristDataType } from "../utils/enum"
 
 
 /**
@@ -69,10 +70,17 @@ export default class StorageManager extends cc.Component {
             } else {
                 DD.instance.guide = { 1: false, 2: false, 3: false, 4: false }
             }
-
+            if (data['FD']) {
+                DD.instance.fristDate = data['FD']
+            }
             DD.instance.exp = data['E']
             DD.instance.checkDailyFrash(data['LL'])
             MainManager.instance.dataLoaded()
+            if (DD.instance.fristDate[FristDataType.fristShare]) {
+                MainUIManager.instance.shareGiftNode.active = false
+            } else {
+                MainUIManager.instance.shareGiftNode.active = true
+            }
             resolve(data)
         })
     }
@@ -95,6 +103,7 @@ export default class StorageManager extends cc.Component {
         data['CT'] = DD.instance.changeTime
         data['V'] = DD.instance.vip
         data['GU'] = DD.instance.guide
+        data['FD'] = DD.instance.fristDate
         data['E'] = DD.instance.exp
 
         cc.sys.localStorage.setItem('userdata', JSON.stringify(data))

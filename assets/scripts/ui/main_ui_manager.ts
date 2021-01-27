@@ -4,12 +4,14 @@ import BattleManager from "../manager/battle_manager"
 import DD from "../manager/dynamic_data_manager"
 import PoolManager from "../manager/pool_manager"
 import ResourceManager from "../manager/resources_manager"
+import SDKManager from "../manager/sdk_manager"
 import UIManager from "../manager/ui_manager"
 import config from "../utils/config"
-import { BattleType, GuideType, ResType } from "../utils/enum"
+import { BattleType, FristDataType, GuideType, ResType } from "../utils/enum"
 import GroupUIManager from "./group_ui_manager"
 import GuideUIManager from "./guide_ui_manager"
 import RankUIManager from "./rank_ui_manager"
+import RewardUIManager from "./reward_ui_manager"
 import ShopUIManager from "./shop_ui_manager"
 import SysUIManager from "./sys_ui_manager"
 import VipUIManager from "./vip_ui_manager"
@@ -83,10 +85,15 @@ export default class MainUIManager extends cc.Component {
     openVipBtn: cc.Button = null
     @property(cc.Node)
     leftVipNode: cc.Node = null
+    @property(cc.Node)
+    shareNode: cc.Node = null
+    @property(cc.Node)
+    shareGiftNode: cc.Node = null
     onLoad() {
         MainUIManager.instance = this
         this.UINode.active = false
         this.spNode.active = true
+        this.shareNode.on('click', this.onShare, this)
         this.groupBtn.node.on('click', () => {
             this.switchUI(2)
         }, this)
@@ -219,5 +226,22 @@ export default class MainUIManager extends cc.Component {
             }
             item.node.getComponent(cc.Sprite).spriteFrame = ResourceManager.instance.getSprite(ResType.main, name)
         })
+    }
+    onShare() {
+        //this.shareGiftNode.active = false
+        //UIManager.instance.LoadTipsByStr('分享','是否分享给好友')
+        SDKManager.instance.onShare(() => {
+            if (!DD.instance.fristDate[FristDataType.fristShare]) {
+                DD.instance.fristDate[FristDataType.fristShare] = true
+                this.shareGiftNode.active = false
+                let reward = { ticket: 50, 5: 1 }
+                UIManager.instance.openUI(RewardUIManager, {
+                    name: config.uiName.rewardUI, param: [reward, '分享奖励', () => {
+                        DD.instance.getReward(reward)
+                    }]
+                })
+            }
+        })
+
     }
 }

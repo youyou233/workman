@@ -111,6 +111,7 @@ export default class DD extends cc.Component {
     rankGift: [boolean, boolean][] = []
     vip: number = 0//写到期时间
     config: object = null
+    fristDate: object = {}
     getMonsterByNode(monster): MonsterItem | BossItem {
         if (monster.name == 'monsterItem') {
             return monster.getComponent(MonsterItem)
@@ -127,7 +128,7 @@ export default class DD extends cc.Component {
     }
     openVip() {
         this.ticket -= 100
-        this.vip = new Date().getTime() + 1000 * 7 * 24 * 60
+        this.vip = new Date().getTime() + 1000 * 7 * 24 * 60 * 60
         StorageManager.instance.savePlayerData()
     }
     getReward(rewards) {

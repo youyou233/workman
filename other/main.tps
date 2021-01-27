@@ -322,6 +322,7 @@
             <key type="filename">../assets/main_res/ui/down.png</key>
             <key type="filename">../assets/main_res/ui/max.png</key>
             <key type="filename">../assets/main_res/ui/return.png</key>
+            <key type="filename">../assets/main_res/ui/share2.png</key>
             <key type="filename">../assets/main_res/ui/signal3.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>

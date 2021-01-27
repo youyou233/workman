@@ -184,6 +184,9 @@ export default class SDKManager extends cc.Component {
             title: '这河里吗，这像画吗',
             imageUrl: cc.url.raw('resources/share.png') // 图片 URL
         })
+        setTimeout(() => {
+            cb()
+        });
     }
 
 
