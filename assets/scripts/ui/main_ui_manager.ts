@@ -149,7 +149,7 @@ export default class MainUIManager extends cc.Component {
             if (!DD.instance.isVip()) {
                 UIManager.instance.LoadMessageBox('开通精英', '是否花费100张招待券兑换一周精英', (isOK) => {
                     if (isOK) {
-                        if (DD.instance.ticket > 100) {
+                        if (DD.instance.ticket >= 100) {
                             DD.instance.openVip()
                             this.frashVipNode()
                         } else {
@@ -179,7 +179,7 @@ export default class MainUIManager extends cc.Component {
     frashVipNode() {
         let iconNode = this.leftVipNode.getChildByName('icon')
         if (DD.instance.isVip()) {
-            let left = Math.ceil((DD.instance.vip - new Date().getTime()) / 1000 / 24 / 60)
+            let left = Math.ceil((DD.instance.vip - new Date().getTime()) / 1000 / 24 / 60 / 60)
             this.leftVipNode.getComponent(cc.Label).string = '剩余' + left + '天'
             iconNode.active = false
         } else {
